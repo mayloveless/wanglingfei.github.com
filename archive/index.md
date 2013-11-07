@@ -1,6 +1,6 @@
 ---
 layout:  page
-title: TechNote
+title: Archive
 description: 归档
 ---
 
