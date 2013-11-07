@@ -2,7 +2,7 @@ auto:	          true
 
 markdown:         rdiscount
 pygments:         true
-paginate:         2
+paginate:         1
 permalink:        /:categories/:year/:month/:day/:title/
 
 title:            "mayloveless's Blog"
