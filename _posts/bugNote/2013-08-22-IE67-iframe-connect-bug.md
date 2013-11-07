@@ -1,0 +1,25 @@
+---
+layout:     post
+title:      ie6、7 下iframe的诡异bug
+category: bugNote
+description: ie6、7 下iframe的诡异bug
+tags: bug笔记
+---
+
+在项目有个需要iframe 与父窗口通信的需求，朱一同学写了个模块，很好用。
+
+但是，我们是动态创建的iframe，和他们当初的需求不同，所以在创建iframe（模块里只负责通信，不负责创建iframe节点）时有点儿区别。
+
+区别是：我们需要用在iframe里加name=“name”，这样的话才能动态创建iframe的时候在ie6,7里拿到window.name（模块里需要）
+
+还有一个点是在创建iframe的时候设置_src 属性，模块里会去掉，并设置src。因为ie6,7拿window.name需要刷页才能拿到。
+
+最后，该模块利用了postMessage方法进行通信， ie6,7不支持，用的是它们的bug：
+
+	window.navigator['iframeid'] = function(){}
+
+这个父窗口和iframe都可以拿到，所以解决的通信的问题。
+
+
+
+总结一下，ie6,7真是遭天谴啊……但想想ie6好可伶，一旦过时被人骂的狗血淋头啊，想当初也是风头很劲的，但是还是走好不送吧
