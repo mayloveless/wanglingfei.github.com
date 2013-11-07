@@ -6,7 +6,7 @@ description: ie6 下location.href 失效
 tags: bug笔记
 ---
 
-在用到按钮的时候，一般都是<a>然后阻止默认跳链，执行js。
+在用到按钮的时候，一般都是然后阻止默认跳链，执行js。
 
 一般的写法是
 
