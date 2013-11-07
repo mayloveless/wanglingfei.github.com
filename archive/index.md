@@ -1,9 +1,9 @@
 ---
 layout:  page
-title: Archive
+title: TechNote
 description: 归档
 ---
-即将来临的一天，比过去的一年更为悠长：
+
 
 <ul class="archive">
 {% for post in site.posts %}
