@@ -53,7 +53,7 @@ main:说明的是从哪个页面启动。
 window对象是对启动窗口的一个设置：toolbar是上面的工具栏，frame是四周的边，把它们设置成false就可以不像浏览器啦。icon就是运行时显示在任务栏时的图标。位置神马的也可以设置，其他的应该很多，但没有完整的API Doc所以就不知道了。
 
 写好之后是这样，没有了浏览器的形态。
-
+<p style="text-align:center"><img src="/images/2013/DailyNoticePanel.PNG" style="max-width:50%"/></p>
                        
 
 3、之后进入代码环节：
@@ -80,7 +80,7 @@ js部分：
 4、功能实现之定时提醒。
 
 定时提醒就是轮询一定时间发提醒。
-
+<p style="text-align:center"><img src="/images/2013/DailyNoticeTimer.PNG" style="max-width:50%"/></p>
 
 
 提醒的部分用了其他人的代码，原理是创建了新 窗口，这个窗口很小，停靠在右上角。
@@ -91,11 +91,9 @@ desktopNotifications就是这个提醒窗口的整个对象，notify是创建窗
 
 需要创建提醒时：
 
-	window.LOCAL_NW.desktopNotifications.notify('desktop-notify.png', '定时提醒', '休息、休息一下', function(){
+	window.LOCAL_NW.desktopNotifications.notify('desktop-notify.png', '定时提醒', '休息、休息一下', function(){ });
 
-                    });
-
-
+<p style="text-align:center"><img src="/images/2013/DailyNoticeTips.PNG" style="max-width:50%"/></p>
 
 由于没改代码，所以是4s后自动消失的。点叉时可以写callback，上面代码空的function就是这个callback。
 
@@ -201,6 +199,8 @@ desktopNotifications就是这个提醒窗口的整个对象，notify是创建窗
 之后的都是一样的，只不过有页面，有json的，但实现过程都是一样的，美剧也是如此。
 
 
+<p style="text-align:center"><img src="/images/2013/DailyNoticeWeather.PNG" style="max-width:50%"/></p>
+<p style="text-align:center"><img src="/images/2013/DailyNoticeShow.PNG" style="max-width:50%"/></p>
 
 天气的图片现在还不全，因为无法得知都有神马类型的天气，不过这不是重点……
 
