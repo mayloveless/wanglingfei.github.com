@@ -8,6 +8,7 @@ description: 关于我
 
 没有特长的特困生，各种技能学习中
 
+CSO (Chief ShuaWeibo Officer) @ wanglingfei.github.io
 
 ### 社交 ###
 
