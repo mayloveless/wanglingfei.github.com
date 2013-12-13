@@ -17,6 +17,7 @@ tags: nodejs 学习笔记
 3、之后就可以写node代码啦。对于命令行的app主要就是分析输入参数，去进行相应的操作。
 
 一般来说分析输入参数的方式就是：
+
     var argv = process.argv.slice(2);
 然后去做判断就好。这方面的模块有optimist。
 

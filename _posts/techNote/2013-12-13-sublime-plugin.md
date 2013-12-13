@@ -13,6 +13,7 @@ tags: sublime 学习笔记
 下面记录一下我写的这个插件的思路：
 
 一共两个文件：
+
 	Side Bar.sublime-menu
 	plpackage.py
 
@@ -98,7 +99,8 @@ tags: sublime 学习笔记
 如果是深一级的项目，如pl/someProject/someChildProject,就输入plname，someProject。把上面那一级也写好。
 
 创建的文件目录为:
-	 └─testPl
+	
+	└─testPl
 	   │  index.js
 	   │
 	   └─ source
