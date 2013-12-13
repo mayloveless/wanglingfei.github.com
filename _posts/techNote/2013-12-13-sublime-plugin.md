@@ -22,9 +22,9 @@ tags: sublime 学习笔记
 我把这个文件放在Packages\User下，也就是这是我添加的意思。
 
 代码：
-	[
-		{ "caption": "Create PL", "command": "plpackage","args": {"dirs": []} }
-	]
+	
+	{ "caption": "Create PL", "command": "plpackage","args": {"dirs": []} }
+	
 "Create PL"是插件名字，command后面的plpackage就是插件调用时候的名字。也就是说，插件是可以按ctrl+`调出命令行界面调用的，这里是个Side Bar的快捷方式。
 
 还可以带参数，dirs也就是目录，在插件里使用dirs[0]是右键的目录路径。
@@ -98,7 +98,7 @@ tags: sublime 学习笔记
 如果是深一级的项目，如pl/someProject/someChildProject,就输入plname，someProject。把上面那一级也写好。
 
 创建的文件目录为:
-	└─testPl
+	 └─testPl
 	   │  index.js
 	   │
 	   └─ source
