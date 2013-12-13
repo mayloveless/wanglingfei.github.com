@@ -19,6 +19,7 @@ tags: nodejs 学习笔记
 一般来说分析输入参数的方式就是：
 
     var argv = process.argv.slice(2);
+    
 然后去做判断就好。这方面的模块有optimist。
 
 参考资料：
