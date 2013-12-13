@@ -1,7 +1,7 @@
 ---
 layout:    post
 title:     sublime-text plugin
-category:  techNote
+category:  project
 description: sublime-text plugin
 tags: sublime 学习笔记
 ---
