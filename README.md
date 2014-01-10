@@ -1,4 +1,4 @@
 wanglingfei.github.com
 ======================
 
-my blog
+my blog!
