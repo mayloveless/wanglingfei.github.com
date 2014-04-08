@@ -4,9 +4,9 @@ title:      About
 description: 关于我
 ---
 
-前端开发技工，电影控，拖延症患者，统一冰红茶holic，爱孙燕姿和其他许多明星
+前端开发技工，电影控，拖延症重症患者，统一冰红茶holic，孙燕姿依赖症
 
-没有特长的特困生，各种技能学习中
+没有特长的特困生，Cutting技能学习中
 
 CSO (Chief ShuaWeibo Officer) @ wanglingfei.github.io
 
