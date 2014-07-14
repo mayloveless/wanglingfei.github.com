@@ -6,9 +6,20 @@ title: mayloveless's Blog
 {% for post in paginator.posts %}
 <div class="posts">
 <div class="title"><a href="{{ post.url }}">{{ post.title }}</a></div>
-<div class="author"><img src="/images/authors/mayloveless.jpg"/> <span class="name">mayloveless</span></a></div>
+
 <div class="content {{ post.categories }}_content_css">
 {{ post.content }}
+
+
+  
 </div>
 </div>
 {% endfor %}
+<div class="author">
+      <div class="icon">
+          <img src="/images/authors/mayloveless.jpg" alt="me"/>
+      </div>
+      <div class="name">
+          <a href="/about">mayloveless</a>
+      </div>
+</div>

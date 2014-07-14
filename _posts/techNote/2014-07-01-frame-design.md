@@ -43,4 +43,5 @@ tags: Javascript 框架  学习笔记
 	http://blog.csdn.net/dyllove98/article/details/9237805
 	http://www.cnblogs.com/haogj/archive/2013/01/15/2861950.html
 	13、[].slice.call(arguments)=》Array.prototype.slice.call(arguments)。能将具有length属性的对象转成数组。
-	14、
+	14、/xyz/.test(function(){xyz;})//用于判定函数的toString是否能暴露里面的实现。
+	15、sizzle选择器原理，先分组如：div.aaa span.bbb > a.ccc 这样的可以分为3组，中间的“” ,> ,+,~是关系选择器，代表了要过滤出父节点，兄弟节点等。分组之后拿到a.ccc,先sizzle.find，找到ccc的集合，然后sizzle.filter过滤出a.ccc,这样最终会有几个组的集合（例子里是三个）。复制一份a.ccc作为一个基本的种子集，通过目录查找它跟前面两组组合的包含关系，去除多余的元素，就完成了。
