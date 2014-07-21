@@ -14,6 +14,14 @@ tags: Javascript 框架  学习笔记
 	
 第三章：语言模块
 
+第八章：数据缓存系统
+
+4种形态：
+	
+	属性标记法
+	数组索引法
+	valueOf 重写法
+	weakMap 关联法
 
 	1、oninput
 	2、oncompositionstart
