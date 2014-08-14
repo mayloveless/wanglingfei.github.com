@@ -12,26 +12,118 @@ tags: Javascript 框架  学习笔记
 
 **1、命名空间**
 	
+定义一个全局变量作为命名空间，然后对它进行扩展，去jQuery的jQuery。
+	
+**2、对象扩展**
+
+即 jQuery=>extend or mixin 	
+
+**3、数组化**
+
+浏览器下存在许多类数组对象，如function内的argument。为了享受纯数组的便捷方法，处理他们前都会做一下转换。
+
+	通常用[].slice.call,能将具有length属性的对象转成数组
+	[].slice.call(arguments)相当于Array.prototype.slice.call(arguments)。
+	但旧版IE下的HTMLCollection、NodeList不是Object子类，如上方法会导致IE异常，需要在IE下单独实现一个slice方法（各大框架做法均不同，此处仅记容易理解的作者的mass框架的方法）,就是把对象遍历进一个数组里。
+	$.slice = window.dispatchEvent ? function(nodes,start,end){
+		return {}.slice.call(nodes,start,end);
+	} : function(nodes,start,end){
+		var ret = {},n = nodes.length;
+		if( end === void 0 || typeof end ==="number" && isFinite(end)){
+			start = parseInt(start,10) || 0;
+			end = end == void 0 ? n :parseInt(end,10);
+			if(start <0){
+				start += n;
+			}
+			if(end > n){
+				end = n;
+			}
+			if(end < 0){
+				end += n;
+			}
+			for(var i= start;i<end;++i){
+				ret[i-start] = node[i];
+			}
+		}
+		return ret;
+	}
+
+**4、类型的判定**
+
+一般来说就用Object.prototype.toString.call(要测定的对象如：Array)就可以了，结果是[object Array]。剩下的window对象，Document,Arguments,NodeList对象单独判定。
+
+**5、domReady**
+
+一般我们的js逻辑会写在window.onload回调中，以防DOM树还没建完就开始对节点进行操作，导致出错，但是有时页面图片等资源过多，window.onload就迟迟不能触发。
+
+domReady其实是一种名为"DOMContentLoaded"事件的别称。此处的domReady指做过兼容性处理的domReady机制。策略：（1）对于支持DOMContentLoaded的用DOMContentLoaded事件。（2）对于旧版本IE用Hack。
+
+Hack原理如下：
+	
+	1、由于在DOM未建完之前调用元素doScoll抛出错误。所以就不断setTimeout去try{window.document.documentElement.doScoll('left');}直到成功之后就代表load成功，执行用户回调。
+	2、用户也有可能在执行这个js的时候dom已经ready了，所以只需判断window.document.onreadystatechange事件回调里window.readyState是否为"complete"就可以了。不需要上面的操作了。
+	3、也可以通过创建一个script标签并添加deffer属性，因为指定deffer属性的script会在dom树建立完后触发，所以可以在这个脚本load成功之时执行用户的业务逻辑。
+	4、总结一下mass框架的思路就是：先判断Document.readyState没有complete没有就去绑定监听document.onreadystatechange的事件继续等待complete，或者如果符合W3C标准，就去监听DOMContentLoaded。
+	这个是要等待异步回调的，那这段时间可以去判断一下scroll函数。总之，用各种各样的方式去试探，一旦成功，立即改变状态，使得其他判断方式失效，最后触发用户回调！实在不行还有window.onload!
+
+**6、无冲突处理**
+
+即多库共存。使用时先引入其他框架，然后jQuery，之后执行noConflict()
+
 	noConflict原理：
-	//先将命名空间保存在一个内部变量里
+	//先将别人的命名空间保存在一个内部变量里
 	var _jQuery = window.jQuery,_$=window.$;
 	jQuery.extend({
 		noConflict:function(deep){
-			//调用noConflict时，再把jQuery对象拿回来。
+			//jQuery执行完了，调用noConflict时，再把人家对象还回去。
 			window.$ = _$;
 			if(deep)
 				window.jQuery = _jQuery;
-			return jQuery;
+			//返回jQuery对象就可以随便赋值给其他变量了，如wlf =$.noConflict();
+			//wlf('#id')这样使用就可以啦。
+				return jQuery;
 		}
 	});
 
-**2、对象扩展**
+>第二章：模块加载系统
+
+**1、AMD规范**
+即异步模块定义。
+
+	define('xxx',['aaa','bbb'],function(aaa,bbb){})
+	xxx为模块ID，第二个参数为模块依赖。
+
+**2、加载器所在路径的探知**	
+
+1、一般用node.src,在IE下js的绝对路径返回不准确。需要做兼容性处理，用node.readyState === 'interactive'判断，即过滤几个js脚本，找出正在当前解析的那个node。
+
+2、还可以用Error对象。当发生脚本错误的时候，一般会给出错误的事件对象，利用这个对象可以得知出错的js的文件路径等信息，如下：
+
+	try{
+		a.b.c();//故意报错
+	}catch(e){
+		if(e.fileName){//firefox
+			return e.fileName;
+		}else if(e.sourceURL){//safafi
+			return e.souceURL;
+		}
+	}
+
+**3、require方法**
+
+作用是当依赖加载完毕，执行 用户回调。
+1）、取得依赖 列表的第一个ID，转换为URL。
+2）、没加载过的加载
+3）、创建script标签，绑定onerror，onload，onreadychange等事件判定加载成功与否，然后添加src并插入DOM树，开始加载。
+4）、将模块的URL，依赖列表等构建成一个对象，放到检测队列中，在上面的事件触发时进行检测。
+
+藏个seajs的require原理：
 	
-	
+	debug版的：
+	define(factory) 中的 factory 函数。原理是，当将 js 文件加载回来后，执行的仅是 define(factory) 函数，factory 则还未执行。执行 define 时，会扫描 factory.toString() 方法，得到当前模块依赖的文件，下载好好，再执行 factory 函数， 这样就实现了提前并行加载，但执行时看起来是同步的。
+	如果是打包过后的，就无所谓了。
 
 
-第二章：模块加载系统
-	
 第三章：语言模块
 
 第八章：数据缓存系统
