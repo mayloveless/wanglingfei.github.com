@@ -128,7 +128,75 @@ seajs是CMD规范，在执行该模块的时候才加载依赖，它的require�
 require只加载define过的模块。
 
 
-第三章：语言模块
+>第三章：语言模块
+
+字符串、数组、数值、函数、日期的扩展与修复。
+
+>第四章：浏览器嗅探与特征侦测
+
+判定浏览器、事件的支持侦测、样式的支持侦测
+
+>第五章：类工厂
+
+各个框架（P.js、JS.Class、simple-inheritance、def.js）的类工厂实现及ES5属性描述符新特性（Object.create等，另见后续总结blog）
+
+>第六章：选择器引擎
+
+这里主要是jQuery的Sizzle选择器的实现。
+
+**几个概念：**
+
+	种子集：第一次得到的元素集合叫种子集，Sizzle是从右到左筛选元素，所以种子集里有一部分符合条件的元素。如果从左到右筛选，则种子集相当于一个据点，然后去找它的子节点或兄弟
+	结果集：选择器引擎最终返回的元素集合。
+	过滤集：选取一组元素后，之后每一个步骤要处理的元素集合都可以称为过滤集。
+	选择器群组：一个选择符被关联选择器“,”划分成的每一个大分组。
+	选择器组：一个选择器群组被关系选择器划分的第一个小分组。
+
+**涉及的通用函数**
+
+1、isXML
+
+2、contains：判断参数1是否包含参数2。可以用compareDocumentPosition或者cantains两种方式实现。
+
+	DOMElement.contains(DOMNode)
+	NodeA.compareDocumentPosition(NodeB)：
+	这个方法是 DOM Level 3 specification 的一部分，允许你确定2个 DOM Node 之间的相互位置。这个方法比 .contains() 强大。这个方法的一个可能应用是排序 DOM Node 成一个详细精确的顺序。使用这个方法你可以确定关于一个元素位置的一连串的信息。所有的这些信息将返回一个比特码（Bit，比特，亦称二进制位）。
+	 Bits          Number        Meaning 
+	000000         0              元素一致 
+	000001         1              节点在不同的文档（或者一个在文档之外） 
+	000010         2              节点 B 在节点 A 之前 
+	000100         4              节点 A 在节点 B 之前 
+	001000         8              节点 B 包含节点 A 
+	010000         16             节点 A 包含节点 B 
+	100000         32             浏览器的私有使用
+	通过API返回的数字来确定关系，如返回20，则是16+4，即前面的节点A包含另一个节点 B（+16） 且在B之前（+4）
+
+3、节点排序与去重
+
+1）compareBoundaryPoints(how,sourceRange):
+该方法将比较当前范围的边界点和指定的sourceRange的边界点，并返回一个值，声明它们在源文档中的相对位置。参数how指定了比较两个范围的哪个边界点。该参数的合法值和它们的含义如下：
+
+	Range.START_TO_START - 比较两个 Range 节点的开始点
+	Range.END_TO_END - 比较两个 Range 节点的结束点
+	Range.START_TO_END - 用 sourceRange 的开始点与当前范围的结束点比较
+	Range.END_TO_START - 用 sourceRange 的结束点与当前范围的开始点比较
+
+如果当前范围的指定边界点位于sourceRange指定的边界点之前，则返回-1。如果指定的两个边界点相同，则返回0。如果当前范围的边界点位于sourceRange指定的边界点之后，则返回 1。
+
+2）兼容旧版本标准浏览器与XML文档：不断向上获取要比较顺序的节点的父节点，直到HTML元素连同最初的那个节点，组成两个数组，然后每次去数组最后的元素进行比较，如果相同就去掉，一直到去掉不相同为止，最后用nextSibling结束。
+
+3）通过sort排序：
+	
+	1、取出元素节点的sourceIndex的值，转换成一个String对象。
+	2、将元素节点附在String对象上。
+	3、用String对象组成数组。
+	4、用原生的sort对String对象进行排序
+	5、在排好序的String数组中，按序取出元素节点，即可得到排好序的结果集。
+	p.s 因为sourceIndex，所以这种方法只能用在IE或早期Opera
+	高级浏览器可以直接nodes.sort(比较顺序结果)排序
+
+参见：[js对象数组按属性快速排序](http://www.cnblogs.com/jkisjk/archive/2011/01/28/array_quickly_sortby.html)
+
 
 第八章：数据缓存系统
 
@@ -203,3 +271,10 @@ require只加载define过的模块。
 	sdk文件里的require作为懒执行，即什么时候require什么时候执行，不作为懒下载（文件）用。
 
 	包管理：webcomponent css文件不统一的问题。
+
+
+参考资料：
+
+[contains和compareDocumentPosition 方法来确定是否HTML节点间的关系](http://blog.csdn.net/huajian2008/article/details/3960343)
+
+[js对象数组按属性快速排序](http://www.cnblogs.com/jkisjk/archive/2011/01/28/array_quickly_sortby.html)
