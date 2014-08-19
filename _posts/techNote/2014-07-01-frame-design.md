@@ -197,6 +197,31 @@ require只加载define过的模块。
 
 参见：[js对象数组按属性快速排序](http://www.cnblogs.com/jkisjk/archive/2011/01/28/array_quickly_sortby.html)
 
+4、切割器
+
+用正则表达式将选择器分割成一个数组，如：['div','>','#aaa'，'div']
+
+5、属性选择器对于空白字符、子元素匹配伪类的匹配策略
+
+**Sizzle 引擎**
+
+结构：
+
+	1、Sizzle主函数，包含选择符的分割，内部循环调用主查找函数，主过滤函数，最后是去重过滤。
+	2、其他辅助函数，如uniqueSort、matches、matchesSelector
+	3、Sizzle.find主查找函数
+	4、Sizzle.filter主过滤函数
+	5、Sizzle.selectors包含各种匹配用的正则、过滤用的正则、分解用过的正则、预处理函数、过滤函数。
+	6、根据浏览器的特征设计makeArray、sortOrder、cantains等方法。
+	7、根据浏览器的特症重写Sizzle.selectors中的部分查找函数、过滤函数、查找次序。
+	8、若浏览器支持querySelectorAll，用它重写Sizzle，将原来的Sizzle作为后备方案包裹在新的Sizzle里。
+	9、其他辅助函数如：isXML，posProgress。
+
+分割选择符，切成选择器组与关系选择器的集合。先通过最右边的选择器得到元素集合作为种子集，复制一分出来作为映射集。关系选择器会让引擎去选取其兄长或者父亲，把这些元素替换到种子集对等的位置上，然后到下一个选择器组时，纯过滤操作。主过滤函数Sizzle.filter会调用Sizzle.selectors下的过滤函数对这些元素进行检测，将不符合的元素替换为false。
+
+>第七章 节点模块
+
+
 
 第八章：数据缓存系统
 
