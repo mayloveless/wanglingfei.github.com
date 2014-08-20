@@ -254,7 +254,7 @@ video标签可绑定事件：
 	    'volumechange':'音量改变'
 	 }
 
-第八章：数据缓存系统
+>第八章：数据缓存系统
 
 4种形态：
 	
@@ -312,6 +312,10 @@ video标签可绑定事件：
 
 	17、animation-play-state: running | paused 检索或设置对象动画的状态。
 	http://ecd.tencent.com/css3/html/animation/animation-play-state.html
+
+	18、WeakMap
+	https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/WeakMap
+
 
 	------------------------
 	移动版：
