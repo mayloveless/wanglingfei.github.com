@@ -326,7 +326,7 @@ video标签可绑定事件：
 	p.s
 	sdk文件里的require作为懒执行，即什么时候require什么时候执行，不作为懒下载（文件）用。
 
-	包管理：webcomponent css文件不统一的问题。
+	
 
 
 参考资料：
