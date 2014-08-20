@@ -221,7 +221,38 @@ require只加载define过的模块。
 
 >第七章 节点模块
 
+**1、节点的创建**
 
+document.createElement，innerHTML，insertAdjacentHTML，createElement
+
+**2、节点的插入、复制、移除、innerHTML、innerText、outerHTML的处理**
+
+**3、奇葩元素节点**
+
+video标签可绑定事件：
+	
+	{
+		'loadstart':'客户端开始请求数据',
+	    'progress':'客户端正在请求数据',
+	    'suspend':'延迟下载',
+	    'abort':'客户端主动终止下载（不是因为错误引起）',
+	    'error':'请求数据时遇到错误',
+	    'stalled':'网速失速',
+	    'play':'开始播放时',
+	    'pause':'暂停',
+	    'loadedmetadata':'成功获取资源长度',
+	    'loadeddata':'loadeddata',
+	    'waiting':'等待数据，并非错误',
+	    'playing':'开始回放',
+	    'canplay':'可以播放，但中途可能因为加载而暂停',
+	    'canplaythrough':'可以播放，歌曲全部加载完毕',
+	    'seeking':'寻找中',
+	    'timeupdate':'播放时间改变',
+	    'ended':'播放结束',
+	    'ratechange':'播放速率改变',
+	    'durationchange':'资源长度改变',
+	    'volumechange':'音量改变'
+	 }
 
 第八章：数据缓存系统
 
