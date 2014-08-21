@@ -263,6 +263,52 @@ video标签可绑定事件：
 	valueOf 重写法
 	weakMap 关联法
 
+>第九章：样式模块
+
+>第十章：属性模块
+
+1、如何区分固有属性和自定义属性
+
+	function isAttribute(attr,host){
+		//有些属性是特殊元素才有的，需要用到第二个参数
+		host = host || document.createElement('div');
+		return host.getAttribute(attr) === null && host[attr] === void 0
+	}
+
+2、如何判断浏览器是否区分固有属性与自定义属性
+
+IE6、7不区分固有属性与自定义属性
+
+	var el = document.createElement('div');
+	el.setAttribute('className','t');
+	console.log(el.className !== 't');
+
+>第十一章 事件系统
+
+**1、onXXX绑定方式的缺陷**
+	
+	1、对DOM3新增事件或FF某些私有实现，无法支持。
+	2、只允许元素每次绑定一个回调，重复绑定会冲掉之前的绑定。
+	3、在IE下回调没有参数，在其他浏览器下回调的第一个参数是事件对象。
+	4、只能在冒泡阶段可用。
+
+**2、attachEvent的缺陷** 
+
+	1、IE下只支持微软系的事件、DOM3事件一概不能用。
+	2、IE下attachEvent回调中的this不是指向被绑定元素，而是windows！
+	3、IE下同时绑定多个回调时，回调不是按照绑定顺序依次触发的。
+	4、IE下的event事件对象与W3C的存在太多差异了，有的无法对上号，比如currentTarget。
+	5、IE还是只支持冒泡阶段
+
+**3、addEventListener的缺陷**
+
+	1、新事件非常不稳定
+	2、Firefox既不支持focusin、focus事件，也不支持DOMFocusIn、DOMFocusOut，直接现在也不愿意用mousewheel代替DOMMouseScroll。Chrome不支持mouseenter，mouseleave.
+	3、私有前缀标识
+	4、第三个参数userCapture，第四个参数是FF专有实现，允许跨文档监听事件。第五个参数只存在于Flash语言的同名方法中。在Flash下，addEventListener的第四个参数用于设置该回调执行顺序，数字大的优先执行。第五个参数用于指定对侦听器函数的引用是弱引用还是正常引用。
+	5、事件对象的成员不稳定。
+	6、标准浏览器没办法模拟像IE6~8的propertychange事件。
+
 	1、oninput
 	2、oncompositionstart
 	3、oncompositionend
