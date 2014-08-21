@@ -309,7 +309,51 @@ IE6、7不区分固有属性与自定义属性
 	5、事件对象的成员不稳定。
 	6、标准浏览器没办法模拟像IE6~8的propertychange事件。
 
-	1、oninput
+**4、jQuery事件**
+
+事件代理手动模拟冒泡事件。
+
+**5、滚轮事件修复**
+
+mousewheel用于取得滚动距离的属性名为event.wheelDelta，往上滚动一圈为120.往下滚动一圈为-120
+
+**6、oninput事件的兼容性处理**
+
+Firefox、Chrome、IE9，IE10 均支持 oninput 事件，此外所有版本的 IE 均支持 onpropertychange 事件。
+
+oninput 事件在用户输入、退格（backspace）、删除（delete）、剪切（ctrl + x）、粘贴（ctrl + v）及鼠标剪切与粘贴时触发（在 IE9 中只在输入、粘贴、鼠标粘贴时触发）。
+
+onpropertychange 事件在用户输入、退格（backspace）、删除（delete）、剪切（ctrl + x）、粘贴（ctrl + v）及鼠标剪切与粘贴时触发（在 IE9 中只在输入、粘贴、鼠标粘贴时触发）（仅 IE 支持）。
+
+backspace、delete 两个按键的 keyCode 分别为 8、46。
+
+oncut 事件在粘贴（ctrl + v）、鼠标粘贴时触发。
+
+	 if (W3C && DOC.documentMode !== 9) { //IE10+, W3C
+        element.addEventListener("input", updateVModel)
+        data.rollback = function() {
+            element.removeEventListener("input", updateVModel)
+        }
+    } else {
+		var eventArr = ["keyup", "paste", "cut", "change"]
+        removeFn = function(e) {
+            var key = e.keyCode
+            if (key === 91 || (15 < key && key < 19) || (37 <= key && key <= 40))
+                return
+            updateVModel()
+        }
+        avalon.each(eventArr, function(i, name) {
+            element.attachEvent("on" + name, removeFn)
+        });
+        data.rollback = function() {
+            avalon.each(eventArr, function(i, name) {
+                element.detachEvent("on" + name, removeFn)
+            })
+        }
+    }
+
+>第十二章 异步处理
+
 	2、oncompositionstart
 	3、oncompositionend
 	4、elem.compareDocumentPosition(t) & 16 //包含
