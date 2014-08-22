@@ -354,6 +354,40 @@ oncut 事件在粘贴（ctrl + v）、鼠标粘贴时触发。
 
 >第十二章 异步处理
 
+**1、setTimeout与setInterval**
+
+	1、如果回调的执行时间大于间隔时间，那么浏览器会继续执行他们，导致真正的间隔时间会比原来的大一点儿。
+	2、他们存在一个最小的始终间隔，在IE6~8中为15.6ms，后来精准到10ms，IE10为4ms，其他浏览器相仿。
+	可以加载一个不存在的图片如：img.src="data:,foo"来触发它的onerror事件，从而做到立即执行回调，用这种方式来改善IE下间隔时间过长的问题。
+	3、关于零秒延迟，此回调将会放到一个能立即执行的时段进行触发。JS代码大体上是自顶向下执行，中间穿插有关DOM渲染，事件回应等异步代码，它们将组成一个队列，而零秒延迟将会插队。
+	4、不写第二个参数，系统自动匹配时间。
+	5、标准浏览器与IE10，都支持额外参数，从第三个参数起，作为回调的传参。
+	setTimeout(function(){
+		alert([].slice.call(arguments));
+	},10,1,2,3)
+	IE6~9可以用以下代码模拟
+	(function(overrideFn){
+		window.setTimeout = overrideFn(window.setTimeout)
+		window.setInterval = overrideFn(window.setInterval)
+	})(function(originalFun){
+		return function(code,delay){
+			var args=[].slice.call(arguments,2);
+			return originalFun(function(){
+				if(typeof code ==='string'){
+					eval(code);
+				}else{
+					code.apply(this,args)
+				}
+			},delay);
+		}
+	})
+	6、setTimeout方法的时间参数若为极端数（如负数，0，极大的正数），最新浏览器会立即执行。
+
+
+
+
+
+
 	2、oncompositionstart
 	3、oncompositionend
 	4、elem.compareDocumentPosition(t) & 16 //包含
