@@ -391,8 +391,17 @@ oncut 事件在粘贴（ctrl + v）、鼠标粘贴时触发。
 
 **3、yield**
 
+>第13章：数据交互系统
 
+>第14章：动画引擎
 
+**缓动公式**
+
+**requestAnimationFrame、CSS3transition、CSS3animation**
+
+实现动画的思路：建立一个时间轴的概念，我们再里面插入关键帧，两个关键帧之间就是补间动画，时间轴本质是个数组。它驱动setInterval执行动画，当中计算每一帧之间需要移动、改变的属性。可以调节每帧变化量的大小做出不同的加速度效果，缓动公式可提供现成的几种类型。CSS3效果的动画，就是需要动画的时候加上CSS3样式类，完成删除（已提供动画完成等事件）。
+
+>第15、插件化
 
 	2、oncompositionstart
 	3、oncompositionend
