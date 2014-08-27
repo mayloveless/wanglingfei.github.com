@@ -219,6 +219,8 @@ require只加载define过的模块。
 
 分割选择符，切成选择器组与关系选择器的集合。先通过最右边的选择器得到元素集合作为种子集，复制一分出来作为映射集。关系选择器会让引擎去选取其兄长或者父亲，把这些元素替换到种子集对等的位置上，然后到下一个选择器组时，纯过滤操作。主过滤函数Sizzle.filter会调用Sizzle.selectors下的过滤函数对这些元素进行检测，将不符合的元素替换为false。
 
+总结：先分组如：div.aaa span.bbb > a.ccc 这样的可以分为3组，中间的“” ,> ,+,~是关系选择器，代表了要过滤出父节点，兄弟节点等。分组之后拿到a.ccc,先sizzle.find，找到ccc的集合，然后sizzle.filter过滤出a.ccc,这样最终会有几个组的集合（例子里是三个）。复制一份a.ccc作为一个基本的种子集，通过目录查找它跟前面两组组合的包含关系，去除多余的元素，就完成了。
+
 >第七章 节点模块
 
 **1、节点的创建**
@@ -413,77 +415,99 @@ oncut 事件在粘贴（ctrl + v）、鼠标粘贴时触发。
 
 **监控数组与子模板**
 
-	2、oncompositionstart
-	3、oncompositionend
-	4、elem.compareDocumentPosition(t) & 16 //包含
-	5、"top,left".replace( /[^, ]+/g , function(name) {});//foreach
-	6、 数组转化为对象的key，值为val或默认为1
+>其他知识点：
+
+1、oncompositionstart 、oncompositionend
+
+	复合事件(composition event)是DOM3级事件中新添加的一类事件，用于处理IME的输入序列。IME（Input Method Editor，输入法编辑器）可以让用户输入在物理键盘上找不到的字符。复合事件就是针对检测和处理这种输入而设计的。
+	（1）compositionstart：在IME的文本复合系统打开时触发，表示要开始输入了。
+	（2）compositionupdate：在向输入字段中插入新字符时触发。
+	（3）compositionend：在IME的文本复合系统关闭时触发，表示返回正常键盘的输入状态。
+
+2、"top,left".replace( /[^, ]+/g , function(name) {});//foreach
+
+3、 数组转化为对象的key，值为val或默认为1
+		
 		var oneObject = function (array, val) {
-	        if (typeof array === "string") {
-	            array = array.match(rword) || []
-	        }
-	        var result = {},
-	                value = val !== void 0 ? val : 1
-	        for (var i = 0, n = array.length; i < n; i++) {
-	            result[array[i]] = value
-	        }
-	        return result
-	    
-	7、Object.getOwnPropertyNames
-	8、hidefocus outline=true
-	9、遍历DOM(NodeIterator和TreeWalker的使用
-	http://www.cnblogs.com/blog-zwei1989/archive/2012/11/28/2792420.html
-	10、withCredentials xhr
-	http://www.zawaliang.com/2013/02/186.html
-	11、try{}catch(e){e.stack}//取错误信息
-	12、$(document).ready
-	http://blog.csdn.net/dyllove98/article/details/9237805
-	http://www.cnblogs.com/haogj/archive/2013/01/15/2861950.html
-	13、[].slice.call(arguments)=》Array.prototype.slice.call(arguments)。能将具有length属性的对象转成数组。
-	14、/xyz/.test(function(){xyz;})//用于判定函数的toString是否能暴露里面的实现。
-	15、sizzle选择器原理，先分组如：div.aaa span.bbb > a.ccc 这样的可以分为3组，中间的“” ,> ,+,~是关系选择器，代表了要过滤出父节点，兄弟节点等。分组之后拿到a.ccc,先sizzle.find，找到ccc的集合，然后sizzle.filter过滤出a.ccc,这样最终会有几个组的集合（例子里是三个）。复制一份a.ccc作为一个基本的种子集，通过目录查找它跟前面两组组合的包含关系，去除多余的元素，就完成了。
-	16、
+        if (typeof array === "string") {
+            array = array.match(rword) || []
+        }
+        var result = {},
+                value = val !== void 0 ? val : 1
+        for (var i = 0, n = array.length; i < n; i++) {
+            result[array[i]] = value
+        }
+        return result
+
+4、Object.getOwnPropertyNames
+
+	返回对象自己的属性的名称。一个对象的自己的属性是指直接对该对象定义的属性，而不是从该对象的原型继承的属性。对象的属性包括字段（对象）和函数。
+	和Object.keys的区别，Object.keys只适用于可枚举的属性，而Object.getOwnPropertyNames返回对象自动的全部属性名称
+
+5、hidefocus outline
+
+	hideFocus即隐藏聚焦，具有使对象聚焦失效的功能，其功能相当于： 
+	onFocus="this.blur()" 
+	它的值是一个布尔值，如hideFocus=true。也可省略赋值直接写hideFocus。 
+	你给的代码如果没有hideFocus,那么鼠标点击该超链接，则外面出现一个虚线框，即为聚焦。而使用了hideFocus则不会有虚线框。
+	在IE下，需要在标签 a 的结构中加入 hidefocus="true" 属性。
+	如：<a href="#" hidefocus="true" title="XX">没有虚线框</a>
+	而在FF等浏览器中则相对比较容易，直接给标签 a 定义样式 outline:none; 就可以了，即a {outline:none;}
+
+
+4、[遍历DOM(NodeIterator和TreeWalker的使用](http://www.cnblogs.com/blog-zwei1989/archive/2012/11/28/2792420.html)
+	
+5、withCredentials xhr
+
+	默认情况下，标准的跨域请求是不会发送cookie等用户认证凭据的，XMLHttpRequest 2的一个重要改进就是提供了对授信请求访问的支持。
+	var xhr = new XMLHttpRequest();
+	xhr.open('GET', 'http://www.xxx.com/api');
+	xhr.withCredentials = true;
+	xhr.onload = onLoadHandler;
+	xhr.send();
+	请求头，此时已经带上了cookie：
+	设置服务端响应头：Access-Control-Allow-Credentials: true
+	有一点需要注意，设置了withCredentials为true的请求中会包含远程域的所有cookie，但这些cookie仍然遵循同源策略，所以是访问不了这些cookie的。
+
+6、try{}catch(e){e.stack}//取错误信息,可以用于得知所在的是哪个脚本。
+
+7、[].slice.call(arguments)=》Array.prototype.slice.call(arguments)。能将具有length属性的对象转成数组。
+
+8、/xyz/.test(function(){xyz;})//用于判定函数的toString是否能暴露里面的实现。
+
+9、
+	
 	var global = (function(){
 		return (0, eval)('this'); 
-	})();
-	http://stackoverflow.com/questions/9107240/1-evalthis-vs-evalthis-in-javascript
-	http://stackoverflow.com/questions/14119988/return-this-0-evalthis
-
+	})();	
 	will correctly evaluate to the global object even in strict mode. In non-strict mode the value of this is the global object but in strict mode it is undefined. The expression (1, eval)('this') will always be the global object. The reason for this involves the rules around indirect verses direct eval. Direct calls to eval has the scope of the caller and the string this would evaluate to the value of this in the closure. Indirect evals evaluate in global scope as if they were executed inside a function in the global scope. Since that function is not itself a strict-mode function the global object is passed in as this and then the expression 'this' evaluates to the global object. The expression (1, eval) is just a fancy way to force the eval to be indirect and return the global object.
-
 	A1: (1, eval)('this') is not the same as eval('this') because of the special rules around indirect verse direct calls to eval.
-
 	A2: The original works in strict mode, the modified versions do not.
-
 	As for why the body is this, that is the argument to eval(), that is the code to be executed as a string. It will return the this in the global scope, which is always the global object.
-
 	(0,xx)返回xx。不直接写是为了暴露在全局scope下执行。‘this’严格模式下可以当做全局变量传进去。
 
-	17、animation-play-state: running | paused 检索或设置对象动画的状态。
-	http://ecd.tencent.com/css3/html/animation/animation-play-state.html
+参考：[return this || (0,eval)('this');](http://stackoverflow.com/questions/9107240/1-evalthis-vs-evalthis-in-javascript),[(1,eval)('this') vs eval('this') in JavaScript?](http://stackoverflow.com/questions/14119988/return-this-0-evalthis)
 
-	18、WeakMap
-	https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/WeakMap
-
-
-	------------------------
-	移动版：
-	card:如果需要js渲染模板的话，需要引用SDK，模板业务逻辑，js库（JQ），业务逻辑。不要渲染模板的话，前两个可以不用。SDK用来进行模板定义和模板渲染。
-	打包的时候把模板业务逻辑require的模板文件都转化成js代码，即编译模板（支持doT和easyTemplate)。define好模块。
-	之后先把数据模板先渲染出来。
-	后续再处理其他业务逻辑。
-	打包用gruntjs(如何编译模板就在这里啦，define模块也在这里啦：weibo-deifine，combine模块用的：grunt-cmd-combo,weibo自己写有。)。
-	brick:在card的基础上做了进一步改进，思路不变。从流程上改进，可以控制渲染模板的时机，执行业务逻辑的时机，增加渲染成功的事件等。
-
-
-	p.s
-	sdk文件里的require作为懒执行，即什么时候require什么时候执行，不作为懒下载（文件）用。
-
+10、animation-play-state: running | paused 检索或设置对象动画的状态。
 	
-
+11、[WeakMap对象](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/WeakMap):简单的键/值映射.但键只能是对象值,不可以是原始值。
 
 参考资料：
 
 [contains和compareDocumentPosition 方法来确定是否HTML节点间的关系](http://blog.csdn.net/huajian2008/article/details/3960343)
 
 [js对象数组按属性快速排序](http://www.cnblogs.com/jkisjk/archive/2011/01/28/array_quickly_sortby.html)
+
+[遍历DOM(NodeIterator和TreeWalker的使用](http://www.cnblogs.com/blog-zwei1989/archive/2012/11/28/2792420.html)
+
+[jquery ready方法实现原理 内部原理](http://blog.csdn.net/dyllove98/article/details/9237805)
+
+[onreadystatechange 事件](http://www.cnblogs.com/haogj/archive/2013/01/15/2861950.html)
+
+[return this || (0,eval)('this');](http://stackoverflow.com/questions/9107240/1-evalthis-vs-evalthis-in-javascript)
+
+[(1,eval)('this') vs eval('this') in JavaScript?](http://stackoverflow.com/questions/14119988/return-this-0-evalthis)
+
+[animation-play-state](http://ecd.tencent.com/css3/html/animation/animation-play-state.html)
+
+[WeakMap](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/WeakMap)
