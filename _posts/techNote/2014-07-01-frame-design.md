@@ -122,6 +122,8 @@ seajs是CMD规范，在执行该模块的时候才加载依赖，它的require�
 	debug版的：
 	define(factory) 中的 factory 函数。原理是，当将 js 文件加载回来后，执行的仅是 define(factory) 函数，factory 则还未执行。执行 define 时，会扫描 factory.toString() 方法，得到当前模块依赖的文件，下载好好，再执行 factory 函数， 这样就实现了提前并行加载，但执行时看起来是同步的。
 	如果是打包过后的，就无所谓了，但也是require时去解析的，不提前解析js。
+	看了下源码（v3.0.0），流程大概是这样的：
+	use->把入口模块entry给依赖->load->fetch（下载文件）->如果entry还没触发onload->entry callback,删entry->exec依赖的模块：factory!!!factory里传的require只需执行exec，不需要下载文件了。
 
 **define方法**
 
@@ -429,15 +431,16 @@ oncut 事件在粘贴（ctrl + v）、鼠标粘贴时触发。
 3、 数组转化为对象的key，值为val或默认为1
 		
 		var oneObject = function (array, val) {
-        if (typeof array === "string") {
-            array = array.match(rword) || []
-        }
-        var result = {},
+	        if (typeof array === "string") {
+	            array = array.match(rword) || []
+	        }
+	        var result = {},
                 value = val !== void 0 ? val : 1
-        for (var i = 0, n = array.length; i < n; i++) {
-            result[array[i]] = value
-        }
-        return result
+	        for (var i = 0, n = array.length; i < n; i++) {
+	            result[array[i]] = value
+	        }
+	        return result
+	    }
 
 4、Object.getOwnPropertyNames
 
