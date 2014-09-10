@@ -489,11 +489,17 @@ oncut 事件在粘贴（ctrl + v）、鼠标粘贴时触发。
 	As for why the body is this, that is the argument to eval(), that is the code to be executed as a string. It will return the this in the global scope, which is always the global object.
 	(0,xx)返回xx。不直接写是为了暴露在全局scope下执行。‘this’严格模式下可以当做全局变量传进去。
 
+
 参考：[return this || (0,eval)('this');](http://stackoverflow.com/questions/9107240/1-evalthis-vs-evalthis-in-javascript),[(1,eval)('this') vs eval('this') in JavaScript?](http://stackoverflow.com/questions/14119988/return-this-0-evalthis)
 
 10、animation-play-state: running | paused 检索或设置对象动画的状态。
 	
 11、[WeakMap对象](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/WeakMap):简单的键/值映射.但键只能是对象值,不可以是原始值。
+
+12、window.onpageshow
+
+从浏览器缓存里显示的页面会触发这个方法。如：如果提交表单，完成之后点击后退按钮，浏览器尤其是FF32.0+会完美保存用户的表单状态，要是不想重置表单的话，就可以增加这个方法，因为后退是从浏览器的缓存机制里取得，会触发这个方法。
+
 
 参考资料：
 
