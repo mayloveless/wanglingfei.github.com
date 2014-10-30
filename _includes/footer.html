@@ -11,14 +11,14 @@ CopryRight <a href="http://lingfei.wang/" target="_blank">mayloveless</a> Theme 
 
 
 <script type="text/javascript">
-  var music={
-//    url :'http://127.0.0.1/niconiconi.mp3'
-  }
+  /*var music={
+    url :'http://127.0.0.1/niconiconi.mp3'
+  }*/
 
 </script>
 
 <!--muplayer-->
-<div id="player-btn" type="play" style="display:none;">我是niconiconi的开关</div>
+<div id="player-btn" type="play" style="display:none;"><i class="iconfont">&#xf0036;</i></div>
 <script src="http://apps.bdimg.com/libs/muplayer/0.9.2/player.min.js"></script>
 <script>
     var player = new _mu.Player({
@@ -30,9 +30,11 @@ CopryRight <a href="http://lingfei.wang/" target="_blank">mayloveless</a> Theme 
       if( $(this).attr('type') === 'play' ){
         player.stop();
         $(this).attr('type','stop');
+        $(this).children().html('&#xf017e;')
         return false;
       }
       player.play();
+      $(this).children().html('&#xf0036;')
       $(this).attr('type','play');
     })
 </script>

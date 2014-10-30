@@ -113,31 +113,48 @@ hr {
   font-family: "orange juice";
   src: url('../fonts/orangejuice.ttf?1370940000') format('truetype');
 }
+@font-face {
+  font-family: "iconfont";
+  src: url('../fonts/iconfont.ttf?1414682458') format('truetype'), url('../fonts/iconfont.otf') format('opentype'), url('../fonts/iconfont.woff?1414682458') format('woff'), url('../fonts/iconfont.svg?1414682458') format('svg');
+}
 /* line 51, ../sass/screen.scss */
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 2em;
+  color: #9932CC;
+  text-shadow: #fff 1px 1px 1px;
+}
+
+/* line 62, ../sass/screen.scss */
 #layout {
   display: -webkit-flex;
   display: flex;
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
 }
-/* line 56, ../sass/screen.scss */
+/* line 67, ../sass/screen.scss */
 #layout header, #layout footer {
   -webkit-flex: 1 0 100%;
   flex: 1 0 100%;
 }
-/* line 60, ../sass/screen.scss */
+/* line 71, ../sass/screen.scss */
 #layout header {
   background: #fe4444;
   height: 80px;
 }
-/* line 65, ../sass/screen.scss */
+/* line 76, ../sass/screen.scss */
 #layout nav {
   height: 100%;
   -moz-box-shadow: #fe4444 0px 1px 12px;
   -webkit-box-shadow: #fe4444 0px 1px 12px;
   box-shadow: #fe4444 0px 1px 12px;
 }
-/* line 69, ../sass/screen.scss */
+/* line 80, ../sass/screen.scss */
 #layout nav ul {
   padding: 0;
   margin: -.5em;
@@ -148,7 +165,7 @@ hr {
   float: right;
   margin-right: 0;
 }
-/* line 78, ../sass/screen.scss */
+/* line 89, ../sass/screen.scss */
 #layout nav li {
   font-family: "orange juice";
   font-size: 2em;
@@ -160,12 +177,12 @@ hr {
   -webkit-flex: 1 1 30%;
   flex: 1 1 30%;
 }
-/* line 86, ../sass/screen.scss */
+/* line 97, ../sass/screen.scss */
 #layout nav li a {
   color: #fff;
   text-decoration: none;
 }
-/* line 92, ../sass/screen.scss */
+/* line 103, ../sass/screen.scss */
 #layout nav .author {
   display: inline-block;
   width: 115px;
@@ -174,7 +191,7 @@ hr {
   float: left;
   padding: 10px 0 0 0;
 }
-/* line 100, ../sass/screen.scss */
+/* line 111, ../sass/screen.scss */
 #layout nav .icon {
   display: inline-block;
   overflow: hidden;
@@ -182,24 +199,24 @@ hr {
   -webkit-border-radius: 100%;
   border-radius: 100%;
 }
-/* line 104, ../sass/screen.scss */
+/* line 115, ../sass/screen.scss */
 #layout nav .icon img {
   width: 100%;
   height: 100%;
 }
-/* line 111, ../sass/screen.scss */
+/* line 122, ../sass/screen.scss */
 #layout article {
   margin: 65px auto;
   max-width: 75%;
   line-height: 2em;
 }
-/* line 115, ../sass/screen.scss */
+/* line 126, ../sass/screen.scss */
 #layout article a {
   color: #8080ff;
   font-size: 1.2em;
   text-decoration: none;
 }
-/* line 121, ../sass/screen.scss */
+/* line 132, ../sass/screen.scss */
 #layout article .title {
   text-decoration: none;
   font-weight: bold;
@@ -207,7 +224,7 @@ hr {
   font-family: "微软雅黑", Yahei, Vernada;
   margin-bottom: 10px;
 }
-/* line 122, ../sass/screen.scss */
+/* line 133, ../sass/screen.scss */
 #layout article .title .underline {
   display: block;
   width: 150px;
@@ -216,37 +233,37 @@ hr {
   position: absolute;
   bottom: -5px;
 }
-/* line 136, ../sass/screen.scss */
+/* line 147, ../sass/screen.scss */
 #layout article .info {
   font-style: italic;
   float: right;
   margin: 30px;
   font-size: 0.9em;
 }
-/* line 142, ../sass/screen.scss */
+/* line 153, ../sass/screen.scss */
 #layout article .forb {
   clear: both;
   font-size: 0.8em;
   text-align: right;
   padding-right: 30px;
 }
-/* line 148, ../sass/screen.scss */
+/* line 159, ../sass/screen.scss */
 #layout article .comment {
   font-size: 1em;
 }
-/* line 151, ../sass/screen.scss */
+/* line 162, ../sass/screen.scss */
 #layout article li {
   line-height: 1.5em;
   margin: 0 0 1.5rem;
   padding: 0;
   list-style: none;
 }
-/* line 156, ../sass/screen.scss */
+/* line 167, ../sass/screen.scss */
 #layout article li time {
   color: #95a5a6;
   margin-right: 20px;
 }
-/* line 162, ../sass/screen.scss */
+/* line 173, ../sass/screen.scss */
 #layout article .year {
   color: #6b747f;
   text-transform: uppercase;
@@ -254,8 +271,14 @@ hr {
   font-weight: bolder;
   font-size: 1.6em;
 }
-/* line 171, ../sass/screen.scss */
+/* line 182, ../sass/screen.scss */
 #layout footer {
   text-align: center;
   font-size: 0.8em;
+}
+/* line 187, ../sass/screen.scss */
+#layout #player-btn {
+  position: absolute;
+  top: 10px;
+  left: 25%;
 }
