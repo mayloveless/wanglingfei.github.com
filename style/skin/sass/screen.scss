@@ -1,0 +1,175 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+@import "compass/reset";
+@import "compass/utilities";
+@import "compass/css3";
+
+$pink : #fe4444;
+$green:lighten(green, 50%);
+$blue:lighten(blue, 25%);
+
+body {
+  background: #f7fafb;
+  font-family: "Open Sans",Arial,"Hiragino Sans GB","Microsoft YaHei","微软雅黑","STHeiti","WenQuanYi Micro Hei",SimSun,sans-serif;
+  font-size: 1.125em;
+  -webkit-font-smoothing: antialiased;
+  -webkit-transform: translate3d(0,0,0);
+  margin: 0;
+  padding: 0;
+  letter-spacing: 1px;
+}
+
+strong{
+	font-weight:bold;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  margin: 20px 0;
+  color: #2c3e50;
+}
+
+h1, h2 {
+  font-size: 1.2rem;
+}
+
+h3 {
+  font-size: 1rem;
+  font-weight: bolder;
+}
+
+hr {
+  width: 10%;
+  border: 1px solid #eee;
+  margin-bottom: 30px;
+}
+
+@include font-face("orange juice", font-files("../fonts/orangejuice.ttf"));
+
+#layout {
+  @include display-flex;
+  @include flex-wrap(wrap);
+ 
+ 
+  header, footer {
+    @include flex(1 0 100%);
+  }
+ 
+  header {
+    background: $pink;
+    height:80px;
+  }
+ 
+  nav {
+  	height:100%;
+  	@include box-shadow($pink 0px 1px 12px);
+    $flex-legacy-enabled: true;
+    ul {
+      padding: 0;
+      margin: -.5em;
+      min-width: 58%; /* fix for old Firefox */
+      @include display-flex(flex);
+      float:right;
+      margin-right:0;
+    }
+
+    li {
+       font-family: "orange juice";
+      font-size:2em;
+      line-height:2em;
+      font-weight:bolder;
+      margin: .5em 0;
+      display: inline-block; /* non-flexbox browsers */
+      @include flex(1 1 30%);
+      a{
+      	color:#fff;
+    	text-decoration: none; 
+      }
+    }
+    $flex-legacy-enabled: false;
+    .author{
+    	display:inline-block;
+    	width:115px;
+  		height: 115px;
+  		margin: 0px 150px 0 230px;
+  		float: left;
+  		padding: 10px 0 0 0;
+    }
+    .icon{
+    	display:inline-block;
+    	overflow:hidden;
+    	@include border-radius(100%);
+    	img{
+    		width:100%;
+    		height:100%;
+    	}
+    }
+  }
+ 
+  article {
+    margin: 65px auto;
+  	max-width: 75%;
+  	line-height: 2em;
+  	a{
+  		color:$blue;
+  		font-size:1.2em;
+  		text-decoration:none;
+    }
+    	
+    .title{
+    	.underline{
+    		display:block;
+    		width:150px;
+    		background:$blue;
+    		height:2px;
+    		position:absolute;
+    		bottom:-5px;
+    	}
+    	text-decoration:none;
+    	font-weight:bold;
+    	position:relative;
+    	font-family:"微软雅黑", Yahei , Vernada ;
+    	margin-bottom:10px;
+    }
+    .info{
+    	font-style: italic;
+		float: right;
+		margin: 30px;
+		font-size: 0.9em;
+    }
+    .forb{
+    	clear: both;
+		font-size: 0.8em;
+		text-align: right;
+		padding-right: 30px;
+    }
+    .comment{
+    	font-size:1em;
+    }
+    li {
+	  line-height: 1.5em;
+	  margin: 0 0 1.5rem;
+	  padding: 0;
+	  list-style: none;
+	  time {
+	  	color: #95a5a6;
+	  	margin-right:20px;
+	  }
+	}
+
+	.year {
+	  color: #6b747f;
+	  text-transform: uppercase;
+	  margin: 25px 0;
+	  font-weight: bolder;
+	  font-size:1.6em;
+	}
+  }
+ 
+  footer {
+    text-align:center;
+    font-size:0.8em;
+  }
+}
