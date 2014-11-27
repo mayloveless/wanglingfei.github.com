@@ -7,30 +7,27 @@ description:
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="//releases.flowplayer.org/5.5.1/skin/minimalist.css">
-   
-<link rel="stylesheet" href="http://demos.flowplayer.org/media/css/demo.css">
-   <!-- Syntax highlighting of source code, can be removed -->
-   <link rel="stylesheet" href="http://demos.flowplayer.org/media/css/pygments.css">
-   
-<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-
-<script src="//releases.flowplayer.org/5.5.1/flowplayer.min.js"></script>
-   
-   
+<p id="UA"></p>
 
 
-<div id="content">
+      <pre>   src="desc.m3u8" </pre>
 
-    <h1 id="UA"></h1>
-      <script type="text/javascript">
+<video controls width="300" height="270" src="desc.m3u8"></video>
+
+      <pre> source  src="desc.m3u8" </pre>
+
+<video  controls width="300" height="270"><source  src="desc.m3u8"> </video>
+
+      <pre> type="application/x-mpegurl" source  src="desc.m3u8" </pre>
+
+<video  type="application/x-mpegurl" controls width="300" height="270"><source  src="desc.m3u8"> </video>
+      
+      <pre>  type="application/vnd.apple.mpegurl" source  src="desc.m3u8" </pre>
+
+<video  type="application/vnd.apple.mpegurl" controls width="300" height="270"><source  src="desc.m3u8"> </video>
+      
+
+
+ <script type="text/javascript">
       document.getElementById('UA').innerHTML=window.navigator.userAgent;
-      </script>
-    <div>
-       <video controls width="640" height="360">
-          <source type="application/x-mpegurl" src="desc.m3u8">
-       </video>
-    </div>
-
-
-</div>
+ </script>
