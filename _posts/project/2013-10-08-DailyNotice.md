@@ -22,7 +22,7 @@ tags: 练习 node-wekit
 
 实现过程：
 
-1、主要来说是Node-Webkit。Node-Webkit据我印象当中是把nodejs的context和Chrome的v8引擎的context连接在了一起。这样相当于一个可以有自己后端 的浏览器。
+1、主要来说是Node-Webkit。Node-Webkit据我印象当中是把nodejs的context和Chrome的v8引擎的context连接在了一起。这样相当于一个可以有自己后端 的浏览器<sup>1</sup>。
 
 于是乎，前后端代码可以都用js，而且还可以混写……
 
@@ -326,6 +326,12 @@ https://github.com/wanglingfei/dailyNotice
 
 
 ===================================================
+
+注1：实际上这是实习的时候听网页Hex分享的时候貘大说的，并不是很理解。
+
+    heX 项目于 2012 年启动，基于开源项目 CEF，它内部整合了开源项目 Chromium 及 Node.JS，将两者的 V8 引擎和消息循环合并，从而达到了在 Chromium 所展现的 Web 页面内可以直接使用 Node.JS 原生和及第三方扩展的 API 以及 Node.JS 最大的特色——异步回调与事件循环。 
+
+上面是Hex简介，[官网地址](http://hex.youdao.com/zh-cn/about/index.html)
 
 参考文章：
 
