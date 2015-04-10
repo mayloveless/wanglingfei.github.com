@@ -327,12 +327,14 @@ https://github.com/wanglingfei/dailyNotice
 
 ===================================================
 
-注1：实际上这是实习的时候听网页Hex分享的时候貘大说的，并不是很理解。
+注1：实际上这是实习的时候听网易Hex分享的时候貘大说的，并不是很理解。
 
     heX 项目于 2012 年启动，基于开源项目 CEF，它内部整合了开源项目 Chromium 及 Node.JS，将两者的 V8 引擎和消息循环合并，从而达到了在 Chromium 所展现的 Web 页面内可以直接使用 Node.JS 原生和及第三方扩展的 API 以及 Node.JS 最大的特色——异步回调与事件循环。 
 
 上面是Hex简介，[官网地址](http://hex.youdao.com/zh-cn/about/index.html)
 
+
+===================================================
 参考文章：
 
 [Node-Webkit原作文档](https://github.com/rogerwang/node-webkit   )   
