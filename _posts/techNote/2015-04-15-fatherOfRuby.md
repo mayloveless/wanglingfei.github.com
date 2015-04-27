@@ -92,7 +92,7 @@ CSI：字符集独立，指不对各种文字集（编码方式）进行任何�
     采用合适的数据结构
     以空间换时间 
 
-    <p style="text-align:center"><img src="/images/2015/thread.jpg" style="max-width:100%"/></p>
+<p style="text-align:center"><img src="/images/2015/thread.jpg" style="max-width:100%"/></p>
 
     信息共有的问题：
     数据整合性的丧失
