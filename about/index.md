@@ -17,7 +17,8 @@ CSO (Chief ShuaWeibo Officer) @ wanglingfei.github.io
 
 ### 工作 ###
 
-* 2013 - 今 微创医疗器械股份有限公司
+* 2015 - 今    真·医疗有限公司
+* 2013 - 2015 微创医疗器械股份有限公司
 
 ### 联系 ###
 
