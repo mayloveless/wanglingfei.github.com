@@ -41,6 +41,7 @@ compile返回一个对象或者汗水，负债对模版DOM进行转换，
 link链接函数负责将作用域和DOM进行链接
 
 －－－－－－－－－－－
+
 2016.2.19 挤挤放个知识点
 
 js标签要加＋async defer。script标签放在body底部，做与不做async或者defer处理，都不会影响首屏时间，但影响DomContentLoad和load的时间，进而影响依赖他们的代码的执行的开始时间。
