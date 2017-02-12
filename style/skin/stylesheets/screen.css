@@ -70,11 +70,12 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 
 /* line 14, ../sass/screen.scss */
 body {
-  background: #f7fafb;
-  font-family: "Open Sans",Arial,"Hiragino Sans GB","Microsoft YaHei","微软雅黑","STHeiti","WenQuanYi Micro Hei",SimSun,sans-serif;
-  font-size: 1.125em;
+  font-size: 15px;
+  color: #525d67;
+  background: #fbfbfb;
+  font-family: 'Avenir Next', "Open Sans",Arial,"Hiragino Sans GB","Microsoft YaHei","微软雅黑","STHeiti","WenQuanYi Micro Hei",SimSun, sans-serif;
   -webkit-font-smoothing: antialiased;
-  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0,0,0);
   margin: 0;
   padding: 0;
   letter-spacing: 1px;
@@ -144,15 +145,13 @@ hr {
 }
 /* line 71, ../sass/screen.scss */
 #layout header {
-  background: #fe4444;
-  height: 80px;
+  /*background: #fe4444;
+  height: 80px;*/
 }
 /* line 76, ../sass/screen.scss */
 #layout nav {
   height: 100%;
-  -moz-box-shadow: #fe4444 0px 1px 12px;
-  -webkit-box-shadow: #fe4444 0px 1px 12px;
-  box-shadow: #fe4444 0px 1px 12px;
+  
 }
 /* line 80, ../sass/screen.scss */
 #layout nav ul {
@@ -163,15 +162,16 @@ hr {
   display: -webkit-flex;
   display: flex;
   float: right;
-  margin-right: 0;
+ 
+  width:50vw;
 }
 /* line 89, ../sass/screen.scss */
 #layout nav li {
   font-family: "orange juice";
-  font-size: 2em;
+  font-size: 1.5em;
   line-height: 2em;
   font-weight: bolder;
-  margin: .5em 0;
+  margin: .5em .5em;
   display: inline-block;
   /* non-flexbox browsers */
   -webkit-flex: 1 1 30%;
@@ -179,7 +179,7 @@ hr {
 }
 /* line 97, ../sass/screen.scss */
 #layout nav li a {
-  color: #fff;
+  color: rgba(88,79,96,0.87);
   text-decoration: none;
 }
 /* line 103, ../sass/screen.scss */
@@ -209,10 +209,11 @@ hr {
   margin: 65px auto;
   max-width: 75%;
   line-height: 2em;
+  font-size:;
 }
 /* line 126, ../sass/screen.scss */
 #layout article a {
-  color: #8080ff;
+  color: rgba(88,79,96,0.87);
   font-size: 1.2em;
   text-decoration: none;
 }
@@ -222,13 +223,14 @@ hr {
   font-weight: bold;
   position: relative;
   font-family: "微软雅黑", Yahei, Vernada;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  font-size: 1.5em;
 }
 /* line 133, ../sass/screen.scss */
 #layout article .title .underline {
   display: block;
   width: 150px;
-  background: #8080ff;
+  background: rgba(88,79,96,0.87);
   height: 2px;
   position: absolute;
   bottom: -5px;
@@ -260,7 +262,7 @@ hr {
 }
 /* line 167, ../sass/screen.scss */
 #layout article li time {
-  color: #95a5a6;
+  color: rgba(88,79,96,0.87);
   margin-right: 20px;
 }
 /* line 173, ../sass/screen.scss */
