@@ -72,7 +72,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 body {
   font-size: 15px;
   color: #525d67;
-  background: #fbfbfb;
+  background: rgba(246, 248, 250, 1);
   font-family: 'Avenir Next', "Open Sans",Arial,"Hiragino Sans GB","Microsoft YaHei","微软雅黑","STHeiti","WenQuanYi Micro Hei",SimSun, sans-serif;
   -webkit-font-smoothing: antialiased;
   -webkit-transform: translate3d(0,0,0);
