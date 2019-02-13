@@ -208,6 +208,7 @@ hr {
 #layout article {
   margin: 65px auto;
   max-width: 75%;
+  min-width: 50%;
   line-height: 2em;
   font-size:;
 }
