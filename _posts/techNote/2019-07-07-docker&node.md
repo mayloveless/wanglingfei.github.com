@@ -14,7 +14,7 @@ tags:  学习笔记
 
 2、DockerFile
 
-    #node 镜像
+    #node 镜像，版本11
     FROM node:11
     #docker里的工作路径，后面比如copy文件的当前目录就是这个地址
     WORKDIR  /usr/src/app
@@ -38,6 +38,7 @@ tags:  学习笔记
     #这里先yarn ，又npm run dev，就是在该目录下按照依赖和启动
     #尝试过后可以确认是用docker内部的node按照和编译得
     #实际上看过很多文章，发布环境是像上面那样copy package.json文件安装依赖，再copy代码目录编译得，直接在Docker里解决。
+    #不一起复制是因为每一个 RUN 指令都会被看作是可缓存的执行单元，业务代码可变性强，可以充分利用缓存。
     #我这里主要是为了开发环境改代码可以用实时更新。
     docker run -p 5677 -v ~/app:/usr/src/app  liuxiaoyuff/node-web-app yarn
     docker run -p 5677 -v ~/app:/usr/src/app  liuxiaoyuff/node-web-app npm run dev
