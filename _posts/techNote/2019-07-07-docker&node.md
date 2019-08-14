@@ -56,3 +56,7 @@ docker compose ： Compose is a tool for defining and running multi-container Do
 
 Kubernetes：用于管理云平台中多个主机上的容器化的应用。
 
+6、清楚缓存
+
+    docker container prune -f
+    docker image prune
