@@ -48,6 +48,23 @@ key的作用是更新组件时判断两个节点是否相同。相同就复用�
         return ret instanceof Object ? ret : obj;// 构造函数是可以自己指定返回一个对象的,相当于将结果返回。
     }
 
+    当代码执行new Foo时，会发生以下事情：
+    1. 一个继承自 Foo.prototype 的新对象被创建
+    2. 使用指定的参数调用构造函数 Foo,并将this绑定到新创建的对象
+    3. 由构造函数返回的对象就是new表达式的结果。如果构造函数没有显式返回一个对象，则使用步骤1创建的对象。(一般情况下，构造函数不返回值，但是用户可以选择主动返回对象，来覆盖正常的对象创建步骤)
+
+    function myNew(){
+        // 创建一个新对象obj，声明要返回的结果result,取参数的第一项为构造函数fn
+        let obj = new Object(),result,fn = [].shift.call(arguments);
+        // 将obj.__proto__连接到构造函数fn的原型
+        obj.__proto__ = fn.prototype;
+        // result接收构造函数执行后的返回结果
+        result = arguments.length>0?fn.apply(obj,arguments):fn.apply(obj);
+        // 如果构造函数返回一个对象，则将该对象返回，否则返回步骤1创建的对象
+        return typeof result === 'object'?result:obj;
+     }
+
+
 | 比较 | new	 | Object.create |
 | :-----| ----: | :----: |
 | 构造函数 | 保留原构造函数属性 | 丢失原构造函数属性 |
@@ -259,7 +276,7 @@ key的作用是更新组件时判断两个节点是否相同。相同就复用�
 
 20、买卖股票的最佳时机
     单次：记录一下最小值，然后看看每个元素跟最小值的差，是否为最大。
-    多次：依然记录最小值，但是是多段之和，段与段的分割是，后面的比前面的值小。相当于只记录单调递增的部分。
+    多次：相邻之间如果是递增的，则累加递增部分。
 
 21、无重复字符的最长子串
 
@@ -424,3 +441,645 @@ key的作用是更新组件时判断两个节点是否相同。相同就复用�
         while(r.length){temp.push(r.shift())}
         return temp;
     }
+
+33、全排列：回溯法套路
+
+    var permute = function(nums) {
+        let res = [];// 全局记录
+        count([],nums,res);// 空数组开始
+        return res;
+    }
+
+    var count = function (arr,nums,res) {
+        if(arr.length === nums.length){ //递归停止处：如果长度ok了，打印数据
+            res.push(arr.slice())
+            return
+        }
+        for (let i = 0; i < nums.length; i++) {// loop 开始
+            if (arr.indexOf(nums[i]) !== -1) continue;// 重复数字不管
+            arr.push(nums[i]); //存
+            count(arr,nums,res);// 递归看看
+            arr.pop(); //再出去
+        }
+    }
+
+34、最小路径和：动态规划
+
+    // 状态转移方程
+    var minPathSum = function(grid) {
+        var m = grid.length;
+        var n = grid[0].length;
+        for (let i = m - 1; i >= 0; i--) {
+            for (let j = n - 1; j >= 0; j--) {
+                if (i + 1 < m && j + 1 < n) {
+                    grid[i][j] += Math.min(grid[i + 1][j], grid[i][j + 1]);
+                } else if (i + 1 < m) {
+                    grid[i][j] += grid[i + 1][j];
+                } else if (j + 1 < n) {
+                    grid[i][j] += grid[i][j + 1];
+                }
+            }
+        }
+        return grid[0][0];
+    };
+
+35、作用域
+
+    1、存储变量的规则称为作用域，存在于引擎内部，无法通过js访问。
+    2、编译：词法分析，语法分析（生成AST），代码生成
+    3、词法作用域：定义在词法阶段的作用域，即变量和块作用域写在哪里决定的。
+    4、欺骗词法：
+        eval  非严格模式下，可以动态修改当前词法作用域。严格模式下会有自己的词法作用域
+        with  根据传递给它的对象 新创建一个词法作用域。严格模式被禁止。
+        都无法事先优化
+    5、函数作用域：函数的全部变量都可以在整个函数的范围内使用及复用。
+        function是函数声明中的第一个词，就是函数声明，否则是函数表达式（立即执行函数）。表达式可以匿名，函数声明不可以
+    6、规避冲突：命名空间，模块管理
+    7、变量提升：函数声明优先
+    8、当函数可以记住并访问所在的词法作用域是，就产生了闭包，即使函数是在当前词法作用域之外执行。
+    9、模块特征：为创建内部作用域而调用一个包装函数；包装函数返回值必须至少包括一个对内部函数的引用，这样就会创建涵盖整个包装函数内部作用域的闭包。
+
+36、this
+
+    1、this是运行时绑定的，它的上下文取决于函数调用方式。无关this的绑定和函数声明的位置（词法作用域）
+    2、this绑定规则：默认（独立函数调用），隐形（对象调用），显性（call，apply），new （构造函数是使用new操作符时被调用的普通函数）
+    3、new：1、创建一个全新的对象，2、这个新对象会被执行[[Prototype]]连接 3、这个新对象会绑定到函数调用的this 4、如果函数没有返回其他对象，那么new表达式的函数调用会自动返回这个新对象。
+    4、优先级
+        new调用 ，绑定到新创建的对象
+        call or apply 调用，绑定到指定对象
+        上下文对象调用，绑定到上下文对象
+        默认：严格模式undefined，非严格模式全局对象。
+        箭头函数根据当前的词法作用域来决定this：继承外层函数代用的this绑定。和es6之前的self=this机制一样。
+
+37、类
+
+    1、类是一种设计模式 传统的类的继承其实就是复制，多态本质上引用的其实是复制的结果。js的对象机制不会自动执行复制行为。
+    2、继承：
+        混合复制：把父类复制到一个新对象中，然后子类再覆盖复制。无法真正复制，覆盖父类
+        寄生复制：复制一份父类的定义，然后混入子类。
+        function Vehicle(){
+            this.engines  = 1;
+        }
+        Vehicle.prototype.drive = function(){}
+        function Car(){
+            var car = new Vehicle;
+            var vehDrtive = cat.drive;
+            cat.drive = fuction(){
+                vehDrtive.call(this);
+                //...
+            }
+            return car
+        }
+        vat myCar = new Car();
+
+38、原型
+
+    __proto__和constructor属性是对象所独有的； prototype属性是函数所独有的。但是由于JS中函数也是一种对象，所以函数也拥有__proto__和constructor属性、
+
+    .__proto__ 实现
+    Object.defineProperty(Object.prototype,"__proto",{
+        get:function(){
+            return Object.getPrototypeOf(this)
+        },
+        set:function(o){
+            Object.setPrototypeOf(this,o)
+            return o;
+        }
+    })
+    [[Prototype]]机制就是存在于对象内部的一个链接，它会引用其他对象。作用是，如果对象上没有找到需要的属性或者方法引用，[[GET]]操作就会查找对象内部[[Prototype]]关联的对象。
+    Object.create(null);会创建一个拥有空[[Prototype]]链接的对象，这个对象无法进行委托。
+    polyfill：
+         Object.create = function(o){
+             function F(){}
+             F.protoytpe = o;
+             return new F();
+         }
+
+39、类型
+
+    Number.MAX_SAFE_INTEGER:2^53-1
+    字符串的值不可通过原型上的方法更改
+    JSON.stringify在对象遇到undefined function 和symbol和包含循环引用时会自动忽略。
+    数字类型强制转换先valueOf再toString，字符串类型反过来
+    parseInt先将参数强制类型转换为字符串再解析
+
+40、异步
+
+    事件循环把自身的工作分成一个个任务并顺序执行，不允许对共享内存的【并行】访问和修改。通过分立线程中彼此合作的事件循环，并行和顺序执行可以共存。并行线程的交替执行和异步事件的交替调度，粒度完全不同。
+
+41、生成器
+
+    迭代器是一个对象，它定义一个序列，并在终止时可能返回一个返回值。 更具体地说，迭代器是通过使用 next() 方法实现 Iterator protocol 的任何一个对象，该方法返回具有两个属性的对象： value，这是序列中的 next 值；和 done ，如果已经迭代到序列中的最后一个值，则它为 true 。如果 value 和 done 一起存在，则它是迭代器的返回值。
+
+    生成器是一种返回迭代器的函数，通过function关键字后的星号（*）来表示，函数中会用到新的关键字yield。
+
+42、程序性能
+
+    Webworker 数据传递时，序列化反序列化导致速度损失，并且数据需要被复制，引起双倍的内存使用。可以使用结构化克隆算法避免string的性能损失。或者使用transferable对象，不需要做什么，实现了transferable接口的数据结构自动按照这种方式传输。
+
+43、大数相加
+
+    function bigNumberSum(a, b) {
+        // 123456789  000009876
+        // padding
+        let cur = 0;
+        while (cur < a.length || cur < b.length) {
+            if (!a[cur]) {
+                a = "0" + a;
+            } else if (!b[cur]) {
+                b = "0" + b;
+            }
+            cur++;
+        }
+
+        let carried = 0;
+        const res = [];
+
+        for (let i = a.length - 1; i > -1; i--) {
+            const sum = carried + +a[i] + +b[i];
+            if (sum > 9) {
+                carried = 1;
+            } else {
+                carried = 0;
+            }
+            res[i] = sum % 10;
+        }
+        if (carried === 1) {
+            res.unshift(1);
+        }
+        return res.join("");
+    }
+
+44、手写 bind
+
+    //bind 返回的是一个待执行函数，是函数柯里化的应用，而 call/apply 则是立即执行函数
+    Function.prototype.myBind = function(ctx, ...args) {
+        return (...innerArgs) => this.call(ctx, ...args, ...innerArgs);
+    };
+
+45、实现加法
+
+    function twoSum(a, b) {
+        if (a === 0) return b;
+        if (b === 0) return a;
+        const res = a ^ b;// 无进位相加
+        return twoSum(res, (a & b) << 1); //结果 加上 进位
+    }
+
+46、实现curry
+
+    function currying(fn) {
+        const argArr = [];
+        let closure = function(...args) {
+            if(args.length > 0) {
+                argArr = [...argArr, ...args];
+                return closure;
+            }
+            return fn(...argArr);
+        }
+        return closure;
+    }
+
+47、[实现深拷贝](https://github.com/ConardLi/ConardLi.github.io/blob/master/demo/deepClone/src/clone_6.js)
+
+    function deepCopy(o) {
+        if (typeof o !== "object") return o;
+        let n;
+        if (Array.isArray(o)) {
+            n = new Array(o.length);
+            o.forEach((v,i) => (n[i] = deepCopy(v)));
+        }
+
+        // reg math function 等其他类型暂时不考虑
+        else if (!Array.isArray(o)) {
+            n = {};
+            Object.keys(o).forEach(key => {
+                n[key] = deepCopy(o[key]);
+            });
+        }
+         return n;
+    }
+
+48、实现继承
+
+    function extend(A, B) {
+        function f() {}
+        f.prototype = B.prototype;
+        A.prototype = new f();
+        A.prototype.constructor = A;
+    }
+
+    function Dog(color) {
+        Animal.apply(this, arguments);
+        this.name = 'dog';
+    }
+    Dog.prototype = Object.create(Animal.prototype);
+    Dog.prototype.constructor = Dog;
+
+49、拍平数组
+
+    function flatten(list) {
+        if (list.length === 0) return [];
+        const head = list[0];
+        if (head instanceof Array) {
+            list[0] = flatten(head);
+        } else {
+            list[0] = [list[0]];
+        }
+        return list[0].concat(flatten(list.slice(1)));
+    }
+
+    function flattenDepth(list, n) {
+        if (list.length === 0) return [];
+        if (n === 0) return list;
+        const head = list[0];
+        if (head instanceof Array) {
+            list[0] = flattenDepth(head, n - 1);
+        } else {
+            list[0] = [list[0]];
+        }
+        return list[0].concat(flattenDepth(list.slice(1), n));
+    }
+
+50、用栈实现队列
+
+    function queue(nums) {
+        this.stack = nums || [];
+        this.helperStack = [];
+    }
+
+    queue.prototype.push = function(ele) {
+        // push
+        // pop
+        let cur = null;
+        while ((cur = this.stack.pop())) {
+            this.helperStack.push(cur);
+        }
+        this.helperStack.push(ele);
+
+        while ((cur = this.helperStack.pop())) {
+            this.stack.push(cur);
+        }
+    };
+
+    queue.prototype.pop = function() {
+        return this.stack.pop();
+    };
+
+51、判断是否是完全二叉树
+
+    function isCompleteBinaryTree(root) {
+        if (root === null) return root;
+        let cur = root;
+        const queue = [];
+
+        while (cur !== null) {
+            queue.push(cur.left);
+            queue.push(cur.right);
+            cur = queue.shift();
+        }
+
+        return queue.filter(Boolean).length === 0;
+    }
+
+52、实现千分位展示
+
+    function moneyFormat(num) {
+        // 123456789
+        // 123,456,789
+        const res = [];
+        const decimalIndex = num.indexOf(".");
+        const hasDecimal = decimalIndex > -1;
+
+        for (let i = num.length - 1; i > -1; i--) {
+            let cur = 1;
+            while (hasDecimal && i >= decimalIndex) {
+            res.unshift(num[i]);
+            i--;
+            }
+            while (cur <= 3) {
+            res.unshift(num[i]);
+            cur++;
+            i--;
+            }
+            res.unshift(num[i]);
+            res.unshift(",");
+        }
+
+        if (res[0] === ",") res.shift();
+
+        return res.join("");
+    }
+
+53、实现简化的 promise
+
+    //三种状态pending| fulfilled(resolved) | rejected
+    //当处于pending状态的时候，可以转移到fulfilled(resolved)或者rejected状态
+    //当处于fulfilled(resolved)状态或者rejected状态的时候，就不可变。
+
+
+    function Promise(func) {
+        this.fullfilled = false;
+        this.rejected = false;
+        this.pending = true;
+        this.handlers = [];
+        this.errorHandlers = [];
+        function resolve(...args) {
+            this.handlers.forEach(handler => handler(...args));
+        }
+        function reject(...args) {
+            this.errorHandlers.forEach(handler => handler(...args));
+        }
+        func.call(this, resolve.bind(this), reject.bind(this));
+    }
+
+    Promise.prototype.then = function(func) {
+        this.handlers.push(func);
+        return this;
+    };
+    Promise.prototype.catch = function(func) {
+        this.errorHandlers.push(func);
+        return this;
+    };
+
+    Promise.race = promises =>
+        new Promise((resolve, reject) => {
+            promises.forEach(promise => {
+                promise.then(resolve, reject);
+            });
+        });
+
+    Promise.all = promises =>
+        new Promise((resolve, reject) => {
+            let len = promises.length;
+            let res = [];
+            promises.forEach((p, i) => {
+                p.then(r => {
+                    if (len === 1) {
+                        resolve(res);
+                    } else {
+                        res[i] = r;
+                    }
+                    len--;
+                }, reject);
+            });
+        });
+
+    // 带状态判断版本，then是promise：可以简化一下书写
+    const PENDING = "pending";
+    const FULFILLED = "fulfilled";
+    const REJECTED = "rejected";
+
+    function Promise(excutor) {
+        let that = this; // 缓存当前promise实例对象
+        that.status = PENDING; // 初始状态
+        that.value = undefined; // fulfilled状态时 返回的信息
+        that.reason = undefined; // rejected状态时 拒绝的原因
+        that.onFulfilledCallbacks = []; // 存储fulfilled状态对应的onFulfilled函数
+        that.onRejectedCallbacks = []; // 存储rejected状态对应的onRejected函数
+
+        function resolve(value) { // value成功态时接收的终值
+            if(value instanceof Promise) {
+                return value.then(resolve, reject);
+            }
+            // 实践中要确保 onFulfilled 和 onRejected 方法异步执行，且应该在 then 方法被调用的那一轮事件循环之后的新执行栈中执行。
+            setTimeout(() => {
+                // 调用resolve 回调对应onFulfilled函数
+                if (that.status === PENDING) {
+                    // 只能由pending状态 => fulfilled状态 (避免调用多次resolve reject)
+                    that.status = FULFILLED;
+                    that.value = value;
+                    that.onFulfilledCallbacks.forEach(cb => cb(that.value));
+                }
+            });
+        }
+        function reject(reason) { // reason失败态时接收的拒因
+            setTimeout(() => {
+                // 调用reject 回调对应onRejected函数
+                if (that.status === PENDING) {
+                    // 只能由pending状态 => rejected状态 (避免调用多次resolve reject)
+                    that.status = REJECTED;
+                    that.reason = reason;
+                    that.onRejectedCallbacks.forEach(cb => cb(that.reason));
+                }
+            });
+        }
+        // 捕获在excutor执行器中抛出的异常
+        // new Promise((resolve, reject) => {
+        //     throw new Error('error in excutor')
+        // })
+        try {
+            excutor(resolve, reject);
+        } catch (e) {
+            reject(e);
+        }
+    }
+
+    Promise.prototype.then = function(onFulfilled, onRejected) {
+        const that = this;
+        let newPromise;
+        // 处理参数默认值 保证参数后续能够继续执行
+        onFulfilled =
+            typeof onFulfilled === "function" ? onFulfilled : value => value;
+        onRejected =
+            typeof onRejected === "function" ? onRejected : reason => {
+                throw reason;
+            };
+        if (that.status === FULFILLED) { // 成功态
+            return newPromise = new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    try{
+                        let x = onFulfilled(that.value);
+                        resolvePromise(newPromise, x, resolve, reject); // 新的promise resolve 上一个onFulfilled的返回值
+                    } catch(e) {
+                        reject(e); // 捕获前面onFulfilled中抛出的异常 then(onFulfilled, onRejected);
+                    }
+                });
+            })
+        }
+
+        if (that.status === REJECTED) { // 失败态
+            return newPromise = new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    try {
+                        let x = onRejected(that.reason);
+                        resolvePromise(newPromise, x, resolve, reject);
+                    } catch(e) {
+                        reject(e);
+                    }
+                });
+            });
+        }
+
+        if (that.status === PENDING) { // 等待态
+            // 当异步调用resolve/rejected时 将onFulfilled/onRejected收集暂存到集合中
+            return newPromise = new Promise((resolve, reject) => {
+                that.onFulfilledCallbacks.push((value) => {
+                    try {
+                        let x = onFulfilled(value);
+                        resolvePromise(newPromise, x, resolve, reject);
+                    } catch(e) {
+                        reject(e);
+                    }
+                });
+                that.onRejectedCallbacks.push((reason) => {
+                    try {
+                        let x = onRejected(reason);
+                        resolvePromise(newPromise, x, resolve, reject);
+                    } catch(e) {
+                        reject(e);
+                    }
+                });
+            });
+        }
+    };
+
+
+54、函数节流
+
+    function throttle(fn, threshhold) {
+        var last, timerId;
+        threshhold || (threshhold = 250);
+        return function() {
+            var now = Date.now();
+            if(last && now - last < threshhold) {
+                clearTimeout(timerId);
+                timerId = setTimeout(() => {
+                    fn.apply(this, arguments);
+                }, threshhold)
+            } else {
+                last = now;
+                fn.apply(this, arguments);
+            }
+        }
+    }
+
+
+55、函数防抖
+
+    const debounce = (fn, delay) => {
+        let timer = null;
+        return (...args) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                fn.apply(this, args);
+            }, delay);
+        };
+    };
+
+56、数组去重
+
+    function uniqueArray(list) {
+        list.sort();
+        // 和leetcode26题一摸一样
+        const size = list.length;
+        let slowP = 0;
+        for (let fastP = 0; fastP < size; fastP++) {
+            if (list[fastP] !== list[slowP]) {
+            slowP++;
+            list[slowP] = list[fastP];
+            }
+        }
+        return list.slice(0, slowP + 1);
+    }
+
+57、实现Event(event bus)
+
+    export function EventBus() {
+        this.eventMap = {};
+    }
+    EventBus.prototype.on = function (eventName, callback) {
+
+        if (this.eventMap[eventName] === undefined) {
+            this.eventMap[eventName] = [];
+        }
+        this.eventMap[eventName].push(callback);
+    }
+
+    EventBus.prototype.emit = function (eventName, ...args) {
+        let callbacks = this.eventMap[eventName];
+        if (callbacks) {
+            callbacks.forEach((callback) => {
+                Promise.resolve().then(() => {
+                    callback.apply(null, args);
+                })
+            })
+        }
+
+    }
+
+58、实现call
+
+    Function.prototype.call = function(cxt, ...args) {
+        ctx || (ctx = window);
+        ctx.fn = this;//把调用者存下来
+        let args = [];
+        let r = eval(`ctx.fn(${args})`);//执行，this就指向了cxt
+        delete ctx.fn;
+        return r;
+    }
+
+59、实现apply
+
+    Funtion.prototype.apply = function(ctx, args) {
+        ctx || (ctx = window);
+        ctx.fn = this;
+        let r = eval(`ctx.fn(${args})`)
+        delete ctx.fn;
+        return r;
+  }
+
+60、JS判断两个对象内容是否相等
+
+    function isObjectValueEqual(a, b) {
+        var aProps = Object.getOwnPropertyNames(a);
+        var bProps = Object.getOwnPropertyNames(b);
+        if (aProps.length != bProps.length) {
+            return false;
+        }
+        for (var i = 0; i < aProps.length; i++) {
+            var propName = aProps[i]
+
+            var propA = a[propName]
+            var propB = b[propName]
+            if ((typeof (propA) === 'object')) {
+            if (this.isObjectValueEqual(propA, propB)) {
+                return true
+                } else {
+                return false
+                }
+            } else if (propA !== propB) {
+            return false
+            } else { }
+        }
+        return true
+    }
+
+61、手写parseInt
+
+62、for...in 与 for...of 的区别
+
+    for...in循环的是key。for...of循环的是value。作用于数组的for-in循环除了遍历数组元素以外,还会遍历自定义属性。
+
+63、iframe缺点是什么？
+
+    iframe会阻塞主页面的onload事件；
+    iframe和主页面共享连接池，而浏览器对相同域的连接有限制，所以会影响页面的并行加载。，会产生很多页面，不容易管理。
+    iframe框架结构有时会让人感到迷惑，如果框架个数多的话，可能会出现上下、左右滚动条，会分散访问者的注意力，用户体验度差。
+    代码复杂，无法被一些搜索引擎索引到，这一点很关键，现在的搜索引擎爬虫还不能很好的处理iframe中的内容，所以使用iframe会不利于搜索引擎优化（SEO）。
+    很多的移动设备无法完全显示框架，设备兼容性差。
+    iframe框架页面会增加服务器的http请求，对于大型网站是不可取的。
+
+64、实现一个instanceOf
+
+    function instanceOf(left,right) {
+        let proto = left.__proto__;
+        let prototype = right.prototype
+        while(true) {
+            if(proto === null) return false
+            if(proto === prototype) return true
+            proto = proto.__proto__;
+        }
+    }
+
+
