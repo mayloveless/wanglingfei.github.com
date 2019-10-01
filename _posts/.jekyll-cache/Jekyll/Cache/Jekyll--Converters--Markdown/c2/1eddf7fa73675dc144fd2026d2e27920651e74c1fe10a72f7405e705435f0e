@@ -1,0 +1,58 @@
+I"	<p>这次在项目中遇到一个bug：</p>
+
+<p>ie6下iframe不显示内容，一片空白，如果直接访问iframe地址的话，是可以访问的，也就是说是js的问题。</p>
+
+<p>1、bug代码我是这样写的。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var TEMPLATE = {
+
+  'buyFrame':  '&lt;#et data&gt;'+
+                 '&lt;iframe width="469" height="367" scrolling="no"  frameborder="0" src="${url}" &gt;'+
+                 '&lt;/iframe&gt;'+
+            '&lt;/et&gt;'
+};
+layer.html( $.easyTemplate(TEMPLATE['buyFrame'],{data:url} );
+</code></pre></div></div>
+
+<p>也就是说，用模板引擎替换url的方法。当然这显然是木有必要的，模板在此项目中是不需要服用的。这貌似也是问题的根源之一。</p>
+
+<p>2、网上找了半天，有的给的答案是这样的：</p>
+
+<p>1）宽高固定</p>
+
+<p>2 )border:0</p>
+
+<p>3) src 不能直接放在第一属性，也就是说不能写成&lt;iframe src=””</p>
+
+<p>这3条我都没有，于是怀疑是模板引擎的原因，遂弃用之。但依旧没内容。</p>
+
+<p>3、经过多方尝试，想到，也许先出iframe再写url的方式，也就是等一下的感觉。</p>
+
+<p>于是写成了这样：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>'buyFrame':
+
+    '&lt;iframe width="469" height="367" frameborder="0" scrolling="no"   &gt;'+
+
+    '&lt;/iframe&gt;'
+
+layer.html( TEMPLATE['buyFrame'] );
+</code></pre></div></div>
+
+ 	var iframeDom = $.sizzle(‘iframe’,layer.getInner())[0];
+
+ 	iframeDom.setAttribute(‘src’,someurl)
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   居然成功了……虽然不知道原理，但也许跟setTimeout(0)一样，需要加入执行队列里去。
+</code></pre></div></div>
+
+<p>3、虽然成功了，但iframe只显示了我加入的链接页面，这个页面本来是要跳转的，结果跳不动了、</p>
+
+<p>好吧，依旧是js的问题。又经过多方尝试，原来去掉 scrolling=”no” 就好了！</p>
+
+<p>本来想为避免样式问题，不显示滚动条，显然又多此一举了……</p>
+
+<p>4、总结一下就是原因未知，但问题解决了</p>
+
+<p>真是不靠谱的debug……ie6走好不送……</p>
+:ET

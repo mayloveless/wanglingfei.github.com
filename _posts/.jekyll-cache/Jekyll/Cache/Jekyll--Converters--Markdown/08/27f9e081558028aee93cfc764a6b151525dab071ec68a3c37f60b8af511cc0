@@ -1,0 +1,122 @@
+I"�<p>最近写项目的时候总要找API，但是内部的核心包肯定在overapi.com上是木有的，所以决定写一个本地的API检索。看着很高级的样子，其实很简单，而且写得有点啰嗦了。</p>
+
+<p>首先决定用Node.JS，本来要用python或者php，后来觉得还是Node简单点儿。最后写成了网站的形式，这就是啰嗦的地方，但后来想想也是木有办法的。用上了express。</p>
+
+<p>具体流程是这样的：</p>
+
+<p>address.js是配置文件，写好了项目名和路径{name：address}</p>
+
+<p>1、访问127.0.0.1:3000/时，跳转到第一个项目下，路径以项目名命名，如：127.0.0.1:3000/Jquery</p>
+
+<p>2、将该项目地址（本地绝对路径）文件夹下，所有的文件名取到，可以生成一棵树，但这个项目的目的不在于此，在于把树中所以文件都罗列在一个页面上。所以遍历取到的文件名都存在了一个大对象中。</p>
+
+<p>取文件名的方法如下：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var getAllFiles = function(root){
+    var tree = [];
+    var files = fs.readdirSync(root);
+    files.forEach(function(file) {
+    var pathname = root+ "/" + file;
+    var stat = fs.lstatSync(pathname)
+    if (stat === undefined) return
+     // 不是文件夹就是文件
+    //dict作为最终结果，key为文件夹名，值为文件名
+    //如果赶上第一层就有文件，key就用文件名
+    var pathKey = pathname.split(Path)[1];
+     if (!stat.isDirectory()) {
+    if(pathKey.split('/'+file)[0] === ''){
+        dict[ file ] = file;
+    }else{
+        dict[ pathKey.split('/'+file)[0] ] = fs.readdirSync(root);
+    }
+
+    tree.push( pathKey );
+     // 递归自身
+      } else {
+        var child = {};
+        child[ file ] = getAllFiles( pathname );
+        tree.push(child);
+      }
+
+    });
+
+    return tree;
+
+};
+</code></pre></div></div>
+
+<p>3、罗列出来了之后，只显示js文件（根据我的需要），文件是链接，文件夹不显示链接。</p>
+
+<p>最后它是这个样子的，url：127.0.0.1:3000/STK</p>
+
+<p style="text-align:center"><img src="/images/2013/localAPI.jpg" style="max-width:80%" /></p>
+
+<p>据说STK的开源的，所以就放这儿吧……</p>
+
+<p>页面用了flat UI，它是Bootstrap的基础上用了一层新的样式而已，很好看，用起来又是熟悉的Bootstrap。我让每个文件夹下的颜色都不同作为视觉上的区分，并且颜色都是随机分配的。</p>
+
+<p>同时，搜索框功能是从overapi.com上扒下来的，jquery.quicksearch，不知道是不是overapi.com作者原创的，样式调了半天，主要是跟原版逻辑不同，不过还是很好用的。</p>
+
+<p>4、点击文件，可以看源代码，显示是这个样子的：</p>
+
+<p style="text-align:center"><img src="/images/2013/localAPICode.PNG" style="max-width:80%" /></p>
+
+<p>url是项目名+$+文件路径+$+文件名，为的是能找到文件。代码如下：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var url = req.params.file;
+var pathArr = url.split('$');
+var relativePath = '';
+for(var i=1;i&lt;pathArr.length;i++){
+    relativePath +='/'+pathArr[i];
+}
+
+var realAddress = address[ pathArr[0] ] + relativePath;
+fs.readFile(realAddress,function(err,data){
+    if(data === undefined){
+        data = "木有找到文件，路径出错啦- - #！本地地址："+realAddress;
+    }
+
+res.render('read', { 
+    curPath:pathArr[0],
+          file:data,
+          allPath : address
+    });
+
+});
+</code></pre></div></div>
+
+<p>最后代码语法高亮的部分是用得谷歌的prettify.js,好强大的样子，语法高亮要用词法分析，编译原理的知识，天书的节奏，所以放弃看源码了。使用方法如下：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//read.ejs
+
+&lt;link rel='stylesheet' href='/stylesheets/prettify.css' /&gt;
+&lt;script src="/javascripts/prettify.js"&gt;&lt;/script&gt;
+&lt;pre class="prettyprint" style="background:#fff;margin-left:40px;"&gt; &lt;%= file%&gt;&lt;/pre&gt; 
+&lt;script&gt;prettyPrint();&lt;/script&gt; 
+</code></pre></div></div>
+
+<p>5、最后就是增加删除项目了，普通的ajax操作。</p>
+
+<p style="text-align:center"><img src="/images/2013/localAPIDelete.jpg" style="max-width:60%" /></p>
+
+<p>6、总结一下，这个项目历时8、9个小时吧，用了2个工作日的下午。</p>
+
+<p>赶脚着挺弱的，使用上也不方便，还要开着一个cmd，但即使写成php的，也得是个web站点，所以依旧麻烦。本来想做成chrome插件，但依旧得运行才能用，不能挂网上，还是麻烦，总之，我用了100多行代码解决一个麻烦的问题换来了另一个麻烦的问题。so，也就自己凑合着用用吧……</p>
+
+<p>项目上传到了github，证明自己曾经来过……</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://github.com/wanglingfei/localAPI
+</code></pre></div></div>
+
+<p>7、至于cmd窗口总开着这个问题貌似解决了，有待验证</p>
+
+<p>新建一个文件：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Set ws = CreateObject("Wscript.Shell")
+ws.run "cmd /c supervisor E:\Mine\localAPI\trunk\app.js ",vbhide
+</code></pre></div></div>
+
+<p>保存为vbs文件。是个脚本，所以双击就启动了，相当于在后台运行了，很cool~</p>
+
+<p>the end</p>
+:ET

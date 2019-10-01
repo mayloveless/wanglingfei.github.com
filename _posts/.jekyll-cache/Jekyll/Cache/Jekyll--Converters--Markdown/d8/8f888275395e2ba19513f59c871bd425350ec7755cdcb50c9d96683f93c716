@@ -1,0 +1,337 @@
+I"T'<p><strong>第一章：web安全的关键点</strong></p>
+
+<p>1、数据与指令</p>
+
+<p>如：SQL注入，XSS跨站脚本</p>
+
+<p>2、浏览器同源策略</p>
+
+<p>关键词：不同域、客户端脚本、授权、读写权限、资源</p>
+
+<p>3、信任与信任关系</p>
+
+<p>4、社会工程学（伪装）</p>
+
+<p>5、攻防不单一</p>
+
+<p>6、场景很重要</p>
+
+<p>攻击技术方式不是重点，意义最重要，也就是做有影响面的攻击</p>
+
+<p><strong>第二章：前端基础</strong></p>
+
+<p>具体摘出几个知识点：</p>
+
+<p>1、iframe同源策略</p>
+
+<p>若iframe与父窗口同源，则子窗口可以访问父窗口节点</p>
+
+<p>若不同源，则子窗口对于location只有写权限，木有读权限</p>
+
+<p>2、httpOnly Cookie</p>
+
+<p>仅在http层面上传输的Cookie，设置之后，客户端无法读写该Cookie</p>
+
+<p>3、Cookie的P3P性质</p>
+
+<p>HTTP响应头的P3P（Platform for Privacy Preferences Project）字段是</p>
+
+<p>W3C公布的一项隐私保护推荐标准。用于标识是否允许目标网站的Cookie被另一个域通过加载目标网站而设置或发送，只有IE执行了这个策略。</p>
+
+<p>a）set Cookie IE默认不允许第三方设置</p>
+
+<p>b）sent Cookie 本地Cookie（设置过期时间的Cookie）必须有P3P</p>
+
+<p>内存Cookie（关闭浏览器即销毁的Cookie）正常send</p>
+
+<p><strong>第三章：XSS</strong></p>
+
+<p>XSS即跨站脚本，突破浏览器同源策略将恶意脚本内容在目标网站中目标用户的浏览器中解析。</p>
+
+<p>1、反射型XSS</p>
+
+<p>发出请求时，XSS代码出现在URL里，作为提交到服务器，服务器解析后相应，在相应内容里出现这段代码，最后浏览器执行。</p>
+
+<p>2、存储型XSS</p>
+
+<p>相较于反射型，存储型会存在服务端，持久化、</p>
+
+<p>3、DOM XSS</p>
+
+<p>不需要服务端解析响应，靠DOM解析。</p>
+
+<p><strong>第四章、CSRF</strong></p>
+
+<p>Cross Site Request Forgery 跨站请求伪造</p>
+
+<p>1、攻击类型</p>
+
+<p>a）HTML CSRF攻击</p>
+
+<p>能设置连接的地方都可以发起一个GET请求。</p>
+
+<p>构建Form表单可以发起一个POST请求</p>
+
+<p>b）JSON HiJacking 攻击</p>
+
+<p>对于JSON的劫持攻击</p>
+
+<p>例如：</p>
+
+<p>许多网站为了跨域获取信息，采用script加载json文件的方式</p>
+
+<p>当csrf可攻击时（也就是获取数据的网站Cookie木有做防御，可以跨域取到），只要伪造一个页面就可以把获取的数据传到这个伪造的恶意网站。</p>
+
+<p>如果返回的是一个JSON数组，会被认为是一段可执行的JavaScript脚本，于是浏览器会解析执行。</p>
+
+<p>JSON数据如果里字典形式返回，直接在浏览器中会显示错误，所以对于JSON数据，一般会eval(“(“+JSON_DATA+”)”)</p>
+
+<p>一般跨域获取JSON文件时，加上callback 回调函数变量名</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;script src="http://...indbox.json?callback=fn"&gt; 
+</code></pre></div></div>
+
+<p>这样数据可以传递给内存中fn的函数中去，callback([json])。</p>
+
+<p>这时，写好fn里就可以处理获取的数据</p>
+
+<p><strong>CSRF是模拟你的身份去发送请求，Hijacking是模拟你的身份，窃取你在服务器上的私隐信息。</strong></p>
+
+<p>c）Flash攻击</p>
+
+<p><strong>第五章、界面操作劫持</strong></p>
+
+<p>点击劫持、拖放劫持、触屏劫持</p>
+
+<p>1、技术原理：透明层+iframe</p>
+
+<p>把劫持的页面放在iframe里，透明放在恶意页面上，实现视觉欺骗。</p>
+
+<p>用户以为点击了恶意页面上的东西，但本质是点击了iframe里被劫持的页面，从而实现用户不可知的操作。</p>
+
+<p>三种劫持方式都是以不同的掩人耳目的方式让用户操作了隐藏的页面。</p>
+
+<p>2、拖放操作不受同源策略限制，可以从一个域拖到另一个域中。</p>
+
+<p><strong>第六章、漏洞挖掘</strong></p>
+
+<p>1、CSRF漏洞挖掘只需要确认以下内容即可：</p>
+
+<p>a）目标表单是否有有效的token随机串</p>
+
+<p>b）目标表单是否有验证码</p>
+
+<p>c）目标是否判断了Referer源</p>
+
+<p>d）网站根目录下crossdomain.xml的“allow-access-from domain”是否是通配符</p>
+
+<p>e）目标JSON数据是否可以自定义callback函数等。</p>
+
+<p>2、界面操作劫持漏洞挖掘只需要确认以下内容即可：</p>
+
+<p>a）目标的HTTP响应头是否设置好了X-Frame-Options字段</p>
+
+<p>DENY/SAMEORIGIN来设定对于iframe的拒绝或者需要同源的命令</p>
+
+<p>b）目标是否有js的Frame Busting机制</p>
+
+<p>也就是如果自己被iframe了，就把父窗口刷成自己</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if ( top.location != self.location ){ top.location = self.location; }
+</code></pre></div></div>
+
+<p>3、HTML与JS自解码机制</p>
+
+<p>HTML会自动将字符串解码</p>
+
+<p>js初始化的时候会将字符串编码</p>
+
+<p>如：innerHTML=”&lt;&gt;”等同于innerHTML=”&lt;&amp;gt”</p>
+
+<p>但有些HTML标签是不具备HTMLEncode功能的</p>
+
+<p>如：textarea、iframe、noscript、noframes</p>
+
+<p>4、url编码差异</p>
+
+<p>浏览器请求时对url进行编码，不同浏览器对于url编码的字符数不同。</p>
+
+<p>5、fuzzing模糊测试</p>
+
+<p>基本就是遍历查找的意思</p>
+
+<p>6、Flash XSS挖掘</p>
+
+<p>基本就是反编译看代码，覆盖全局变量</p>
+
+<p>7、字符集缺陷导致的XSS</p>
+
+<p>a）字符集：ASCII，GBK，Unicode 。。。。</p>
+
+<p>b）字符集编码：Unicode=》utf系列，GBK=》GBK</p>
+
+<p>c）GBK，GB2312是宽字节，占2个字符</p>
+
+<p>引发的问题：url编码xss时，要把字符转成该网站的编码才能正确XSS</p>
+
+<p>d）utf-7=》自动选择问题</p>
+
+<p>在IE6,7如果没有声明HTTP响应头字符编码方式或者声明错误</p>
+
+<p>同时<meta http-equiv="" />未指定Charset或者指定错误</p>
+
+<p>那么浏览器就把UTF-7编码的转成UTF-7</p>
+
+<p>所以，这种页面就插入UTF-7字符就可以了。</p>
+
+<p>e）utf-7=》iframe调用外部utf-7 html问题</p>
+
+<p>父窗口utf-7，子窗口有UTF-7编码的就会被转成UTF-7</p>
+
+<p>f）utf-7=》link调用外部css文件问题</p>
+
+<p>css文件utf-7，父窗口也utf-7</p>
+
+<p>g）utf-7=》指定BOM头问题</p>
+
+<p>BOM=》标记字节顺序码</p>
+
+<p>文档开头发现BOM是+/v8即认定文档按照utf-7编码</p>
+
+<p>以上，utf-7只在ie下支持了。</p>
+
+<p>8、绕过XSS Filter</p>
+
+<p>Chrome和IE有XSS Filter，主要针对反射型XSS，启发式检测，判断是否有XSS特征，重新渲染内容，以保证不触发。</p>
+
+<p>a）CRLF  回车换行</p>
+
+<p>在X-XSS-Protection:0之后加入回车换行，就额可以使这个响应头失效。</p>
+
+<p>b）同域白名单</p>
+
+<p>IE判断Referer来源是否本域，本域则Filter不生效</p>
+
+<p>Chrome同域JS不防御。</p>
+
+<p>9、混淆的代码</p>
+
+<p>a）encodeURL，encodeURLComponent不编码的字符数量不同</p>
+
+<p>b）HTML注入技巧</p>
+
+<p>标签，属性，HTML事件</p>
+
+<p>c）CSS注入技巧</p>
+
+<p>可以插入XSS的地方</p>
+
+<p>资源有关的属性值：background，background-image等</p>
+
+<p>@important可以混淆骗过过滤器</p>
+
+<p>ie下expression</p>
+
+<p>@charset可以协助绕过Filter（参见7、字符集缺陷导致的XSS）</p>
+
+<p>d）js注入技巧</p>
+
+<p>闭合变量</p>
+
+<p>JSON若是callback参数名的参数调用的Object，如：</p>
+
+<p>callback([{a:”b”}])（参加JSON HiJacking 攻击）</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>url?callback=fn  =》url?callback&lt;script&gt;alert(1)&lt;/script&gt;
+</code></pre></div></div>
+
+<p>若没有过滤callback函数名，就可以注入</p>
+
+<p><strong>第七章 漏洞利用</strong></p>
+
+<p>1、偷取隐私数据</p>
+
+<p>XSS探针、获取Referer信息、浏览器明文密码、键盘记录器</p>
+
+<p>2、跨域操作技术</p>
+
+<p>a）IE res：协议跨域</p>
+
+<p>b）CSS String Injection 跨域</p>
+
+<p>c）浏览器特权区域</p>
+
+<p>d）浏览器扩展</p>
+
+<p>f）跨子域：document.domain</p>
+
+<p>把proxy页面（空的）放到iframe里，设置evil页面与proxy相同的domain</p>
+
+<p>这样2个页面就同域无跨域限制了，自由注入js</p>
+
+<p>顺便：window.name跨域</p>
+
+<p>把需要取数据的页面放到iframe里，设置window.name,然后iframe换个src，但窗体实例window不变，所以window.name保留。</p>
+
+<p>src换成与父窗口同域的，这样父窗口就可以读子窗口的window.name</p>
+
+<p>实现跨域取数据</p>
+
+<p><strong>第八章、HTML5安全</strong></p>
+
+<p>1、新属性新标签绕过黑名单策略</p>
+
+<p>2、Histroy API</p>
+
+<p>3、僵尸网络</p>
+
+<p>web worker、CORS（XMLHttpRequest 的跨域资源共享 ）</p>
+
+<p>4、地理位置暴露</p>
+
+<p><strong>第九章 web蠕虫</strong></p>
+
+<p><strong>第十章 关于防御</strong></p>
+
+<p>1、CSP策略（Content-Security-Policy）</p>
+
+<p>2、web厂商的防御</p>
+
+<p>a）域分离</p>
+
+<p>b）安全传输</p>
+
+<p>c）cookie</p>
+
+<p>d）验证码</p>
+
+<p>f）慎用第三方</p>
+
+<p>g）xss防御</p>
+
+<p>h）CSRF防御</p>
+
+<p>http referer同域</p>
+
+<p>session cookie生命周期</p>
+
+<p>验证码</p>
+
+<p>一次性token</p>
+
+<p>i）界面操作劫持防御</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x-frame-options
+frame-busting
+</code></pre></div></div>
+
+<p>+++++++++++++</p>
+
+<p>看完了这书，还是比较长知识的，只是作者很多解释的并不详细，需要边查边看。并且在书中罗列大片代码实在是体验很不好。</p>
+
+<p>花了4天时间，大概16个小时左右看完的。</p>
+
+<p>总结的很多点，但是例子就没法贴了……虽然那才是重点……</p>
+
+<p>本来想试验一下的，结果weibo，youku神马的普通的都已防御了……sigh……</p>
+:ET

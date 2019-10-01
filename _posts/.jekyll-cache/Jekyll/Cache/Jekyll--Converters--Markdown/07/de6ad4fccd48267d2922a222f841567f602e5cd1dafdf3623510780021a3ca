@@ -1,0 +1,47 @@
+I"2<p>折腾了一天，在github上搞了个博客。</p>
+
+<p>过程基本找网上的资料，直接贴链接：</p>
+
+<p><a href="http://www.cnblogs.com/ykt8465279130/archive/2012/10/20/2732744.html">建立过程</a></p>
+
+<p><a href="jekyll:http://www.madhur.co.in/blog/2011/09/01/runningjekyllwindows.html">过程中安装</a></p>
+
+<p>下面应该是个框架：<a href="http://jekyllbootstrap.com/">jekyllbootstrap</a></p>
+
+<p><a href="http://jekyllrb.com">jeckll文档</a></p>
+
+<p>++++++++++++++</p>
+
+<p>写的时候，由于中午编码的原因，先要把bash编译环境转成utf-8(就别永久了)
+	$ export LC_ALL=en_US.UTF-8
+	$ export LANG=en_US.UTF-8</p>
+
+<p>写完了先build一下</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jekyll build
+</code></pre></div></div>
+
+<p>然后，启动在本地测试，地址localhost：4000</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jekyll serve
+</code></pre></div></div>
+
+<p>+++++++++++++</p>
+
+<p>至于为神马有了github博客，我依然在这里写东西</p>
+
+<p>因为根本不会把这里的导到jeckll里去！尝试各种迂回战术，均失败！</p>
+
+<p>以后再说吧……</p>
+
+<p>++++++++++++</p>
+
+<p>后记 13.11.07</p>
+
+<p>终于把博客弄过来了~~~~</p>
+
+<p>采用了<a href="http://guojing.me">GuoJing</a>的设计，也就是把他的代码拷贝过来，然后删除了多余文件。</p>
+
+<p>具体的建立过程有个更详细文章 <a href="http://beiyuu.com/github-pages/">使用Github Pages建独立博客</a>.</p>
+
+:ET

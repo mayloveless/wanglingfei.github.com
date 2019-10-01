@@ -1,0 +1,173 @@
+I"� <p>###WebGL简介</p>
+
+<p style="text-align:center"><img src="/images/2015/hardware.jpg" style="max-width:100%" /></p>
+
+<p>1、GPU是专门设计的图形绘制设备，专门用来绘制输出在屏幕上的图形。高度并行化，快速处理图形数据，流水线结构。</p>
+<p style="text-align:center"><img src="/images/2015/图形流水线.jpg" style="max-width:100%" /></p>
+
+<p>顶点着色器:输入包括1、源代码，2、用户自定义attribute变量，3、用户自定义uniform变量（所有顶点都相同的数据，变化矩阵，光源位置），4、用户自定义varying变量（向片段着色器发送信息的手段）、5、内置特殊变量。</p>
+
+<p>片段着色器：输入包括1、源代码，2、内置特殊变量，3、用户自定义varying变量，由顶点着色器写入。4、uniform变量。5、采样器，特殊uniform变量，用于纹理映射。</p>
+
+<p>2、帧缓存（framebuffer）
+图形数据通过整个GPU流水线传送后，写入帧缓存中。它是一个存储器，包括，颜色缓存，Z-缓存，模板缓存。</p>
+
+<p>颜色缓存：矩形阵列的存储器，以RGB或RGBA格式保存屏幕上的每个像素颜色。</p>
+
+<p>Z-缓存：深度缓存。存储了离观察者最近图元（primitive）的距离。</p>
+
+<p>模块缓存：控制在颜色缓存的某个位置的写入操作。</p>
+
+<p>3、纹理存储器</p>
+
+<p>4、视频控制器（视频生成器）：以一定频率逐行扫描颜色缓存，并更新屏幕上的显示内容</p>
+
+<p>###创建基本的WebGL示例</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1、插入canvas代码，引用这个画布，创建WebGLRenderingContext对象。
+2、编写顶点着色器和片段着色器的源代码
+3、编写源代码，利用WebGLAPI分别为上述的顶点着色器和片段着色器创建着色器。
+4、创建一个程序对象，把已编译的着色器对象插入到这个程序对象中。链接这个程序对象，指示WebGL如何使用这个程序对象进行绘制。
+5、设置WebGL缓存对象。并把几何对象的顶点数据载入到顶点缓存。
+6、指示WebGL，哪个缓存对应于着色器的属性，最后绘制几何对象。
+</code></pre></div></div>
+
+<p>调试WebGL：WebGL Inspector</p>
+
+<p>###绘图</p>
+
+<p>三角形图元是最基本的构件块。</p>
+
+<p>gl.drawArrays() gl.drawElements() gl.clear()用来更新绘图缓冲。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>与gl.drawArrays() gl.drawElements()结合使用的7个不同图元
+gl.TRIANGLES
+gl.TRIANGLES_STRIP
+gl.TRIANGLES_FAN
+gl.LINES
+gl.LINE_STRIP 
+gl.LINE_LOOPS 
+gl.POINTS
+</code></pre></div></div>
+
+<p>###小型Javascript库与变换</p>
+
+<p>变换类型：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>模型变换：确定模型在世界坐标系统中的位置和方向
+视图变换:确定对象在虚拟照相机中的位置和方向，
+模型视图变换：模型变换和视图变换已合并成一个模型视图矩阵，
+投影变换：模型视图变换之后，确定如何将3D场景投影到屏幕上，决定了视域体的外观，（正交投影，透视投影）
+透视除法，
+视口变换
+</code></pre></div></div>
+<p style="text-align:center"><img src="/images/2015/交换流水线.jpg" style="max-width:100%" /></p>
+
+<p>变换链过程：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1、创建WebGLBuffer对象，保存场景中对象的对象坐标
+2、在调用任何绘图方法之前，创建模型视图矩阵和投影矩阵，通常使用Js提供的函数3、在JS代码中创建的变换矩阵需要上传到GPU中的顶点着色器。
+4、调用gl.drawArrays()或者gl.drawElements()方法绘制场景。
+5、为现场每个顶点执行顶点着色器。
+</code></pre></div></div>
+
+<p>###纹理贴图</p>
+
+<p>丢失上下文：GPU是一个共享资源，除了WebGL应用程序，还有其他客户端使用。如果当前程序被剥夺了GPU资源，则会丢失上下文..</p>
+
+<p>创建一个纹理对象并载入纹理数据</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1、用gl.createTexture()方法创建一个WebGLTexture对象
+2、用new Image（）方法创建一个HTML DOM类型的Image对象
+3、给Image对象的onload事件定义事件处理程序，回调中可以绑定刚创建的纹理对象，把纹理数据上传到GPU
+4、把Image对象的src属性设置为希望绑定到纹理的图像的URL
+5、把图像数据载入Image对象的过程结束时，触发onload事件，此时就可以用gl.bindTexture()方法绑定这个纹理对象。
+6、如果我们希望这幅图像在用作纹理时不要上下颠倒，则调用gl.pixelStorei
+7、绑定纹理对象后，可以调用gl.texImage2D方法把图形对象传给GPU
+8、用gl.texParameteri方法定义纹理参数。
+</code></pre></div></div>
+
+<p>处理纹理过滤：确定像素颜色（片段）的过程</p>
+
+<p>纹理包装：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gl.REPEAT
+gl.MIRRORED_REPEAT 
+gl.CLMAP_TO_EDGE
+</code></pre></div></div>
+
+<p>###动画与用户输入</p>
+
+<p>###光照</p>
+
+<p>光照模型：全部光照（会利用没有被光源直接照射到的对象的信息）、局部光照（只考虑直接从已选定光源发射的光，不会自动创建阴影）</p>
+
+<p>Phong反射模型（局部模型）：一个点的最终颜色由3个不同的反射分量组成：环境光，漫射光，镜面光。在着色器中实现。</p>
+
+<p>需要js向着色器传递以下数据：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>光源的位置或方向
+灯光颜色（或许是单独的材质和颜色分量）
+顶点法线
+法线矩阵
+</code></pre></div></div>
+
+<p>js中光照计算需要：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1、设置包含顶点法线的缓存
+2、根据模型视图矩阵计算法线矩阵，并将其作为uniform变量传个着色器
+3、向顶点着色器发送光源信息（位置，方向，颜色）
+</code></pre></div></div>
+
+<p>插值技术：根据顶点位置颜色确定对象上其他位置颜色的过程。平面着色，Gouraud着色，Phong着色。</p>
+
+<p>###WebGL性能优化</p>
+
+<p style="text-align:center"><img src="/images/2015/mobileSoftware.jpg" style="max-width:100%" /></p>
+
+<p>性能瓶颈：CPU受限、顶点受限、像素受限</p>
+
+<p style="text-align:center"><img src="/images/2015/受限.jpg" style="max-width:100%" /></p>
+
+<p>建议：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1、减少绘制调用次数：批处理
+2、避免绘制时从GPU读回数据或状态
+3、从生产代码中删除错误检测代码和调试库
+4、用WebGL Inspector找出冗余调用
+5、整理模型以避免状态改变
+</code></pre></div></div>
+
+<p>改善CPU性能受限建议：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1、从绘制循环移走一切可以移走的代码
+2、将CPU执行的操作移到GPU
+3、用分类数组代替Js数组对象。
+</code></pre></div></div>
+
+<p>改善顶点受限建议：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1、使用三角形带和三角形扇形
+2、使用gl.drawElements()的索引绘制
+3、使用交叉顶点数据
+4、用细节层次简化模型
+5、避免在顶点数组中重复使用常量数据
+</code></pre></div></div>
+
+<p>改善像素受限建议：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1、扩展画布
+2、将计算移到顶点着色器
+3、将Mip映射应用到纹理贴图
+</code></pre></div></div>
+
+<p>融合：把两个颜色组合在一起的技术</p>
+
+<p>====================================</p>
+
+<p>感觉自己记了一堆看不懂的东西。。相比之下，图灵书就比较简单了，用了框架写代码，不用的话一定会死。唉，就当个参考放在这里吧，这其实主要是底层原理的知识点吧。</p>
+
+<p>参考资料：</p>
+
+<p><a href="https://github.com/tparisi/WebGLBook">WebGLbook</a></p>
+:ET

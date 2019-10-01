@@ -1,0 +1,93 @@
+I"�<p>时隔将近一年，又来写Angular的笔记了。这次是看了一本书，就叫angularjs深度剖析与最佳实践，还可以。最近这一年的使用确实遇到了坑，也加深了理解，但还有很多很多需要优化的地方，看自己写的代码真的是屎一样的。技术赶不上审美啊。话说，是忙了？还是懒了，一年就写了一篇关于技术的，额。。。</p>
+
+<p>1、指令的require属性
+引用另一个指令的控制器实例。能够让几个不同的指令相互“看到”，完成指令间的协作。</p>
+
+<p>2、创建子scope</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var subScope = scope.$new(true)
+true表示子scope是独立作用域，不会从父级作用域自动继承属性。
+</code></pre></div></div>
+
+<p>3、指令</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>组件型指令：
+    restrict:E元素、A属性、C类名、M注释
+    scope：flase（不需要新作用域），true（需要新作用域），哈希对象（绑定字面量：‘@’，绑定变量：‘＝’，绑定事件：‘&amp;’）
+装饰器型指令：主要用于添加行为和保持View和MOdel的同步，经常需要进行DOM操作。不是一个内容的主体，而是附加行为能力的连接器。
+</code></pre></div></div>
+
+<p>4、路由</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>创建一个scope对象
+加载模版，解析为静态DOM
+使用Controller对scope初始化，添加属性和方法
+使用$compile服务把生产的DOM和scope关联起来，变成Live DOM
+用这个Live DOM替换ng－view中的内容。
+</code></pre></div></div>
+
+<p>5、服务</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>服务类型：
+常量Constant
+变量Value
+服务Service：new实例；可以依赖其他服务，使用类型友好的服务
+工厂Factory：不被new；可以依赖其他服务，可用于创建函数／原生对象
+供应商Provider：config阶段可用，可以依赖其他服务，可用于创建函数／原生对象
+使用方法：
+1、需要全局可配置参数：Provider
+2、纯数据：Value
+3、new一次，不用参数 Service
+4、拿到类，自己new；拿到函数，自己调用：Factory
+</code></pre></div></div>
+
+<p>6、背后的原理</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Angular启动过程：详见截图，这里不放了。
+1、下载文件
+2、构建DOM树
+3、DOM ready，Angular初始化（注册模块）
+4、Angular启动，查找带有ng－app的指令节点，调用angular.bootstrap
+5、加载子模块：创建一个注入器（injector），关联到所在节点上，注册的config回调函数（只能注册常量和Provider类）会顺序执行。
+6、启动子模块
+7、渲染页面
+8、数据绑定与摘要循环
+
+依赖注入：ngAnnotate
+
+脏检查机制
+Angular将双向绑定转换为一堆watch表达式，递归检查这些watch表达式是否变了，如果变了，则执行watcher函数。等到Model的值不再变了，也不会有watcher函数被触发，一个完整的digest循环就结束了。浏览器重新渲染DOM。这里的watcher函数是View上的指令。或表达式所注册的。指令在compile阶段会被逐一解析和注册。
+当接受View上指令所转发的事件时，就会切换到Angular的上下文环境，$digest循环就会触发。它实际包括两个while循环：处理$evalAsyns的异步运算队列和处理$watch的watcher队列。
+当循环发生时，会遍历当前scope及子scope上注册的所有watcher函数。遍历一轮为一次脏检查，有一个变了，再进行一轮（最多10轮），直到所有值都不变就结束了，之后统一更新DOM。
+
+指令的生命周期
+Inject，Compile，Controller加载，pre-link,post-link.
+Injecting :第一次使用这个指令前，获取它依赖的服务。
+Compile：指令实例化时执行一次。
+Controller：初始化scope
+pre-link post-link,父子节点像进栈出栈一样的顺序执行。
+
+$eval ：function(expr,locals){
+    return $parse(expr)(this,locals) 隐形地指定了表达式求值上下文所在的scope对象
+}
+$parse:独立服务
+$observe：监听DOM中属性变化 
+$watch：监听scope中属性变化。
+</code></pre></div></div>
+
+<p>7、最佳实践</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>测试原则：
+对Filter河service覆盖测试
+装饰器指令在保持功能尽可能简单的前提下覆盖
+
+Controller As vm  不需要注入scope
+
+one-time 绑定
+
+滚屏加载：ngInfiniteScroll
+</code></pre></div></div>
+
+<p>8、防止表达式闪烁：ngCloak</p>
+
+:ET

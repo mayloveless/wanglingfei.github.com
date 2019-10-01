@@ -1,0 +1,90 @@
+I"�<p>这次主要是同学的项目帮忙开发，需要把项目放在我的本机上。</p>
+
+<p>1、</p>
+
+<p>为了方便管理我用了VirtualHost</p>
+
+<p>需要在C:\xampp\apache\conf\extra 文件夹下找到httpd-vhosts.conf 文件</p>
+
+<p>因为一般都只有一个 VirtualHost ，如果多个的话，就要把</p>
+
+<p>NameVirtualHost *:80</p>
+
+<p>注释去掉，之后写VirtualHost</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;VirtualHost *:80&gt;
+    DocumentRoot "E:/Mine/love"
+    ServerName "love.com"
+    ServerAlias "*.love.com"
+    &lt;Directory "E:/Mine/love"&gt;
+        Options Indexes FollowSymLinks Includes ExecCGI
+        AllowOverride All
+        Order allow,deny
+        Allow from all
+        Require all granted
+    &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
+</code></pre></div></div>
+
+<p>DocumentRoot ，Directory 就是要写的项目路径（区别于localhost的文件夹地址）。</p>
+
+<p>剩下的必写。比如</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Options Indexes FollowSymLinks Includes ExecCGI
+AllowOverride All
+</code></pre></div></div>
+
+<p>如果不写，则无法使用web框架的路由功能。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> Order allow,deny
+ Allow from all
+</code></pre></div></div>
+
+<p>是控制使用权限的。但是，我这个文件夹并不是当初设置的localhost文件夹，为了安全需要增加了Require all ，因为默认禁止，设置成granted 允许 就可以了。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Require all granted
+</code></pre></div></div>
+
+<p>2、</p>
+
+<p>把程序文件用git clone下来了之后。启动服务器和数据库。</p>
+
+<p>因为代码是合作的，为了尽量少修改代码，且我机器上也没其他项目。</p>
+
+<p>所以需要修改本机的mysql服务器密码（代码里有密码，而xampp默认没有密码，不一致）</p>
+
+<p>修改方式：</p>
+
+<p>1）C：\xampp\mysql\bin\mysqladmin -u root password test2010</p>
+
+<p>先把数据库密码改了。</p>
+
+<p>2） 进入C：\xampp\phpmyadmin\ 找到，config.inc.php</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$cfg['Servers'][$i]['user'] = 'root'; // MySQL SuperUser
+$cfg['Servers'][$i]['password'] = 'test2010';
+</code></pre></div></div>
+
+<p>把phpmyadmin 密码改了，这样才能使用phpmyadmin。</p>
+
+<p>3）上面要改的密码来自于应用程序：我这次的例子是yii框架</p>
+
+<p>webApp\protected\config下的php文件里的密码跟前两者一致。</p>
+
+<p><strong>总的来说就是：应用程序，本地数据库，phpmyadmin三者密码一致就好。</strong></p>
+
+<p>p.s 这样做的坏处是，所有以后要放在本机上的项目都得用这个密码，但目前只有这个就算了……</p>
+
+<p>最后，启动phpmyadmin，执行sql文件。</p>
+
+<p>3、</p>
+
+<p>因为是用了VirtualHost ，里面设置了域名，所以需要配置host</p>
+
+<p>love.com 为VirtualHost 里设置的域名</p>
+
+<p>127.0.0.1 love.com</p>
+
+<p>这样，程序环境就配置好了。</p>
+
+:ET

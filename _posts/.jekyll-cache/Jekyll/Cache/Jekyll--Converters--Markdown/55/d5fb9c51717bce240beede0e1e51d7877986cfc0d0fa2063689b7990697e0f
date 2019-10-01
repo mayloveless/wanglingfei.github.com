@@ -1,0 +1,45 @@
+I"�<p>写了这么多年代码，get post怎么回事都搞不清楚，我真是无地自容啊。。。</p>
+
+<p>首先AJAX POST请求中参数以form data传递的，但其实也是以name=value&amp;name1=value1的形式在请求体中的。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>get请求：
+    Query String Parameters  
+    name:mikan  
+    address:street 
+post请求：
+    Form Data  
+    name:mikan  
+    address:street  
+</code></pre></div></div>
+
+<p><strong>post请求的Content-Type为application/x-www-form-urlencoded</strong>具体post的配置代码实现如下：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8');
+var postData = $jsonToQuery( opt.data );
+xmlHttp.send( postData );
+</code></pre></div></div>
+
+<p>也就是说get，post根本没区别啊！除了get会受浏览器限制，不能太长以外。
+当初实习的时候，导师就说过这一点，当时没有时间细说，之后也就没再说了。我只是不知道原来它发送的时候也是jsontoquery这种形式传递的。</p>
+
+<p>但是服务端这边有个需求是不要这样传，不好处理。于是把content-type改掉了，就文本形式，json数据stringily后发送，这样服务端自己parse就可以了。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xmlHttp.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
+xmlHttp.send( JSON.stringify(opt.data) );
+</code></pre></div></div>
+
+<p>请求头变成了</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Request Payload
+</code></pre></div></div>
+
+<p>干了这么多年才把这个搞清楚，好惭愧啊。。</p>
+
+<hr />
+<p>来看看这个吧。。
+<a href="https://juejin.im/entry/599eb96ef265da24722fc15b">99%的人都理解错了HTTP中GET与POST的区别</a></p>
+
+<p>参考链接：</p>
+
+<p><a href="http://blog.csdn.net/mhmyqn/article/details/25561535"> AJAX POST请求中参数以form data和request payload形式在servlet中的获取方式</a></p>
+:ET

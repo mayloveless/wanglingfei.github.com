@@ -1,0 +1,281 @@
+I"@A<p>##浏览器和浏览器内核</p>
+
+<p>###1、浏览器</p>
+
+<p>1、浏览器的主要功能：网络、资源管理、网页浏览、多页面管理、插件和扩展、账号和同、安全机制、开发者工具。</p>
+
+<p>2、HTML5标准包括:离线（Application cache、Local storage、Indexed DB，在线/离线事件）、存储（Application cache，Local storage，Indexed DB等）、连接（Web Sockets,Server-sent事件）、文件访问（File API，File System、File Writer、Progress Events）、语义（Media、structural、国际化、Link relation、属性、form类型，microdata）、音频和视频（HTLM5 Vudio，Web Audio，WebRTC，Video track等）、3D和图形（Canvas2D、3D CSS变换，WebGL、SVG）、展示（CSS3 2D/3D变换，转换transition，WebFonts等）、性能（WebWorker、HTTPcaching）和其他（触控和鼠标，Shadow DOM，CSS Making等）。</p>
+
+<p>###2、浏览器内核及特性</p>
+
+<p>1、渲染器引擎及其依赖模块</p>
+<p style="text-align:center"><img src="/images/2014/renderEngine.jpg" style="max-width:100%" /></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTML解释器：解释HTML文本的解释器，主要作用是将HTML文本解释成DOM树
+CSS解释器：级联样式表的解释器，作用是为DOM中的各个元素对象计算出样式信息，从而为计算最后网页的布局提供基础的设施。
+布局：在DOM创建之后，Webkit需要将其中的元素对象同样式信息结合起来，计算它们的大小位置等布局信息，形成一个能够表示这所有信息的内部表示模型。
+Javascript引擎：使用Javascript代码可以修改网页的内容，也能修改CSS的信息，Javascript引擎能够解释Javascript代码并通过DOM接口和CSSOM接口来修改网页内容和样式信息，从而改变渲染的结果。
+绘图:使用图形库将布局计算后的各个网页的节点绘制成图像的结果。
+</code></pre></div></div>
+
+<p>2、渲染引擎过程</p>
+<p style="text-align:center"><img src="/images/2014/renderProgress.jpg" style="max-width:100%" /></p>
+
+<p>###Webkit内核</p>
+
+<p>1、Webkit2：苹果公司把Webkit项目抽象出一组新的编程接口，和调用者代码与网页的渲染工作代码不在同一个进程中。</p>
+<p style="text-align:center"><img src="/images/2014/webkit2.jpg" style="max-width:100%" /></p>
+
+<p>2、Google Blink</p>
+
+<p>##HTML网页和结构</p>
+
+<p>###网页构成</p>
+
+<p>###Webkit的网页渲染过程</p>
+
+<p>根据数据的流向，将渲染过程分为三个阶段，第一个阶段是从网页的URL到构建完DOM树，第二个阶段是从DOM树构建完Webkit的绘图上下文，第三个阶段是从绘图上下文到生成最终的图像。</p>
+
+<p>1、DOM树构建完成之后触发“DOMConent”事件，DOM树建完并且网页所依赖的资源都加载完之后发生“onload”事件。</p>
+<p style="text-align:center"><img src="/images/2014/url2dom.jpg" style="max-width:100%" /></p>
+
+<p>2、ReaderObject树的建立并不表示DOM数会销毁。图中四个内部表示结构一直存在，直到网页被销毁。</p>
+<p style="text-align:center"><img src="/images/2014/dom2painter.jpg" style="max-width:100%" /></p>
+
+<p>3、</p>
+<p style="text-align:center"><img src="/images/2014/webkitPaint.jpg" style="max-width:100%" /></p>
+
+<p>##Webkit架构和模块</p>
+
+<p>###Webkit架构及模块</p>
+
+<p>1、Webkit架构图：虚线表示不同浏览器的实现不同。</p>
+<p style="text-align:center"><img src="/images/2014/webkitModule.jpg" style="max-width:100%" /></p>
+
+<p>##基于Blink的Chromium浏览器结构</p>
+
+<p>1、Connect模块和ConnectAPI将下面渲染机制、安全机制和插件机制等隐藏起来，提供一个接口层。</p>
+<p style="text-align:center"><img src="/images/2014/chromium.jpg" style="max-width:100%" /></p>
+
+<p>2、多进程模型
+好处：避免因带个页面的不响应或崩溃而影响页面或者浏览器的稳定性，当第三方插件崩溃时不会影响页面或者浏览器的稳定性，方便了安全模型的实施（沙箱模型）。</p>
+
+<p>下图 方块–&gt;进程 连接线–&gt;IPC进程间通信。</p>
+<p style="text-align:center"><img src="/images/2014/proceed.jpg" style="max-width:100%" /></p>
+<p><strong>Browser进程</strong>：浏览器主进程，负责浏览器界面的显示，各个页面的管理，所有其他类型进程的组件，负责他们的创建和销毁等，只有一个。
+<strong>Renderer进程</strong>：网页的渲染进程，负责页面的渲染工作，数量与页面数量无关。可以配置被创建的方式：Progress-per-site-instance，Progress-per-site，Progress-per-tab，Single Progress
+<strong>NPAPI插件进程</strong>：每种类型的插件使用时创建一次，多个页面共享一个进程，进程为每个使用者创建一个实例。
+<strong>GPU进程</strong>：最多一个，GPU硬件加速打开时被创建，主要用于对3D图形加速调用的实现。
+<strong>Pepper插件进程</strong>：同NPAPI，为Pepper插件而创建。</p>
+
+<p>3、多线程模型</p>
+
+<p>每个进程内部多线程。为了保持用户界面的高响应度，保证UI线程（Browser进程中的主线程）不会被任何其他费时的操作阻碍而影响了对用户操作的响应。</p>
+<p style="text-align:center"><img src="/images/2014/multithreading.jpg" style="max-width:100%" /></p>
+
+<p>网页的加载和渲染过程在图中的模型下的工作方式：</p>
+
+<p>1、Browser进程收到用户的请求，首先由UI线程处理，而且将相应的任务转给IO进程，它随即将该任务传递给Renderer进程。
+  2、Renderer进程的IO线程经过简单解释后交给渲染线程。渲染线程接受请求，加载网页并渲染网页，这其中可能需要Browser进程获取资源和需要GPU进程来帮助渲染。最后Renderer进程将结果由IO线程传递给Browser进程。
+  3、最后，Browser进程接收到结果并将结果绘制出来。</p>
+
+<p>4、Content接口</p>
+
+<p>Content接口不仅提供了一层对多进程进行渲染的抽象接口，并且目标是支持所的H5功能，GPU硬件加速功能和沙箱机制。</p>
+
+<p>###Webkit2</p>
+
+<p style="text-align:center"><img src="/images/2014/webkit2progress.jpg" style="max-width:100%" /></p>
+
+<p>##资源加载和网络栈</p>
+
+<p>###Webkit的资源加载机制</p>
+
+<p>1、资源缓存：请求资源时，先从资源池中查找是否存在相应的资源，有的话取出，没有的话创建一个新的CachedResource子类对象，发送真正的请求给服务器，收到资源后将其设置到该资源类的对象中去，以便于缓存下次使用。标记资源唯一性的特征：URL</p>
+
+<p>2、三种资源加载器：特定资源加载器（图片：ImageLoader类）、资源缓存机制的资源加载器：所有特定加载器都共享它来查找并插入缓存——CachedResourceLoader类、通用的资源加载器——ResourceLoader类。</p>
+
+<p>3、资源加载是异步的，但JS代码文件会阻碍主线程的渲染过程。这时会启动另外一个线程，遍历后面的HTML，收集需要的URL，然后发送请求。下图：带有资源缓存机制的资源加载过程</p>
+<p style="text-align:center"><img src="/images/2014/cachedResource.jpg" style="max-width:100%" /></p>
+
+<p>4、生命周期：LRU</p>
+
+<p>###Chromium多进程资源加载</p>
+
+<p>###网络栈</p>
+
+<p>###磁盘本地缓存</p>
+
+<p>###Cookie 机制</p>
+
+<p>###安全机制</p>
+
+<p>###高性能网络栈</p>
+
+<p>DNS预取和TPC预连接、HTTP管线化、SPDY</p>
+
+<p>###高效的资源使用策略</p>
+
+<p>DNS和TCP连接：减少连接重定向、利用DNS预取机制、搭建支持SPDY协议的服务器、避免错误的链接请求。</p>
+
+<p>资源的数量：对于较小的文件，直接写在页面里、合并一些资源。</p>
+
+<p>资源的数据量：使用浏览器本地磁盘缓存机制、启用资源的压缩技术</p>
+
+<p>##HTML解释器和DOM模型</p>
+
+<p>###DOM模型</p>
+
+<p>###HTML解释器</p>
+
+<p>1、HTML解释器的工作就是将网络或者本地磁盘获取的HTML网页和资源从字节流解释成DOM树的结构。字节流经过解码之后是字符流，通过词法分析器会被解释成词语，经过语法分析器构建成节点，最后节点组建成一颗DOM树。</p>
+<p style="text-align:center"><img src="/images/2014/html.jpg" style="max-width:100%" /></p>
+
+<p>2、解释器先检查网页内容使用的编码格式，以便后面使用合适的解码器，使用相应的解码器将字节流转换成特定格式的字符串，如果没有特殊的格式，直接进行词法分析。</p>
+
+<p>###DOM的事件机制</p>
+
+<p>###影子（shadow）Dom</p>
+
+<p>##Css解释器和样式布局</p>
+
+<p>Webkit布局计算过程。</p>
+<p style="text-align:center"><img src="/images/2014/layout.jpg" style="max-width:100%" /></p>
+
+<p>Css的布局计算是以包含块和盒模型为基础的，以下会引发重新计算布局：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1、当可视区域发生变化的时候，Webkit都需要重新计算布局。
+2、网页的动画会触发布局计算
+3、Js代码通过CSSOM等直接修改样式信息，也会触发Webkit重新计算布局
+4、用户交互也会触发布局计算。如：翻滚网页，这会触发新区域布局的计算。
+</code></pre></div></div>
+
+<p>##渲染基础</p>
+
+<p>###RenderObject 树</p>
+
+<p>1、RenderObject对象保存了绘制DOM节点所需要的各种信息。RenderObject树是基于DOM树建立起来的一棵新树，为了布局计算和渲染等机制而构建的一种新的内部表示。影子DOM需要创建RenderObject。</p>
+
+<p>2、为DOM树节点创建一个RenderObject对象</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DOM树的document节点
+DOM树中的可视节点，如HTML、div等
+某些情况下Webkit创建不对应任何节点的匿名节点，处理需要。
+</code></pre></div></div>
+
+<p>3、Webkit会为网页的层次创建相应的RenderLayer对象。当某些类型的RenderObject的节点或者具有某些CSS样式的RenderObject节点出现的时候，Webkit就会为这些节点创建RenderLayer对象。它和RenderObject是一对多关系。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>创建条件：
+DOM树的Document节点对应的RenderView节点
+DOM树的Document的子女节点，也就是HTML节点对应的RenderBlock节点
+显式的指定CSS位置的RenderObject节点。
+节点由溢出（overflow）、alpha或者反射等效果的RenderObject节点
+使用Canvas2D和3D(WebGL)技术的RenderObject节点。
+Video节点对应的RenderObject节点。
+</code></pre></div></div>
+
+<p>###渲染方式</p>
+
+<p>1、绘图上下文：绘图操作被定义了一个抽象层。所有绘图的操作都是在上下文中进行的。
+可以分成两种类型：2D绘图上下文，3D绘图上下文。</p>
+
+<p>2、渲染方式：软件渲染（CPU计算）、硬件加速渲染（GPU计算）。</p>
+<p style="text-align:center"><img src="/images/2014/RenderlayoutRenderObject.jpg" style="max-width:100%" /></p>
+
+<p>###Webkit软件渲染过程</p>
+
+<p>1、对于每个RenderObject需要三个阶段绘制自己：该层中所有块的背景和边框、浮动内容、前景（内部内容，轮廓）</p>
+
+<p>##硬件加速机制</p>
+
+<p>1、webkit决定将哪些RenderLayer对象组合在一起，形成一个有后端存储的新层，之后用于合成（Compositing），这里称为合成层。可以软件绘制也可以硬件绘制。由合成器（Compositor）将多个合成层合成起来，形成网页的最终可视化结果，实际上就是一张图片。</p>
+
+<p>2、硬件加速设施：哪些Renderlayer对象可以是合成层？</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>具有CSS 3D属性或者CSS透视效果
+包含的RenderObject节点表示的是使用硬件加速的视频解码技术的HTML5video标签
+包含的RenderObject节点表示的是使用硬件加速的Canvas 2D元素或者WebGL技术
+使用了CSS透明效果的动画或者CSS变换的动画
+使用了硬件加速的CSS Filter技术
+使用了剪裁（Clip）或者反射（Reflection）属性，并且它的后代中包括一个合成层
+有个Z坐标比自己小的兄弟节点，且该节点是一个合成层。
+</code></pre></div></div>
+
+<p>3、3D图形上下文</p>
+
+<p>###Chromium的硬件加速机制</p>
+
+<p>提高性能：使用合适的网页分层技术以减少需要重新计算的布局和绘图；使用CSS 3D变形和动画技术。</p>
+
+<p>##Javascript引擎</p>
+
+<p>Javascript代码的编译和执行过程</p>
+<p style="text-align:center"><img src="/images/2014/jsRender.jpg" style="max-width:100%" /></p>
+
+<p>一个JS引擎包括：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>编译器：将源代码编译成抽象语法树，某些引擎还将抽象语法树转换成字节码
+解释器：某些引擎中，解释器主要是接收字节码，解释执行这个字节码，同时也依赖垃圾回收机制等
+JIT工具：将字节码或者抽象语法树转换成本地代码
+垃圾回收器和分析工具（Profiler）。它们负责垃圾回收和收集引擎中的信息，帮助改善引擎的性能和功效。
+</code></pre></div></div>
+
+<p>渲染引擎和JS引擎的关系</p>
+<p style="text-align:center"><img src="/images/2014/jsRenderRelationship.jpg" style="max-width:100%" /></p>
+
+<p>###V8引擎</p>
+
+<p>1、与JScore引擎不同的是，它通过JIT编译器的全代码生成器从抽象语法树直接生成本地代码。</p>
+
+<p>2、V8使用类和偏移思想，将本来需要通过字符串匹配来查找属性值的计算改为使用类似C++编译器的偏移位置的机制来实现，即隐藏类。它将对象划分为不同组，对于相同组，即组内的对象拥有相同的属性名和属性值的情况，将这些属性名和对应的偏移位置保存在一个隐藏类中，组内所有对象共享该信息。</p>
+
+<p>3、V8内存管理的特点：内存的划分和垃圾回收机制</p>
+
+<p>V8使用堆来管理JS使用的数据，以及生成的代码、哈希表等，为了方面垃圾回收，将堆分为三个部分</p>
+<p style="text-align:center"><img src="/images/2014/V8dui.jpg" style="max-width:100%" /></p>
+
+<p>4、快照机制：将内置的对象和函数加载之后的内存保存并序列化。</p>
+
+<p>###JavascriptCore引擎</p>
+
+<p>###高效的JS代码</p>
+
+<p>##插件和JS的扩展</p>
+
+<p>###NPAI插件</p>
+
+<p>Chromium PPAPI插件：NPAPI插件系统中，通常的做法是当网页需要显示该插件的时候或者需要更新的时候，它会发送一个失效的通知，让插件来绘制它们。而在PPAPI中，引入了一个保留模式，其含义是浏览器始终保留一个后端存储空间，用来表示上一次绘制完的区域。</p>
+
+<p>Native Client：是一种沙箱技术，能够提供给平台无关的不受信本地代码一个安全的运行环境，可以针对那些计算密集型的需求，例如游戏引擎、可视化计算、大数据分析、3D图形渲染等，这些场合只需要访问有限的一些本地接口，不需要通过网络服务计算，以免占用额外的带宽资源。本质上是个运行环境</p>
+
+<p>##多媒体</p>
+
+<p>##安全机制</p>
+
+<p>###沙箱模型</p>
+
+<p>Chromium的沙箱模型是利用系统提供的安全技术，让网页在执行过程中不会修改操 
+作系统或者是访问系统中的隐私数据，而需要访问系统资源或者 说是系统调用的 
+时候，通过一个代理机制来完成。极大地降低了网页中各种破坏操作系统的潜在威 
+胁，将网页的执行置于一个孤立和受限制的环境中。</p>
+
+<p>实现机制：Chromium都是在进程的粒度下来实现沙箱模型。应用</p>
+<p style="text-align:center"><img src="/images/2014/shaxiang.PNG" style="max-width:50%" /></p>
+
+<p>左侧的代理进程需要负责创建目标进程并为目标进程设置各种安全策略，同时建立 
+IPC连接，接受目标进程的各种请求。</p>
+
+<p>##移动webkit</p>
+
+<p>新渲染机制：Tiled Backing Store、线程化渲染、快速移动翻页。</p>
+
+<p>##调试机制</p>
+
+<p>###web inspector</p>
+
+<p>调试器界面本身使用HTML、CSS、JS编写。用户界面成为前端，被调试网页称为后端，通过JSON通信。</p>
+
+<p>远程调试基于websocket</p>
+
+<p>##web前端的未来</p>
+:ET
