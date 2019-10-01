@@ -1,0 +1,19 @@
+I"m<p>在用到按钮的时候，一般都是然后阻止默认跳链，执行js。</p>
+
+<p>一般的写法是</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;a href="javascript:;"&gt;
+
+&lt;a href="javascript:void(0);"&gt;
+
+&lt;a href="###"&gt;
+</code></pre></div></div>
+
+<p>当然它们是有区别的，而且很多。</p>
+
+<p>此处说明的bug是，假如写第一、二种方式的话，ie6下，执行js到最后，需要location.href的时候，就不起作用了</p>
+
+<p>解决方式是只能写成第三种方式，原因依然未知</p>
+
+<p>ie6真是让人不省心</p>
+:ET

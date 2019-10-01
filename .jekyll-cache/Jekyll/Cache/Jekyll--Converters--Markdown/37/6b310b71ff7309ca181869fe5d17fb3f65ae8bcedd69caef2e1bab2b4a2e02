@@ -1,0 +1,23 @@
+I"C<p>1、创建一个bin文件夹，创建一个文件如：cli</p>
+
+<p>2、cli文件要第一行要写：</p>
+
+  	#!/usr/bin/env node
+
+<p>应该是声明node命令环境的。</p>
+
+<p>3、之后就可以写node代码啦。对于命令行的app主要就是分析输入参数，去进行相应的操作。</p>
+
+<p>一般来说分析输入参数的方式就是：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var argv = process.argv.slice(2);
+</code></pre></div></div>
+
+<p>然后去做判断就好。这方面的模块有optimist。</p>
+
+<p>参考资料：</p>
+
+<p><a href="http://www.creativebloq.com/javascript/build-command-line-app-nodejs-6135565"> Build a Command-line app with Nodejs </a></p>
+
+<p><a href="http://michaelbrooks.ca/deck/jsconf2013/"> Building CLI Tools with Node.js </a></p>
+:ET

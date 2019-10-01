@@ -1,0 +1,19 @@
+I"�<p>问题：</p>
+
+<p>项目中遇到一个很诡异的bug。</p>
+
+<p>FF下，我页面上disabled一个checkbox，刷新页面，使得另一个checkbook disabled了。</p>
+
+<p>也就是说FF把第一个checkbox的行为记录在了第二个身上。</p>
+
+<p>相当诡异，因为无论id，神马的根本不是一个节点，这样都能记住，真心诡异。</p>
+
+<p>解决办法：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>在input里加 autocomplete="on|off"
+</code></pre></div></div>
+
+<p>off就可以不用记住了。textarea也有这个属性</p>
+
+<p>所以说有时候有些功能是双刃剑。</p>
+:ET

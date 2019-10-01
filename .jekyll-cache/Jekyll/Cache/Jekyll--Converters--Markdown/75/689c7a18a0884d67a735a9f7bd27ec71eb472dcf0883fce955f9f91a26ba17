@@ -1,0 +1,218 @@
+I"d(<p>这次因为种种原因，非常幸运地开始尝试php开发，感谢领导。
+很早很早就学了php语法，但一直没用过，这次终于开了php开发的svn权限，可以大饱眼福了。</p>
+
+<p>公司用得是Yaf框架，Yet Another Framework。是公司年轻的技术大牛鸟哥的开源作品。
+用C语言写的框架，相当于对php本身进行了重新组织，对于性能的提升是很大的据说。
+另外，鸟哥的作品还有Yar，Yac等。其中Yac据说实现了无锁的MC缓存技术，可以实现的原因是公司特有的可以以uid为唯一标识单位的数据结构。
+具体文档地址：<a href="http://www.laruence.com/manual/">Yaf框架文档</a></p>
+
+<p>这次的开发工作主要其实就是套模板啦，毫无技术含量TAT……不过其实这不是重点，拿到了svn权限，业务逻辑的代码就可以随便看啦，所以说这次的贡献并没有多少，但是收获还是不少的。</p>
+
+<p><strong>1、首先复习了一下php语法。</strong></p>
+
+<p>语法在早些年就看过了，基本上没用过就忘了。</p>
+
+<p>这次补充新的内容就是关于对象和类的。</p>
+
+<p>比如：ClassName::foo 这个就是访问类的静态成员属性。不需要实例化，也不能实例化，直接当做方法使用。定义的时候要写static。</p>
+
+<p>比如: abstract 抽象类。里面凡是abstract的成员，被继承的时候必须都要实现。相当于抽象类给子类们规定了一个规范，规范里的方法，子类都必须要实现。</p>
+
+<p>比如：魔法方法。__set(),__get(),__call()等。它们像监听事件一样，在发生一些操作的时候，就会主动被调用。
+如：__construct,叫构造函数，在初始化时调用。
+对应的析构函数，在销毁时调用。</p>
+
+<p>这些都在php的官方文档里用，非常好用，感觉对于类的概念有了更多一些了解。
+php文档无敌=》<a href="http://www.php.net/manual/zh/language.oop5.php">PHP: Static（静态）关键字 - Manual</a></p>
+
+<p><strong>2、业务框架</strong>
+yaf的流程图：
+<img src="http://www.laruence.com/manual/images/yaf_sequence.png" align="middle" /></p>
+
+<p>应用的目录结构主要为以下（有部分省略）：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|-application  //业务逻辑
+	|-controllers //继承于Controller_Abstract，主要用来实例化page类，然后渲染视图，相当于程序入口
+	|-library 
+		|-Controller //其中应用Controller抽象基类Controller_Abstract继承于Yaf_Controller_Abstract,提供了渲染页面，返回aj接口等共用方法
+		|-Comm //封装了一些基础功能组件，如数据库管理类，BigPipe等
+		|-Da //数据层抽象基类，最原始的增删改查方法
+		|-Page //每个页面的业务逻辑层，可以初始化多个pl在同一页。
+		|-Pl //每个pl的业务逻辑，它的抽象类继承于Comm_Bigpipe_Pagelet，对Pagelet做一些常用方法的封装
+		|-Tool //封装的一些工具 
+		|-Model 
+	|-models //继承于Model_Abstract，这里基本作为对于Da的封装，外部增加一层业务逻辑，也就是对于数据输入输出的处理。
+	|-modules //同样继承于Controller_Abstract，做业务逻辑，一般会放内部使用的方法调用,cli等。相当于一些业务逻辑的组件。
+	|-plugins //存放yaf插件
+	|-views //视图层，存放phtml文件，yaf支持smart模板引擎。
+	Bootstrap.php //入口的引导文件，可在此进行配置一些常量，初始化插件，初始配置等。
+|-conf //配置文件
+	|- application.ini //定义应用程序的一些配置，下面有详解
+	|- conf.ini //有mc-key格式
+|-daemon //队列处理
+|i18n //语言包
+|-public
+</code></pre></div></div>
+
+<p>数据请求流程：
+ 默认文件的命名首字母大写(原因待查)</p>
+
+<p>1、application.ini： 
+定义应用程序的一些配置，如：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>application.directory                                = APP_PATH "/application"
+application.dispatcher.throwException                = true
+application.dispatcher.catchException                = true
+//map的意思是路由规则是map的，也就是说访问/aj/foo,会访问controller的aj文件夹下的foo文件，类名为Aj_FooContorller.
+//同样，Yaf下支持多种路由规则，详见Yaf文档
+application.dispatcher.defaultRoute.type             = "map"
+application.dispatcher.defaultRoute.controllerPrefer = true
+//分发器默认的路由访问路径为：IndexController
+application.dispatcher.defaultController             = "Index"
+//分发器默认的action命名：runAction
+application.dispatcher.defaultAction                 = "run"
+//视图文件格式
+application.view.ext                                 = "phtml"
+application.modules                                  = "Index,Internal,Openapi,Cli,Interface"
+</code></pre></div></div>
+
+<p>2、通过上面的规则，我们可以访问默认的路由，也就是直接访问域名（需要设置，此处情况是Nginx，下面会记录规则，Yaf文档有其他服务器的配置规则），就会执行controllers下的Index.php,类名为IndexController，
+或者访问 http://a.com/foo，就会执行controllers下的Foo.php,类名为FooController。</p>
+
+<p>默认会执行runAction（或者aaaaAction,需要在上面的application.ini中配置）
+ 如：</p>
+
+ 	public function runAction() {
+ 		//some code
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    $this-&gt;render_page ( new Page_Test () );
+}
+</code></pre></div></div>
+
+<p>经过一些逻辑，最后实例化要执行的与页面对应一致的page的逻辑。
+这里的Page_Test类存放在了library的Page下。
+这一层相当于路由过来应用程序的入口。</p>
+
+<p>3、library/Page 下的page业务逻辑</p>
+
+<p>根据上面的解释，这里处理具体的业务逻辑。如上面第二步会实例化出来。</p>
+
+<p>继承于Page_Abstract，
+代码逻辑如下：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//最基本配置
+protected $tpl = 'page/test.phtml';
+protected $name = 'page_test';
+
+//初始化的构造函数，去执行父类的构造函数
+//如果页面多个pl，就把把子pl放在$children数组里，这里就一个页面，所以$children为空数组。
+public function __construct() {
+    $children = array();
+    parent::__construct($this-&gt;name, $children);
+}
+
+//渲染页面的数据
+public function prepare_data() {
+    //处理返回要套在模板的数据
+    return $data;
+}
+</code></pre></div></div>
+
+<p>执行完上面的方法，就会去直接渲染$tpl这个变量存储的模板了。
+这也就是说，我们可以在prepare_data里改变渲染模块
+如：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$this-&gt;tpl = 'page/other.phtml';
+</code></pre></div></div>
+
+<p>最后就会去渲染other页面了。</p>
+
+<p>去渲染页面的原理过程就是：
+2里面去$this-&gt;render_page ( new $page_name () );的时候。</p>
+
+<p>render_page的代码如下：在Controller_Abstract中</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$render = Comm_Bigpipe_Render::create(Comm_Bigpipe_Render::detect_render_type(), $page_obj);
+$render-&gt;render();
+</code></pre></div></div>
+
+<p>Comm_Bigpipe_Render::detect_render_type()检测渲染类型。
+详见Comm_Bigpipe下，有传统型，随机渲染，流水线型。
+create就是把这个类型实例化</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>return new $render_class($pl);//render_class即该类型
+</code></pre></div></div>
+
+<p>假设是传统型：Comm_Bigpipe_TraditionalRender，里面注册了enter，leave方法。
+enter方法获取样式和脚本。
+leave方法就是真正用模板引擎渲染页面啦。</p>
+
+<p>实例化好渲染类型之后，就可以render了。
+主要代码如下：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>self::dfs($this-&gt;pl, array($this, 'enter'), array($this, 'leave'));
+</code></pre></div></div>
+
+<p>dfs深度优先遍历，执行上述的enter，leave代码，递归在中间执行。</p>
+
+<p>4、views/page/test.phtml
+views层存放html模板，这里采用smarty模块引擎。
+默认直接解开上面返回的$data数据。也就是说返回的$data[‘msg’]，在页面里可以直接写<?=$msg?></p>
+
+<p>5、这样基本就是一次请求的逻辑写法。这当中的可以用到很多的工具，如Tool，Comm等等。
+如 存个memCache：
+self::set_mc(self::$mc_key, $uid, false);</p>
+
+<p>——————————————————————————</p>
+
+<p>3、plugin</p>
+
+<p>根据Yaf流程图，首先进入Bootstrap.php，在Bootstrap里会初始化plugin。</p>
+
+<p>这里说明一下这次业务上面的一个插件，它实现了路由的配置，性能检测存储等。
+它的主要思路就是去注册几个Yaf给出的流程图中几个事件点（hook）。
+如：routerStartup就是处理router之前的事件。
+这样可以自由控制路由规则等等业务整体相关逻辑。</p>
+
+<p>4、开发过程中遇到的问题：</p>
+
+<p>form表单method=”get”时，提交会忽略action里url的param参数，加上表单中input的name的值和参数</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>如：action="/a" 
+	&lt;input name="key" value="1"/&gt;
+</code></pre></div></div>
+
+<p>会提交到/a?key=1 
+但action=”a?key=1”则会提交到/a 中</p>
+
+<p>+++++++++++++++++++++++</p>
+
+<p>这次的开发到这里结束了，时间比较短，只写了一小段php而已，不过收获很多。下面是这次的时间表。</p>
+
+<p>day 1:复习语法</p>
+
+<p>day 2:熟悉框架</p>
+
+<p>day 3:单元测试</p>
+
+<p>day 4~6:js &amp; 实现简单接口</p>
+
+<p>#Todo</p>
+
+<p><strong>5、环境配置</strong></p>
+
+<p>1、vhost
+2、php-fpm.conf
+3、fpm.d
+4、nginx
+fpm是fastCgi在php上的实现。</p>
+
+<p><strong>6、框架业务工具</strong>
+Comm,Tool，BigPipe</p>
+
+<p><strong>7、daemon队列机制</strong></p>
+
+<p><strong>8、mc</strong></p>
+
+<p>mc的安装</p>
+
+:ET
