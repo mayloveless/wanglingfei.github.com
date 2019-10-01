@@ -934,6 +934,50 @@ key的作用是更新组件时判断两个节点是否相同。相同就复用�
         }
     };
 
+    // 可以接受的简化版
+    const PENDING = "pending"
+    const RESOLVED = "resolved"
+    const REJECTED = "rejected"
+
+
+    class MyPromise {
+        constructor(callback) {
+            //创建一个state属性,记录当前promise状态
+            this.state = PENDING
+            //resolve和reject的回调函数
+
+            this.resolveList = []
+            this.rejectList = []
+            //传入到fn里面的resolve和reject
+            const resolve = (arg) => {
+                this.state = RESOLVED
+                this.value = arg
+                this.resolveList.forEach(fn => {
+                    this.value = fn(this.value)
+                })
+            }
+            const reject = (arg) => {
+                this.state = REJECTED
+                this.value = arg
+                this.rejectList.forEach(fn => fn(this.value))
+            }
+            //传入上面两个函数,执行fn,捕获错误
+            try {
+                callback(resolve, reject)
+            } catch (error) {
+                reject(error)
+            }
+        }
+        //than 方法为那两个待处理数组添加函数
+        then(callback1, callback2) {
+            this.rejectList.push(callback2)
+            return new Promise((resolve, reject) => {
+                this.resolveList.push(callback1)
+                this.value =
+                    this.resolveList.push(resolve)
+            })
+        }
+    }
 
 54、函数节流
 
@@ -1082,4 +1126,147 @@ key的作用是更新组件时判断两个节点是否相同。相同就复用�
         }
     }
 
+
+65、手写一个模版引擎
+
+    function render(tpl, data) {
+        return tpl.replace(/\{\{(.+?)\}\}/g, function($1, $2) {
+            // $1 分组为 类似 {{name}}
+            // $2 分组为 类似 name
+            // 加上面的小括号就是为了方便拿到key而已
+            return data[$2];
+        });
+    }
+
+66、实现一个简单的async/await
+
+    // 定义了一个promise，用来模拟异步请求，作用是传入参数++
+    function getNum(num){
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(num+1)
+            }, 1000)
+        })
+    }
+
+    //自动执行器，如果一个Generator函数没有执行完，则递归调用
+    function asyncFun(func){
+        var gen = func();
+
+        function next(data){
+            var result = gen.next(data);
+            if (result.done) return result.value;
+            result.value.then(function(data){
+            next(data);
+            });
+        }
+
+        next();
+    }
+
+    // 所需要执行的Generator函数，内部的数据在执行完成一步的promise之后，再调用下一步
+    var func = function* (){
+        var f1 = yield getNum(1);
+        var f2 = yield getNum(f1);
+        console.log(f2) ;
+    };
+    asyncFun(func);
+
+67、设计模式
+
+    1、工厂模式 应用场景：JQuery中的$、Vue.component异步组件、React.createElement等
+    2、单例模式 应用场景：JQuery中的$、Vuex中的Store、Redux中的Store等
+    3、适配器模式 应用场景：Vue的computed、旧的JSON格式转换成新的格式等
+    4、装饰器模式 应用场景：ES7装饰器、Vuex中1.0版本混入Vue时，重写init方法、Vue中数组变异方法实现等
+    5、代理模式 应用场景：ES6 Proxy、Vuex中对于getters访问、图片预加载等
+    6、外观模式 应用场景：JS事件不同浏览器兼容处理、同一方法可以传入不同参数兼容处理等
+    7、观察者模式 应用场景：JS事件、JS Promise、JQuery.$CallBack、Vue watch、NodeJS自定义事件，文件流等
+        观察者模式与发布/订阅模式区别: 本质上的区别是调度的地方不同。虽然两种模式都存在订阅者和发布者（具体观察者可认为是订阅者、具体目标可认为是发布者），但是观察者模式是由具体目标调度的，而发布/订阅模式是统一由调度中心调的，所以观察者模式的订阅者与发布者之间是存在依赖的，而发布/订阅模式则不会。
+    8、迭代器模式 应用场景：内部： JQuery.each方法；外部：应用场景：JS Iterator、JS Generator
+    9、状态模式 应用场景：灯泡状态、红绿灯切换等
+
+68、[正则表达式](https://github.com/ziishaned/learn-regex/blob/master/translations/README-cn.md)
+
+    邮箱 /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
+    手机号 /^((\+|00)86)?1[3-9]\d{9}$/
+    url  /^((https?|ftp|file):\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+
+    正则表达式的匹配原理和性能优化：[有限状态机](https://sine-x.com/regexp-1/),减少回溯。
+
+69、ES6 class与ES5 function区别及联系
+
+    class Foode Foo()调用必须通过new，不能Foo.call()
+    function Foo是提升的，class Foo不是。在实例化一个class之前必须先声明
+    全局作用域中的class Foo创建了这个作用域的一个词法标识符Foo，但是和function Foo不一样，并没有创建一个同名的全局对象属性，只创建了一个同名的构造器函数。
+
+70、fetch
+
+    1）fetch只对网络请求报错，对400，500都当做成功的请求，服务器返回 400，500 错误码时并不会 reject，只有网络错误这些导致请求不能完成时，fetch 才会被 reject。
+    2）fetch默认不会带cookie，需要添加配置项： fetch(url, {credentials: 'include'})
+    3）fetch不支持abort，不支持超时控制，使用setTimeout及Promise.reject的实现的超时控制并不能阻止请求过程继续在后台运行，造成了流量的浪费
+    4）fetch没有办法原生监测请求的进度，而XHR可以
+
+71、浏览器缓存
+
+    缓存位置：
+    Service Worker
+    Memory Cache
+    Disk Cache
+    Push Cache
+
+    缓存策略：强缓存和协商缓存，都是通过设置 HTTP Header 来实现的。
+
+    强缓存：不会向服务器发送请求，直接从缓存中读取资源，在chrome控制台的Network选项中可以看到该请求返回200的状态码，并且Size显示from disk cache或from memory cache。强缓存可以通过设置两种 HTTP Header 实现：Expires 和 Cache-Control。
+    1.Expires 缓存过期时间，用来指定资源到期的时间，是服务器端的具体的时间点，需要和Last-modified结合使用。是 HTTP/1 的产物，受限于本地时间，如果修改了本地时间，可能会造成缓存失效
+    2.Cache-Control 优先级高于Expires
+
+    协商缓存就是强制缓存失效后，浏览器携带缓存标识向服务器发起请求，由服务器根据缓存标识决定是否使用缓存的过程。
+    1.Last-Modified和If-Modified-Since 地打开缓存文件，会造成 Last-Modified 被修改，只能以秒计时
+    2.ETag和If-None-Match Etag是服务器响应请求时，返回当前资源文件的一个唯一标识(由服务器生成)，只要资源有变化，Etag就会重新生成。性能上，Etag要逊于Last-Modified
+
+    强制缓存优先于协商缓存进行，若强制缓存(Expires和Cache-Control)生效则直接使用缓存，若不生效则进行协商缓存(Last-Modified / If-Modified-Since和Etag / If-None-Match)，协商缓存由服务器决定是否使用缓存，若协商缓存失效，那么代表该请求的缓存失效，返回200，重新返回资源和缓存标识，再存入浏览器缓存中；生效则返回304，继续使用缓存。
+
+    打开网页，地址栏输入地址： 查找 disk cache 中是否有匹配。如有则使用；如没有则发送网络请求。
+    普通刷新 (F5)：因为 TAB 并没有关闭，因此 memory cache 是可用的，会被优先使用(如果匹配的话)。其次才是 disk cache。
+    强制刷新 (Ctrl + F5)：浏览器不使用缓存，因此发送的请求头部均带有 Cache-control: no-cache(为了兼容，还带了 Pragma: no-cache),服务器直接返回 200 和最新内容
+
+72、重排&重绘
+
+    如何触发重排和重绘？
+        任何改变用来构建渲染树的信息都会导致一次重排或重绘：
+        添加、删除、更新DOM节点
+        通过display: none隐藏一个DOM节点-触发重排和重绘
+        通过visibility: hidden隐藏一个DOM节点-只触发重绘，因为没有几何变化
+        移动或者给页面中的DOM节点添加动画
+        添加一个样式表，调整样式属性
+        用户行为，例如调整窗口大小，改变字号，或者滚动。
+    如何避免重绘或者重排？
+        集中改变样式
+        使用DocumentFragment
+        提升为合成层： will-change 属性
+
+73、浏览器
+
+    最新的 Chrome 浏览器包括：1 个浏览器（Browser）主进程、1 个 GPU 进程、1 个网络（NetWork）进程、多个渲染进程和多个插件进程。
+
+    浏览器进程：主要负责界面显示、用户交互、子进程管理，同时提供存储等功能。
+    渲染进程：核心任务是将 HTML、CSS 和 JavaScript 转换为用户可以与之交互的网页，排版引擎 Blink 和 JavaScript 引擎 V8 都是运行在该进程中，默认情况下，Chrome 会为每个 Tab 标签创建一个渲染进程。出于安全考虑，渲染进程都是运行在沙箱模式下。
+    Chrome 默认采用每个标签对应一个渲染进程，但是如果两个页面属于同一站点，那这两个标签会使用同一个渲染进程。
+
+    渲染流程：
+        渲染进程将 HTML 内容转换为能够读懂的DOM 树结构。
+        渲染引擎将 CSS 样式表转化为浏览器可以理解的styleSheets，计算出 DOM 节点的样式。
+        创建布局树(忽略不可见元素)，并计算元素的布局信息。
+        对布局树进行分层，并生成分层树
+            1、拥有层叠上下文属性的元素会被提升为单独的一层。
+            2、需要剪裁（clip）的地方也会被创建为图层。
+        为每个图层生成绘制列表，并将其提交到合成线程。
+        合成线程将图层分成图块，并在光栅化线程池中将图块转换成位图。
+        合成线程发送绘制图块命令DrawQuad给浏览器进程。
+        浏览器进程根据 DrawQuad 消息 生成页面，并显示到显示器上
+
+    JavaScript 文件的下载过程会阻塞 DOM 解析。样式文件又会阻塞 JavaScript 的执行
+    CSSOM 提供给 JavaScript 操作样式表的能力，第二个是为布局树的合成提供基础的样式信息。
+
+    async 和 defer 都是异步的，使用 async 标志的脚本文件一旦加载完成，会立即执行；而使用了 defer 标记的脚本文件，需要在 DOMContentLoaded 事件之前执行。
 
