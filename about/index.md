@@ -13,7 +13,7 @@ CSO (Chief ShuaWeibo Officer) @ wanglingfei.github.io
 ### 社交 ###
 
 [Github]() [微博]()
-<!-- [Github](http://www.github.com/wanglingfei) [微博](http://weibo.com/mayloveless)
+<!-- [Github](http://www.github.com/mayloveless) [微博](http://weibo.com/mayloveless)
  -->
 
 ### 工作 ###

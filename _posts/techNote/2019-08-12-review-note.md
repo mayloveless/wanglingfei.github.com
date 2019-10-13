@@ -659,6 +659,7 @@ key的作用是更新组件时判断两个节点是否相同。相同就复用�
         }
          return n;
     }
+    // 循环引用问题，递归爆栈问题，其他数据类型（如果拷贝函数则new Function，参数和方法正则匹配出来）
 
 48、实现继承
 
@@ -1843,3 +1844,158 @@ key的作用是更新组件时判断两个节点是否相同。相同就复用�
     HTTP2.0
         二进制帧层与多路复用 头部压缩（Hpack） 流的优先级 Server Push
 
+     Chrome 浏览器包括：1 个浏览器（Browser）主进程、1 个 GPU 进程、1 个网络（NetWork）进程、多个渲染进程和多个插件进程。2个页面属于同一站点的话，并且从a页面中打开的b页面，那么他们也会共用一个渲染进程，否则新开一个渲染进程。
+
+85、接雨水
+
+    var trap = function(height) {
+        let max = 0;
+        let maxIndex = 0;
+        for(let i=0;i<height.length;i++){
+            if( height[i] > max){
+                max = height[i]
+                maxIndex = i;
+            }
+        }
+
+        let left = height[0];
+        let area = 0;
+        for(let i=0;i<maxIndex;i++){
+            if( height[i] > left ){
+                left = height[i]
+            }else{
+                area += (left - height[i] )
+            }
+        }
+        let right = height[height.length-1];
+        for (let i = height.length-1; i > maxIndex; i--) {
+            if (height[i] > right) {
+                right = height[i]
+            } else {
+                area += (right - height[i])
+            }
+        }
+        return area;
+    };
+
+86、加油站
+
+    var canCompleteCircuit = function(gas, cost) {
+        let total = 0;
+        let station = 0;
+        let current = 0;
+        for (let i = 0; i < gas.length; i++) {
+            total += gas[i] -cost[i]
+            current += gas[i] -cost[i]
+            if (current < 0){
+            current = 0;
+            station = i+1;
+        }
+        }
+        return total >= 0 ? station : -1;
+    };
+
+87、scheduleTask(实现一个同时执行若干个任务的调度任务器)
+    
+    export function Schedule() {
+        this.tasks = [];
+        this.max = 2;
+        setTimeout(() => {
+            this.run();
+        }, 0)
+    }
+
+    Schedule.prototype.addTask = function (task) {
+        this.tasks.push(task);
+
+    }
+
+    Schedule.prototype.run = function () {
+        if (this.tasks.length === 0) {
+            return;
+        }
+        let size = Math.min(this.max, this.tasks.length);
+        for (let i = 0; i < size; i++) {
+            let task = this.tasks.shift();
+            this.max--;
+            task().then((res) => {
+                this.max++;
+                this.run();
+            }).catch((err) => {
+                this.max++;
+                this.run();
+            })
+        }
+    }
+
+    有 8 个图片资源的 url，已经存储在数组 urls 中（即urls = [‘http://example.com/1.jpg', …., ‘http://example.com/8.jpg']），而且已经有一个函数 function loadImg，输入一个 url 链接，返回一个 Promise，该 Promise 在图片下载完成的时候 resolve，下载失败则 reject。
+
+    var urls = [ ];
+    function loadImg(url) {
+        return new Promise((resolve, reject) => {
+            const img = new Image()
+            img.onload = function () {
+                console.log('一张图片加载完成');
+                resolve();
+            }
+            img.onerror = reject
+            img.src = url
+        })
+    };
+    var count = 0;
+    //对加载图片的函数做处理，计数器叠加计数
+    function bao(){
+        count++;
+        console.log("并发数:",count)
+        //条件判断，urls长度大于0继续，小于等于零说明图片加载完成
+        if(urls.length>0&&count<=3){
+        //shift从数组中取出连接
+            loadImg(urls.shift()).then(()=>{
+            //计数器递减
+                count--
+                //递归调用
+                }).then(bao)
+        }
+    }
+    function async1(){
+    //循环开启三次
+        for(var i=0;i<3;i++){
+            bao();
+        }
+    }
+    async1()
+
+    function sendParallel(urls = [], num = 2) {
+        let size = Math.min(urls.length, num);
+        for (let i = 0; i < size; i++) {
+            let url = urls.shift();
+            num--;
+            fetch(url)
+                .then(res => {
+                    sendParallel(urls, num + 1);
+                })
+                .catch(error => {
+                    sendParallel(urls, num + 1);
+                });
+        }
+    }
+
+88、将一个同步callback包装成promise形式
+
+    function toPromiseFunction(fn) {
+        function promiseFunction(...args) {
+            let promise = new Promise((resolve, reject) => {
+                try {
+                    fn(...args, function(...innerArgs) {
+                        resolve(innerArgs);   
+                        // 注意，由于resolve只能传一个参数，所以把多参数包成数组
+                    })
+                } catch(e) {
+                    reject(e);
+                }
+            });
+            return promise;
+        }
+        // 第一次调用，返回闭包函数。二次调用才生效。
+        return promiseFunction;
+    }
