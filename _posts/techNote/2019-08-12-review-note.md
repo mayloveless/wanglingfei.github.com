@@ -296,6 +296,7 @@ key的作用是更新组件时判断两个节点是否相同。相同就复用�
             }
             return max;
         };
+
 22、删除链表中的节点
     三种case 有next的，用next覆盖；如果是head则直接null；如果不是head，即最后一个node，则倒到最后null掉
 
@@ -1356,6 +1357,7 @@ key的作用是更新组件时判断两个节点是否相同。相同就复用�
         
         大体来说，我理解Observer负责监听get，set，Dep作为发布订阅模块；谁想监听变化谁实例化一个Watcher，Watcher注册回调事件，回调事件的内容由Compile提供。
         Compile就是解析模板里的命令，然后实例化Wathcer，给wathcer的回调还是操作dom，但一般要在fragment里操作。
+        当watch执行get时，就会将回调注册到dep实例上，dep上有subs的队列还记录wathers。当get的时候会出发notify，这时执行watcher回调。任何数据get时，也会把当前回调都注册到依赖的dep里去。
 
     2、template转化为dom的机制
         在$mount过程中，如果是独立构建构建，则会在此过程中将template编译成render function。过程是：将模板template进行parse得到一个AST语法树，再通过optimize做一些优化，最后通过generate得到render以及staticRenderFns。render的返回值是VNode。在_update的时候，经过patch与之前的VNode节点进行比较，得出差异后将这些差异渲染到真实的DOM上。
@@ -1999,3 +2001,49 @@ key的作用是更新组件时判断两个节点是否相同。相同就复用�
         // 第一次调用，返回闭包函数。二次调用才生效。
         return promiseFunction;
     }
+
+89、工程化：
+
+    规范、开发效率、模块化、代码复用、性能优化、部署，流程，工具
+
+90、js内存泄漏
+
+    1、意外的全局变量
+    2、被遗忘的计时器或回调函数
+    3、脱离 DOM 的引用（就是把dom引用存下来了，但是dom可能已经没了）
+    4、闭包
+
+91、FMP
+
+    FP（First Paint）：首次绘制，标记浏览器渲染任何在视觉上不同于导航前屏幕内容的时间点
+    FCP（First Contentful Paint）：首次内容绘制，标记的是浏览器渲染第一针内容 DOM 的时间点，该内容可能是文本、图像、SVG 或者 <canvas> 等元素
+    FMP（First Meaning Paint）：首次有效绘制，标记主角元素渲染完成的时间点，主角元素可以是视频网站的视频控件，内容网站的页面框架也可以是资源网站的头图等。
+    如何计算FMP：初始化MutationObserver，开始监听document的加载情况，在发生回调的时候，记录下当前到performance.timing.fetchStart的时间间隔,然后对body的元素进行深度遍历，进行打点，记录是在哪一次回调的时候记录的。监听的最后我们会将在window.onload的时候去触发检查是否停止监听的条件。如果监听的时间超过LIMIT，或者发生回调的时间间隔已经超过1s中，我们认为页面已经稳定，停止dom元素加载的监听，开始进入计算过程。可以根据面积和节点权重计算。确定元素的最终得分，然后将改元素的子元素得分之和与其得分进行比较，去较大值，记录得分元素集。通过上面的步骤我们获取到了一个集合，这个集合是"可视区域内得分最高的元素的集合",我们会对这个集合的得分取均值，然后过滤出在平均分之上的元素集合，然后进行时间计算。存在资源加载情况，元素的加载时间其实是资源加载的时间，我们通过performance.getEntries去获取对应资源的加载时间，获取元素的加载速度。最后去所有元素最大的加载时间值，作为页面加载的FMP时间
+
+
+92、JavaScript中的六种错误类型
+
+    1. SyntaxError：语法错误
+    2. Uncaught ReferenceError：引用错误
+    3. RangeError：范围错误
+    4. TypeError类型错误
+    5. URIError，URL错误
+    6. EvalError eval()函数执行错误
+
+93、层次遍历
+
+    function levelTraverse(root) {
+        if(!root) return;
+        let stack = [];
+        stack.push(root);
+        while(stack.length) {
+            let temp = stack.shift();
+            console.log(temp);
+            if(temp.left) stack.push(temp.left);
+            if(temp.right) stack.push(temp.right);
+        }
+    }
+
+94、函数式编程
+
+    函数式编程关心数据的映射，命令式编程关心解决问题的步骤。函数式的代码是“对映射的描述”。
