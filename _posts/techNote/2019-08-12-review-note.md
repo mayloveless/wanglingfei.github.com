@@ -2047,3 +2047,34 @@ key的作用是更新组件时判断两个节点是否相同。相同就复用�
 94、函数式编程
 
     函数式编程关心数据的映射，命令式编程关心解决问题的步骤。函数式的代码是“对映射的描述”。
+
+95、promise解决fetch abort的问题 ：promise.race;
+
+    var _fetch = (function(fetch){
+        return function(url,options){
+            var abort = null;
+            var abort_promise = new Promise((resolve, reject)=>{
+                abort = () => {
+                    reject('abort.');
+                };
+            });
+            var promise = Promise.race([
+                fetch(url,options),
+                abort_promise
+            ]);
+            promise.abort = abort;
+            return promise;
+        };
+    })(fetch);
+
+    解决超时问题 ：promise.race
+
+        function timer(t){
+            return new Promise(resolve=>setTimeout(resolve, t))
+        .then(function(res) {
+            console.log('timeout');
+        });
+        }
+        var p = fetch('https://www.baidu.com',{mode:'no-cors'});
+        Promise.race([p, timer(1000)]);
+        
