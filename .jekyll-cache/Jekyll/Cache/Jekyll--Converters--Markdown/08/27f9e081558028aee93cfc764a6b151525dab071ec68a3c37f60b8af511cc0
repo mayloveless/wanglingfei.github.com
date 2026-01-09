@@ -1,4 +1,4 @@
-I"�<p>最近写项目的时候总要找API，但是内部的核心包肯定在overapi.com上是木有的，所以决定写一个本地的API检索。看着很高级的样子，其实很简单，而且写得有点啰嗦了。</p>
+I"<p>最近写项目的时候总要找API，但是内部的核心包肯定在overapi.com上是木有的，所以决定写一个本地的API检索。看着很高级的样子，其实很简单，而且写得有点啰嗦了。</p>
 
 <p>首先决定用Node.JS，本来要用python或者php，后来觉得还是Node简单点儿。最后写成了网站的形式，这就是啰嗦的地方，但后来想想也是木有办法的。用上了express。</p>
 
@@ -12,7 +12,7 @@
 
 <p>取文件名的方法如下：</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var getAllFiles = function(root){
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var getAllFiles = function(root){
     var tree = [];
     var files = fs.readdirSync(root);
     files.forEach(function(file) {
@@ -63,7 +63,7 @@
 
 <p>url是项目名+$+文件路径+$+文件名，为的是能找到文件。代码如下：</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var url = req.params.file;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var url = req.params.file;
 var pathArr = url.split('$');
 var relativePath = '';
 for(var i=1;i&lt;pathArr.length;i++){
@@ -87,7 +87,7 @@ res.render('read', {
 
 <p>最后代码语法高亮的部分是用得谷歌的prettify.js,好强大的样子，语法高亮要用词法分析，编译原理的知识，天书的节奏，所以放弃看源码了。使用方法如下：</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//read.ejs
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//read.ejs
 
 &lt;link rel='stylesheet' href='/stylesheets/prettify.css' /&gt;
 &lt;script src="/javascripts/prettify.js"&gt;&lt;/script&gt;
@@ -105,14 +105,14 @@ res.render('read', {
 
 <p>项目上传到了github，证明自己曾经来过……</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://github.com/wanglingfei/localAPI
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://github.com/wanglingfei/localAPI
 </code></pre></div></div>
 
 <p>7、至于cmd窗口总开着这个问题貌似解决了，有待验证</p>
 
 <p>新建一个文件：</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Set ws = CreateObject("Wscript.Shell")
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Set ws = CreateObject("Wscript.Shell")
 ws.run "cmd /c supervisor E:\Mine\localAPI\trunk\app.js ",vbhide
 </code></pre></div></div>
 

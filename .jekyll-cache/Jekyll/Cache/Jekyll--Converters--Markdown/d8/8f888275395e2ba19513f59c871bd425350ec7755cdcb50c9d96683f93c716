@@ -1,4 +1,4 @@
-I"T'<p><strong>第一章：web安全的关键点</strong></p>
+I"�'<p><strong>第一章：web安全的关键点</strong></p>
 
 <p>1、数据与指令</p>
 
@@ -88,7 +88,7 @@
 
 <p>一般跨域获取JSON文件时，加上callback 回调函数变量名</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;script src="http://...indbox.json?callback=fn"&gt; 
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;script src="http://...indbox.json?callback=fn"&gt; 
 </code></pre></div></div>
 
 <p>这样数据可以传递给内存中fn的函数中去，callback([json])。</p>
@@ -137,7 +137,7 @@
 
 <p>也就是如果自己被iframe了，就把父窗口刷成自己</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if ( top.location != self.location ){ top.location = self.location; }
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if ( top.location != self.location ){ top.location = self.location; }
 </code></pre></div></div>
 
 <p>3、HTML与JS自解码机制</p>
@@ -242,7 +242,7 @@
 
 <p>callback([{a:”b”}])（参加JSON HiJacking 攻击）</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>url?callback=fn  =》url?callback&lt;script&gt;alert(1)&lt;/script&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>url?callback=fn  =》url?callback&lt;script&gt;alert(1)&lt;/script&gt;
 </code></pre></div></div>
 
 <p>若没有过滤callback函数名，就可以注入</p>
@@ -321,7 +321,7 @@
 
 <p>i）界面操作劫持防御</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x-frame-options
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x-frame-options
 frame-busting
 </code></pre></div></div>
 

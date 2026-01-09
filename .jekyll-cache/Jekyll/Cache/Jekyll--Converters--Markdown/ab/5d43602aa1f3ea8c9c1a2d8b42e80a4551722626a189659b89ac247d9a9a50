@@ -1,4 +1,4 @@
-I":<p><strong>express ： web application framework for node</strong></p>
+I"F:<p><strong>express ： web application framework for node</strong></p>
 
 <p>express是一个Nodejs的web框架。
 阅读版本：
@@ -13,7 +13,7 @@
 
 <p>1、从app.js说起</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//这里引用express模块。
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//这里引用express模块。
 var express = require('express')
   	, routes = require('./routes')
   	, user = require('./routes/user')
@@ -97,7 +97,7 @@ lib文件夹下是所有文件。上面实例化的，就是express.js文件的�
 
 <p>a)app.init</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>this.cache = {};
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>this.cache = {};
 this.settings = {};
 this.engines = {};
 this.defaultConfiguration();
@@ -151,7 +151,7 @@ defaultConfiguration里做配置
 
 <p>&lt;5&gt; mounted an app</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if (app) {
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if (app) {
     app.parent = this;
     app.emit('mount', this);
 }

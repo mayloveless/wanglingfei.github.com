@@ -1,9 +1,9 @@
-I"$<p>在上次的读express源码的时候，碰到了一些js的特性，平常没用到过。
+I"p<p>在上次的读express源码的时候，碰到了一些js的特性，平常没用到过。
 这里记录一下，不是很多，就记录了碰到的，剩下的就参考MDN吧</p>
 
 <p>1、Object.defineProperty</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Defines a new property directly on an object, 
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Defines a new property directly on an object, 
 or modifies an existing property on an object, 
 and returns the object
 </code></pre></div></div>
@@ -22,7 +22,7 @@ and returns the object
 
 <p>2、Object.getOwnPropertyDescriptor</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Returns a property descriptor for an own property 
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Returns a property descriptor for an own property 
 (that is, one directly present on an object, 
 	not present by dint of being along an object's prototype chain) 
 of a given object. 就给出本身定义的Descriptor的意思吧
@@ -30,7 +30,7 @@ of a given object. 就给出本身定义的Descriptor的意思吧
 
 <p>3、<strong>defineGetter</strong></p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Binds an object's property to a function 
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Binds an object's property to a function 
 to be called when that property is looked up.
 </code></pre></div></div>
 
@@ -54,7 +54,7 @@ to be called when that property is looked up.
 	var a={length:2,0:’first’,1:’second’};
 	Array.prototype.slice.call(a);//  [“first”, “second”]</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var a={length:1,0:'first',1:'second'};
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var a={length:1,0:'first',1:'second'};
 Array.prototype.slice.call(a);//  ["first"]
 
 var a={length:2,0:'first'};

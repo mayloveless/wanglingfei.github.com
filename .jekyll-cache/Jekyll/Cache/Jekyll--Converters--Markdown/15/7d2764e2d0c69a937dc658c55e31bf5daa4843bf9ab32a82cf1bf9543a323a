@@ -1,4 +1,4 @@
-I"�<p>用docker部署前端开发环境是个早就想做的事情，做完发现也还好吧，因为目前的工具链已经很完善了，一个yarn全都vans。不过还是记录一下。</p>
+I"3<p>用docker部署前端开发环境是个早就想做的事情，做完发现也还好吧，因为目前的工具链已经很完善了，一个yarn全都vans。不过还是记录一下。</p>
 
 <p>1、安装docker</p>
 
@@ -6,7 +6,7 @@
 
 <p>2、DockerFile</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#node 镜像，版本11
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#node 镜像，版本11
 FROM node:11
 #docker里的工作路径，后面比如copy文件的当前目录就是这个地址
 WORKDIR  /usr/src/app
@@ -24,7 +24,7 @@ CMD ["npm", "run","dev" ]
 
 <p>3、编辑&amp;运行</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># build就是编译，起个名字，然后接编译得目录
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># build就是编译，起个名字，然后接编译得目录
 docker build -t liuxiaoyuff/node-web-app .
 #-p是指docker暴露的端口号如果是 5678:5677 意思就是docker暴露的5677端口，我们可以用5678访问，不加前面的端口号，docker就自己分配一个
 #-v是指volume，放代码用的，后面是本地目录，对应docker目录，本质就是共享文件夹
@@ -52,7 +52,7 @@ docker run -p 5677 -v ~/app:/usr/src/app  liuxiaoyuff/node-web-app npm run dev
 
 <p>6、清楚缓存</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker container prune -f
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker container prune -f
 docker image prune
 </code></pre></div></div>
 :ET

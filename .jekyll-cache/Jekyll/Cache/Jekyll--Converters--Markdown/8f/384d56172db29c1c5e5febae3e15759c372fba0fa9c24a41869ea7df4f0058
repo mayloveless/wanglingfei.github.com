@@ -1,4 +1,4 @@
-I"�<p>问题：</p>
+I"�<p>问题：</p>
 
 <p>项目中遇到一个很诡异的bug。</p>
 
@@ -10,7 +10,7 @@
 
 <p>解决办法：</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>在input里加 autocomplete="on|off"
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>在input里加 autocomplete="on|off"
 </code></pre></div></div>
 
 <p>off就可以不用记住了。textarea也有这个属性</p>

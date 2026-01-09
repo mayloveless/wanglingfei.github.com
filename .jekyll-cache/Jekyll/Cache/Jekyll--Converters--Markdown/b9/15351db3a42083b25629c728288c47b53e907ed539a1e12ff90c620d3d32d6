@@ -1,17 +1,17 @@
-I"�<p>时隔将近一年，又来写Angular的笔记了。这次是看了一本书，就叫angularjs深度剖析与最佳实践，还可以。最近这一年的使用确实遇到了坑，也加深了理解，但还有很多很多需要优化的地方，看自己写的代码真的是屎一样的。技术赶不上审美啊。话说，是忙了？还是懒了，一年就写了一篇关于技术的，额。。。</p>
+I"0<p>时隔将近一年，又来写Angular的笔记了。这次是看了一本书，就叫angularjs深度剖析与最佳实践，还可以。最近这一年的使用确实遇到了坑，也加深了理解，但还有很多很多需要优化的地方，看自己写的代码真的是屎一样的。技术赶不上审美啊。话说，是忙了？还是懒了，一年就写了一篇关于技术的，额。。。</p>
 
 <p>1、指令的require属性
 引用另一个指令的控制器实例。能够让几个不同的指令相互“看到”，完成指令间的协作。</p>
 
 <p>2、创建子scope</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var subScope = scope.$new(true)
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var subScope = scope.$new(true)
 true表示子scope是独立作用域，不会从父级作用域自动继承属性。
 </code></pre></div></div>
 
 <p>3、指令</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>组件型指令：
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>组件型指令：
     restrict:E元素、A属性、C类名、M注释
     scope：flase（不需要新作用域），true（需要新作用域），哈希对象（绑定字面量：‘@’，绑定变量：‘＝’，绑定事件：‘&amp;’）
 装饰器型指令：主要用于添加行为和保持View和MOdel的同步，经常需要进行DOM操作。不是一个内容的主体，而是附加行为能力的连接器。
@@ -19,7 +19,7 @@ true表示子scope是独立作用域，不会从父级作用域自动继承属�
 
 <p>4、路由</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>创建一个scope对象
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>创建一个scope对象
 加载模版，解析为静态DOM
 使用Controller对scope初始化，添加属性和方法
 使用$compile服务把生产的DOM和scope关联起来，变成Live DOM
@@ -28,7 +28,7 @@ true表示子scope是独立作用域，不会从父级作用域自动继承属�
 
 <p>5、服务</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>服务类型：
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>服务类型：
 常量Constant
 变量Value
 服务Service：new实例；可以依赖其他服务，使用类型友好的服务
@@ -43,7 +43,7 @@ true表示子scope是独立作用域，不会从父级作用域自动继承属�
 
 <p>6、背后的原理</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Angular启动过程：详见截图，这里不放了。
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Angular启动过程：详见截图，这里不放了。
 1、下载文件
 2、构建DOM树
 3、DOM ready，Angular初始化（注册模块）
@@ -77,7 +77,7 @@ $watch：监听scope中属性变化。
 
 <p>7、最佳实践</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>测试原则：
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>测试原则：
 对Filter河service覆盖测试
 装饰器指令在保持功能尽可能简单的前提下覆盖
 

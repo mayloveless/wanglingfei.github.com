@@ -1,4 +1,4 @@
-I"@A<p>##浏览器和浏览器内核</p>
+I"�A<p>##浏览器和浏览器内核</p>
 
 <p>###1、浏览器</p>
 
@@ -11,7 +11,7 @@
 <p>1、渲染器引擎及其依赖模块</p>
 <p style="text-align:center"><img src="/images/2014/renderEngine.jpg" style="max-width:100%" /></p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTML解释器：解释HTML文本的解释器，主要作用是将HTML文本解释成DOM树
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTML解释器：解释HTML文本的解释器，主要作用是将HTML文本解释成DOM树
 CSS解释器：级联样式表的解释器，作用是为DOM中的各个元素对象计算出样式信息，从而为计算最后网页的布局提供基础的设施。
 布局：在DOM创建之后，Webkit需要将其中的元素对象同样式信息结合起来，计算它们的大小位置等布局信息，形成一个能够表示这所有信息的内部表示模型。
 Javascript引擎：使用Javascript代码可以修改网页的内容，也能修改CSS的信息，Javascript引擎能够解释Javascript代码并通过DOM接口和CSSOM接口来修改网页内容和样式信息，从而改变渲染的结果。
@@ -144,7 +144,7 @@ Javascript引擎：使用Javascript代码可以修改网页的内容，也能修
 
 <p>Css的布局计算是以包含块和盒模型为基础的，以下会引发重新计算布局：</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1、当可视区域发生变化的时候，Webkit都需要重新计算布局。
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1、当可视区域发生变化的时候，Webkit都需要重新计算布局。
 2、网页的动画会触发布局计算
 3、Js代码通过CSSOM等直接修改样式信息，也会触发Webkit重新计算布局
 4、用户交互也会触发布局计算。如：翻滚网页，这会触发新区域布局的计算。
@@ -158,14 +158,14 @@ Javascript引擎：使用Javascript代码可以修改网页的内容，也能修
 
 <p>2、为DOM树节点创建一个RenderObject对象</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DOM树的document节点
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DOM树的document节点
 DOM树中的可视节点，如HTML、div等
 某些情况下Webkit创建不对应任何节点的匿名节点，处理需要。
 </code></pre></div></div>
 
 <p>3、Webkit会为网页的层次创建相应的RenderLayer对象。当某些类型的RenderObject的节点或者具有某些CSS样式的RenderObject节点出现的时候，Webkit就会为这些节点创建RenderLayer对象。它和RenderObject是一对多关系。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>创建条件：
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>创建条件：
 DOM树的Document节点对应的RenderView节点
 DOM树的Document的子女节点，也就是HTML节点对应的RenderBlock节点
 显式的指定CSS位置的RenderObject节点。
@@ -192,7 +192,7 @@ Video节点对应的RenderObject节点。
 
 <p>2、硬件加速设施：哪些Renderlayer对象可以是合成层？</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>具有CSS 3D属性或者CSS透视效果
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>具有CSS 3D属性或者CSS透视效果
 包含的RenderObject节点表示的是使用硬件加速的视频解码技术的HTML5video标签
 包含的RenderObject节点表示的是使用硬件加速的Canvas 2D元素或者WebGL技术
 使用了CSS透明效果的动画或者CSS变换的动画
@@ -214,7 +214,7 @@ Video节点对应的RenderObject节点。
 
 <p>一个JS引擎包括：</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>编译器：将源代码编译成抽象语法树，某些引擎还将抽象语法树转换成字节码
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>编译器：将源代码编译成抽象语法树，某些引擎还将抽象语法树转换成字节码
 解释器：某些引擎中，解释器主要是接收字节码，解释执行这个字节码，同时也依赖垃圾回收机制等
 JIT工具：将字节码或者抽象语法树转换成本地代码
 垃圾回收器和分析工具（Profiler）。它们负责垃圾回收和收集引擎中的信息，帮助改善引擎的性能和功效。

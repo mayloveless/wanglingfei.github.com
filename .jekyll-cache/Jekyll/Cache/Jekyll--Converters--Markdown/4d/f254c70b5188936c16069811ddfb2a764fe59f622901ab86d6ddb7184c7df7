@@ -1,4 +1,4 @@
-I"�/<p>最近发现了node-webkit，十分想做个东西，但苦于大东西做不了，小东西也没啥想法。</p>
+I"m0<p>最近发现了node-webkit，十分想做个东西，但苦于大东西做不了，小东西也没啥想法。</p>
 
 <p>于是就出现了Daily Notice 这个很挫的东西。</p>
 
@@ -24,7 +24,7 @@
 
 <p>首先先要有package.json ，非常nodejs风格</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "name": "Dialy Notice",
   "main": "index.html",
   "window" : {
@@ -56,7 +56,7 @@ p.s不可以有任何注释，因为它不是js…
 
 <p>最主要的是：</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gui = require('nw.gui');
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gui = require('nw.gui');
 win = gui.Window.get();
 </code></pre></div></div>
 
@@ -64,7 +64,7 @@ win = gui.Window.get();
 
 <p>例子：</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>win.showDevTools();
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>win.showDevTools();
 </code></pre></div></div>
 
 <p>这句话就可以把开发人员工具调用出来了。</p>
@@ -82,7 +82,7 @@ win = gui.Window.get();
 
 <p>需要创建提醒时：</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>window.LOCAL_NW.desktopNotifications.notify('desktop-notify.png', '定时提醒', '休息、休息一下', function(){ });
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>window.LOCAL_NW.desktopNotifications.notify('desktop-notify.png', '定时提醒', '休息、休息一下', function(){ });
 </code></pre></div></div>
 
 <p style="text-align:center"><img src="/images/2013/DailyNoticeTips.PNG" style="max-width:50%" /></p>
@@ -101,7 +101,7 @@ win = gui.Window.get();
 
 <p>最开始用了nodejs，但只是内网ip</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var os = require('os');
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var os = require('os');
 function getLocalIP() {
     var map = [];
     var ifaces = os.networkInterfaces();
@@ -159,7 +159,7 @@ function getLocalIP() {
 
 <p>于是方法如下：</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var http = require('http');
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var http = require('http');
 var options = {
             host:'ip.qq.com',
             port:80,
@@ -201,7 +201,7 @@ var options = {
 
 <p>最小化可以用</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>win.minimize();
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>win.minimize();
 </code></pre></div></div>
 
 <p>但这只是最小化到任务栏，我想最小化到系统托盘。</p>
@@ -209,7 +209,7 @@ var options = {
 <p>于是：</p>
 
  	win.on(‘minimize’,function(){
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    this.hide();
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    this.hide();
     //create a tray icon
     tray = new gui.Tray({title:'Daily Notice',icon:'icon.jpg'});
     tray.on('click',function(){
@@ -310,7 +310,7 @@ var options = {
 
 <p>注1：实际上这是实习的时候听网易Hex分享的时候貘大说的，并不是很理解。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>heX 项目于 2012 年启动，基于开源项目 CEF，它内部整合了开源项目 Chromium 及 Node.JS，将两者的 V8 引擎和消息循环合并，从而达到了在 Chromium 所展现的 Web 页面内可以直接使用 Node.JS 原生和及第三方扩展的 API 以及 Node.JS 最大的特色——异步回调与事件循环。 
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>heX 项目于 2012 年启动，基于开源项目 CEF，它内部整合了开源项目 Chromium 及 Node.JS，将两者的 V8 引擎和消息循环合并，从而达到了在 Chromium 所展现的 Web 页面内可以直接使用 Node.JS 原生和及第三方扩展的 API 以及 Node.JS 最大的特色——异步回调与事件循环。 
 </code></pre></div></div>
 
 <p>上面是Hex简介，<a href="http://hex.youdao.com/zh-cn/about/index.html">官网地址</a></p>

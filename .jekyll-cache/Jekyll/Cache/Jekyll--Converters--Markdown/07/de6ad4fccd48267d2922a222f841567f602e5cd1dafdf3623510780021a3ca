@@ -1,4 +1,4 @@
-I"2<p>折腾了一天，在github上搞了个博客。</p>
+I"X<p>折腾了一天，在github上搞了个博客。</p>
 
 <p>过程基本找网上的资料，直接贴链接：</p>
 
@@ -18,12 +18,12 @@
 
 <p>写完了先build一下</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jekyll build
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jekyll build
 </code></pre></div></div>
 
 <p>然后，启动在本地测试，地址localhost：4000</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jekyll serve
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jekyll serve
 </code></pre></div></div>
 
 <p>+++++++++++++</p>

@@ -1,4 +1,4 @@
-I"�<p>记得去年写seajs的时候，死活不会打包合并，给我愁得……</p>
+I"�<p>记得去年写seajs的时候，死活不会打包合并，给我愁得……</p>
 
 <p>这次seajs升级到2.0了，可以用gruntjs了</p>
 
@@ -22,7 +22,7 @@
 
 <p>主要是</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>grunt-cmd-transport  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>grunt-cmd-transport  
 grunt-cmd-concat
 </code></pre></div></div>
 

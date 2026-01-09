@@ -1,4 +1,4 @@
-I"d(<p>这次因为种种原因，非常幸运地开始尝试php开发，感谢领导。
+I")<p>这次因为种种原因，非常幸运地开始尝试php开发，感谢领导。
 很早很早就学了php语法，但一直没用过，这次终于开了php开发的svn权限，可以大饱眼福了。</p>
 
 <p>公司用得是Yaf框架，Yet Another Framework。是公司年轻的技术大牛鸟哥的开源作品。
@@ -31,7 +31,7 @@ yaf的流程图：
 
 <p>应用的目录结构主要为以下（有部分省略）：</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|-application  //业务逻辑
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|-application  //业务逻辑
 	|-controllers //继承于Controller_Abstract，主要用来实例化page类，然后渲染视图，相当于程序入口
 	|-library 
 		|-Controller //其中应用Controller抽象基类Controller_Abstract继承于Yaf_Controller_Abstract,提供了渲染页面，返回aj接口等共用方法
@@ -60,7 +60,7 @@ yaf的流程图：
 <p>1、application.ini： 
 定义应用程序的一些配置，如：</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>application.directory                                = APP_PATH "/application"
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>application.directory                                = APP_PATH "/application"
 application.dispatcher.throwException                = true
 application.dispatcher.catchException                = true
 //map的意思是路由规则是map的，也就是说访问/aj/foo,会访问controller的aj文件夹下的foo文件，类名为Aj_FooContorller.
@@ -84,7 +84,7 @@ application.modules                                  = "Index,Internal,Openapi,C
 
  	public function runAction() {
  		//some code
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    $this-&gt;render_page ( new Page_Test () );
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    $this-&gt;render_page ( new Page_Test () );
 }
 </code></pre></div></div>
 
@@ -99,7 +99,7 @@ application.modules                                  = "Index,Internal,Openapi,C
 <p>继承于Page_Abstract，
 代码逻辑如下：</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//最基本配置
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//最基本配置
 protected $tpl = 'page/test.phtml';
 protected $name = 'page_test';
 
@@ -121,7 +121,7 @@ public function prepare_data() {
 这也就是说，我们可以在prepare_data里改变渲染模块
 如：</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$this-&gt;tpl = 'page/other.phtml';
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$this-&gt;tpl = 'page/other.phtml';
 </code></pre></div></div>
 
 <p>最后就会去渲染other页面了。</p>
@@ -131,7 +131,7 @@ public function prepare_data() {
 
 <p>render_page的代码如下：在Controller_Abstract中</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$render = Comm_Bigpipe_Render::create(Comm_Bigpipe_Render::detect_render_type(), $page_obj);
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$render = Comm_Bigpipe_Render::create(Comm_Bigpipe_Render::detect_render_type(), $page_obj);
 $render-&gt;render();
 </code></pre></div></div>
 
@@ -139,7 +139,7 @@ $render-&gt;render();
 详见Comm_Bigpipe下，有传统型，随机渲染，流水线型。
 create就是把这个类型实例化</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>return new $render_class($pl);//render_class即该类型
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>return new $render_class($pl);//render_class即该类型
 </code></pre></div></div>
 
 <p>假设是传统型：Comm_Bigpipe_TraditionalRender，里面注册了enter，leave方法。
@@ -149,14 +149,14 @@ leave方法就是真正用模板引擎渲染页面啦。</p>
 <p>实例化好渲染类型之后，就可以render了。
 主要代码如下：</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>self::dfs($this-&gt;pl, array($this, 'enter'), array($this, 'leave'));
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>self::dfs($this-&gt;pl, array($this, 'enter'), array($this, 'leave'));
 </code></pre></div></div>
 
 <p>dfs深度优先遍历，执行上述的enter，leave代码，递归在中间执行。</p>
 
 <p>4、views/page/test.phtml
 views层存放html模板，这里采用smarty模块引擎。
-默认直接解开上面返回的$data数据。也就是说返回的$data[‘msg’]，在页面里可以直接写<?=$msg?></p>
+默认直接解开上面返回的$data数据。也就是说返回的$data[‘msg’]，在页面里可以直接写&lt;?=$msg?&gt;</p>
 
 <p>5、这样基本就是一次请求的逻辑写法。这当中的可以用到很多的工具，如Tool，Comm等等。
 如 存个memCache：
@@ -177,7 +177,7 @@ self::set_mc(self::$mc_key, $uid, false);</p>
 
 <p>form表单method=”get”时，提交会忽略action里url的param参数，加上表单中input的name的值和参数</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>如：action="/a" 
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>如：action="/a" 
 	&lt;input name="key" value="1"/&gt;
 </code></pre></div></div>
 

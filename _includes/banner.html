@@ -1,34 +1,17 @@
-<!-- <ul class="nav nav-pills">
-  <li><a href="/">Home</a></li>
-  <li><a href="/archive/">Archive</a></li>
-  <li><a href="/about/">About</a></li>
-</ul> -->
-<!-- <nav>
-	<div class="author">
-      <a href="/about" class="icon">
-          <img src="/images/authors/mayloveless.jpg" alt="me"/>
-      </a>
+<div class="site-header">
+  <div class="site-header__bar">
+    <a class="brand" href="/">
+      <span class="brand__mono">/notes</span>
+      <span class="brand__title">{{ site.title }}</span>
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/">Home</a>
+      <a href="/archive/">Archive</a>
+      <a href="/tags/">Tags</a>
+      <a href="/about/">About</a>
+    </nav>
   </div>
-  <ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="/archive/">Archive</a></li>
-    <li><a href="/about/">About</a></li>
-  </ul>
-</nav> -->
-
-<script>
-$(document).ready(function(){
-	$('a:not(.author a)').hover(
-		function(){
-			$(this).animate({opacity: 0.3}, 400)
-		}, 
-		function(){
-			$(this).animate({opacity: 1}, 400)
-		});
-});
-function getURLParameter(name) {
-    return decodeURI(
-        (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
-    );
-}
-</script>
+  <div class="site-header__meta">
+    <span class="meta-desc">{{ site.headdesc }}</span>
+  </div>
+</div>

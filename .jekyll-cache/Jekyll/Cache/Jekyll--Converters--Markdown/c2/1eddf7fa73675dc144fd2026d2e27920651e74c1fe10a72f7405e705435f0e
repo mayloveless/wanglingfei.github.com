@@ -1,10 +1,10 @@
-I"	<p>这次在项目中遇到一个bug：</p>
+I"K	<p>这次在项目中遇到一个bug：</p>
 
 <p>ie6下iframe不显示内容，一片空白，如果直接访问iframe地址的话，是可以访问的，也就是说是js的问题。</p>
 
 <p>1、bug代码我是这样写的。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var TEMPLATE = {
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var TEMPLATE = {
 
   'buyFrame':  '&lt;#et data&gt;'+
                  '&lt;iframe width="469" height="367" scrolling="no"  frameborder="0" src="${url}" &gt;'+
@@ -30,7 +30,7 @@ layer.html( $.easyTemplate(TEMPLATE['buyFrame'],{data:url} );
 
 <p>于是写成了这样：</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>'buyFrame':
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>'buyFrame':
 
     '&lt;iframe width="469" height="367" frameborder="0" scrolling="no"   &gt;'+
 
@@ -43,7 +43,7 @@ layer.html( TEMPLATE['buyFrame'] );
 
  	iframeDom.setAttribute(‘src’,someurl)
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   居然成功了……虽然不知道原理，但也许跟setTimeout(0)一样，需要加入执行队列里去。
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   居然成功了……虽然不知道原理，但也许跟setTimeout(0)一样，需要加入执行队列里去。
 </code></pre></div></div>
 
 <p>3、虽然成功了，但iframe只显示了我加入的链接页面，这个页面本来是要跳转的，结果跳不动了、</p>

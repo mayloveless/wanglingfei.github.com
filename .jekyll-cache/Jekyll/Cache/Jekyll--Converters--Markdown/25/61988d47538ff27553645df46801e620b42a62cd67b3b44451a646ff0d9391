@@ -1,4 +1,4 @@
-I"�<p>这次主要是同学的项目帮忙开发，需要把项目放在我的本机上。</p>
+I"�<p>这次主要是同学的项目帮忙开发，需要把项目放在我的本机上。</p>
 
 <p>1、</p>
 
@@ -12,7 +12,7 @@
 
 <p>注释去掉，之后写VirtualHost</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;VirtualHost *:80&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;VirtualHost *:80&gt;
     DocumentRoot "E:/Mine/love"
     ServerName "love.com"
     ServerAlias "*.love.com"
@@ -30,19 +30,19 @@
 
 <p>剩下的必写。比如</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Options Indexes FollowSymLinks Includes ExecCGI
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Options Indexes FollowSymLinks Includes ExecCGI
 AllowOverride All
 </code></pre></div></div>
 
 <p>如果不写，则无法使用web框架的路由功能。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> Order allow,deny
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> Order allow,deny
  Allow from all
 </code></pre></div></div>
 
 <p>是控制使用权限的。但是，我这个文件夹并不是当初设置的localhost文件夹，为了安全需要增加了Require all ，因为默认禁止，设置成granted 允许 就可以了。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Require all granted
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Require all granted
 </code></pre></div></div>
 
 <p>2、</p>
@@ -61,7 +61,7 @@ AllowOverride All
 
 <p>2） 进入C：\xampp\phpmyadmin\ 找到，config.inc.php</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$cfg['Servers'][$i]['user'] = 'root'; // MySQL SuperUser
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$cfg['Servers'][$i]['user'] = 'root'; // MySQL SuperUser
 $cfg['Servers'][$i]['password'] = 'test2010';
 </code></pre></div></div>
 

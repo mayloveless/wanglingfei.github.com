@@ -1,8 +1,8 @@
-I"m<p>在用到按钮的时候，一般都是然后阻止默认跳链，执行js。</p>
+I"�<p>在用到按钮的时候，一般都是然后阻止默认跳链，执行js。</p>
 
 <p>一般的写法是</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;a href="javascript:;"&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;a href="javascript:;"&gt;
 
 &lt;a href="javascript:void(0);"&gt;
 

@@ -1,4 +1,4 @@
-I"<p>做项目的时候，大神领导们给规定了个模板，照着格式写项目填空就行了。
+I"`<p>做项目的时候，大神领导们给规定了个模板，照着格式写项目填空就行了。
 每次都复制粘贴、改名字，微累。
 想起了大神的博客里写过怎么写sublime-text-2的插件，遂决定写一个自动创建项目的插件。</p>
 
@@ -7,7 +7,7 @@
 
 <p>一共两个文件：</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Side Bar.sublime-menu
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Side Bar.sublime-menu
 plpackage.py
 </code></pre></div></div>
 
@@ -18,7 +18,7 @@ plpackage.py
 
 <p>代码：</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{ "caption": "Create PL", "command": "plpackage","args": {"dirs": []} }
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{ "caption": "Create PL", "command": "plpackage","args": {"dirs": []} }
 </code></pre></div></div>
 
 <p>“Create PL”是插件名字，command后面的plpackage就是插件调用时候的名字。也就是说，插件是可以按ctrl+`调出命令行界面调用的，这里是个Side Bar的快捷方式。</p>
@@ -29,7 +29,7 @@ plpackage.py
 
 <p>2、plpackage.py</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#-*- coding: UTF-8 -*-  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#-*- coding: UTF-8 -*-  
 import sublime, sublime_plugin
 import os
 import time
@@ -96,7 +96,7 @@ class PlpackageCommand(sublime_plugin.WindowCommand):
 
 <p>创建的文件目录为:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>└─testPl
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>└─testPl
    │  index.js
    │
    └─ source

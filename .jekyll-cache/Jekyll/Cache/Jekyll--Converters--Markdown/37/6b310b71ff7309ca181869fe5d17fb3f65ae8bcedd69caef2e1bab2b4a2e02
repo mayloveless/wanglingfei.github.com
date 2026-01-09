@@ -1,4 +1,4 @@
-I"C<p>1、创建一个bin文件夹，创建一个文件如：cli</p>
+I"V<p>1、创建一个bin文件夹，创建一个文件如：cli</p>
 
 <p>2、cli文件要第一行要写：</p>
 
@@ -10,7 +10,7 @@
 
 <p>一般来说分析输入参数的方式就是：</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var argv = process.argv.slice(2);
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var argv = process.argv.slice(2);
 </code></pre></div></div>
 
 <p>然后去做判断就好。这方面的模块有optimist。</p>

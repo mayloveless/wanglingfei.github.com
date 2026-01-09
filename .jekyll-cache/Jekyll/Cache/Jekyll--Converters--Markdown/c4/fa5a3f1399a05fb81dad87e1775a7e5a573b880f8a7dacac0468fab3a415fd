@@ -1,4 +1,4 @@
-I"^<p>这次的3d轮播主要是因为之前页面构建的同事想要做没做成的原因 ，所以不如自己做吧。</p>
+I"�<p>这次的3d轮播主要是因为之前页面构建的同事想要做没做成的原因 ，所以不如自己做吧。</p>
 
 <p>3d轮播着实很简单，首先需要正常的轮播组件：需要由next，prev，jump等句柄，绑定mouseover，mouseout事件（为了鼠标悬停时暂停自动轮播），有初始化setup。</p>
 
@@ -24,7 +24,7 @@
 
 <p>1、存放动画方法（也就是keyframes）需要创建一个style节点。它的初始化发生在最最开始初始化的时候。下面这段纯属抄袭：</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var cssDom = document.createElement('style');
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var cssDom = document.createElement('style');
 var cssId = 'mayloveless' + (+new Date());
 var cssSheet = null;
 var that = {};
@@ -50,7 +50,7 @@ that.addRule = function(selector, cssText){
 
 <p>2、对于变态的前缀也有个兼容。下面这段也是抄袭：</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var PREFIX = /^(Moz|(w|W)ebkit|O|ms)(?=[A-Z])/;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var PREFIX = /^(Moz|(w|W)ebkit|O|ms)(?=[A-Z])/;
 var addPrefix = function(text){
             for ( var p in document.createElement('div').style ) {
 //也就是各种前缀试一圈，然后看看支持哪个，支持哪个就是哪个
@@ -66,7 +66,7 @@ var addPrefix = function(text){
 
 <p>3、同理，动画结束事件的兼容是这样的，下面这段是自己写的，毫无技术含量</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//把对应的名字列出一个映射map来就好    
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//把对应的名字列出一个映射map来就好    
 
 var ANIMATION_END_NAMES = {
         "moz" : "animationend"
@@ -79,7 +79,7 @@ eventType = ANIMATION_END_NAMES[addPrefix('animation')[1].toLowerCase()];
 
 <p>4、最后就是动画方法了，即那个css的code：一共三个效果，翻牌，立方体翻滚，放大旋转。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var CSSTEXT = {
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var CSSTEXT = {
     'flip': ''+
         '0% { '+addPrefix('transform')[0]+': rotateX(0);} '+
         '100% { '+addPrefix('transform')[0]+': rotateX(-180deg);}'
@@ -97,7 +97,7 @@ eventType = ANIMATION_END_NAMES[addPrefix('animation')[1].toLowerCase()];
 
 <p>以下是简略代码：中心思想是判断有没有TransformStyle属性在样式里，然后给它赋值preserve-3d，看它能不能被附上，能的话就可以3d。不能的话用同样的方法试试BackfaceVisibility这个属性，能的话且是放大旋转的效果的话，也可以3d</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//_vendor为前缀
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//_vendor为前缀
 var _canRun3d = _vendor+'TransformStyle';
  if(_canRun3d in  testDiv.style){
     testDiv.style[_canRun3d] = 'preserve-3d';

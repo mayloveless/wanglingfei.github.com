@@ -1,4 +1,4 @@
-I"^<p>1、构造器:</p>
+I"q<p>1、构造器:</p>
 
 <p>构造器和它所在类的名字一样，创建这个类的新实例之后自动调用，不会返回任何值。
 所以，构造函数这个东西的本质应该是对于面向对象这种编程思想的体现。
@@ -21,7 +21,7 @@ C++要求类里至少要有一个不抽象的虚成员。</p>
 
 <p>5、抽象方法和虚方法的异同：</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>抽象方法和虚方法都可以被重写
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>抽象方法和虚方法都可以被重写
 抽象方法一定没有方法体，而虚方法可以有方法体。
 </code></pre></div></div>
 

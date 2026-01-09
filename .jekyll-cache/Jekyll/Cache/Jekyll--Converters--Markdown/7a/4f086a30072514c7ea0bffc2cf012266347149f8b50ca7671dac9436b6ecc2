@@ -1,4 +1,4 @@
-I"�<p>Yar(yet another RPC framework)是一个PHP扩展的, RPC框架。</p>
+I"�<p>Yar(yet another RPC framework)是一个PHP扩展的, RPC框架。</p>
 
 <p>RPC即远程过程调用协议。它是一种通过网络从远程计算机程序上请求服务的协议，使得网络分布式多程序的应用程序更加容易。也就是说在应用程序分布式部署的时候，通过RPC这种协议去做通信请求。RPC采用客户机/服务器模式。</p>
 
@@ -10,7 +10,7 @@
 
 <p>上面提到的一些名词：</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RPC：远程过程调用协议
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RPC：远程过程调用协议
 QPS:每秒查询率 
 Msgpack :一个高效的二进制打包协议，如JSON是一种轻量级的数据交换格式一样，是通信用的一种数据格式的规范协议。
 Thrift ：同Yar的功能，支持多语言，IDL，包比Yar小，性能略微低一些。

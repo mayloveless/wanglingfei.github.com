@@ -1,4 +1,4 @@
-I"*<p><strong>一、流、元素、基本尺寸</strong></p>
+I"�<p><strong>一、流、元素、基本尺寸</strong></p>
 
 <p>1、display：inline-blcok:外在的“内联盒子”，内在的“块级容器盒子”</p>
 
@@ -12,7 +12,7 @@
 
 <p><strong>如何让元素支持height:100%</strong></p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1)设定显示的高度
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1)设定显示的高度
 2）使用绝对定位
 绝对定位的宽高百分比计算是相对于padding box的，非绝对定位元素则是相对于content box的。
 </code></pre></div></div>
@@ -35,7 +35,7 @@
 
 <p>margin:auto填充规则</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1）如果一侧定值，一侧auto，则auto为剩余空间大小
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1）如果一侧定值，一侧auto，则auto为剩余空间大小
 2）如果两侧均是auto，则平分剩余空间。
 </code></pre></div></div>
 
@@ -58,7 +58,7 @@ line-height不能影响替换元素，「幽灵空白元素」可以</p>
 
 <p>2、触发BFC</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>html根元素
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>html根元素
 float的值不为none
 overflow的值为auto，scroll和hidden
 display的值为table-cell，table-caption和inline-block
@@ -71,7 +71,7 @@ position的值不为relative和static
 
 <p>「包含块」：</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1、根元素被称为「初始包含块」，其尺寸等同于浏览器可视窗口的大小。
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1、根元素被称为「初始包含块」，其尺寸等同于浏览器可视窗口的大小。
 2、对于其他元素，如果该元素的position是relative或者static，则「包含块」由其最近的块容器祖先盒子的content box边界行程。
 3、如果元素position：fixed，则「包含块」是「初始包含块」
 4、如果元素position：absolute，则「包含块」有最近的position不为static的祖先元素建立
@@ -79,7 +79,7 @@ position的值不为relative和static
 
 <p>4、absolute是非常独立的CSS属性，其样式和行为表现不依赖其他任何CSS属性就可以完成。用于:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1、字前icon的定位
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1、字前icon的定位
 2、居中布局元素旁边的元素定位
 3、下拉列表定位
 4、占位符效果模拟
@@ -89,13 +89,13 @@ position的值不为relative和static
 
 <p>6、clip属性</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>可访问性的隐藏
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>可访问性的隐藏
 clip: rect(0 0 0 0)
 </code></pre></div></div>
 
 <p>7、绝对定位元素的居中</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.element{
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.element{
    width:300px;height:300px;
    position:absulue;
    left:0;top:0;right:0;bottom:0;
@@ -105,7 +105,7 @@ clip: rect(0 0 0 0)
 
 <p>8、relative最小化原则</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1）尽量不使用relative，如果想定位某些元素，看看能否使用「无依赖的绝对定位」
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1）尽量不使用relative，如果想定位某些元素，看看能否使用「无依赖的绝对定位」
 2）如果场景首先，则该relative务必最小化
 </code></pre></div></div>
 
@@ -121,7 +121,7 @@ clip: rect(0 0 0 0)
 
 <p>css3:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>元素为flex，同时z-index不是auto
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>元素为flex，同时z-index不是auto
 opacity不是1
 transform不是none
 mix-blend-mode不是normal

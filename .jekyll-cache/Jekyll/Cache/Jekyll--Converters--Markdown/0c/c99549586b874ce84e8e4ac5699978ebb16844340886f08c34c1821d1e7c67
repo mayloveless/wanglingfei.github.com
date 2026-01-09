@@ -1,4 +1,4 @@
-I"<p>最近重构代码，又赶上这个分享，实在太巧了，听完了就觉得刚写好的代码又要改了。</p>
+I"A<p>最近重构代码，又赶上这个分享，实在太巧了，听完了就觉得刚写好的代码又要改了。</p>
 
 <p>易于维护的代码</p>
 
@@ -14,7 +14,7 @@
 
 <p>4、数据采集和适配要在外层</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>最开始重构的时候就犯了这个错误，把适配放在内层来进行。即使用函数封装分开了，看似符合在外层的要求，但非常别扭
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>最开始重构的时候就犯了这个错误，把适配放在内层来进行。即使用函数封装分开了，看似符合在外层的要求，但非常别扭
 这个需求是在某组件执行之前先找一下当前状态。
 最开始的想法是执行的时候检查一遍，因为可能因为某些模块的不同状态导致参数不同，即要执行的不同。
 后来发现这么写太别扭了，我在实例化这个组件的时候要适配很多规则，并且这不应该是组件来干的事儿。
@@ -35,7 +35,7 @@
 
 <p>一直听说是 <strong>模块间用广播，组件间用自定义事件</strong></p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>我重构完的代码虽然可用，但基本上是句柄调用，并且组件间广播泛滥。
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>我重构完的代码虽然可用，但基本上是句柄调用，并且组件间广播泛滥。
 之前就因为广播使用不当出了好多bug
 这次终于想通了，把纠结的通信和也没那么方便的句柄调用统统改成了自定义事件：
 内部的组件不接受广播，只在controller里接受，并由controller找到对应的支付方式，执行对应的方法，内部组件的调用执行采用用自定义事件。
@@ -61,7 +61,7 @@
 
 <p>2、注释what不注释how。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>我一般都注释what &amp; why 相当啰嗦
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>我一般都注释what &amp; why 相当啰嗦
 </code></pre></div></div>
 
 <p>3、单条语句不要过于复杂。</p>
