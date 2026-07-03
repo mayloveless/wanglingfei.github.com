@@ -1,12 +1,261 @@
----
-layout: default
-title: mayloveless's Blog
----
-<section class="hero">
-  <h1 class="hero-title">{{ site.title }}</h1>
-  <p class="hero-subtitle">{{ site.description }} · slowly dying</p>
-  <div class="hero-actions">
-    <a class="btn primary" href="/archive/">Archive</a>
-    <a class="btn ghost" href="/about/">About</a>
+<section class="projects-section">
+  <div class="projects-header">
+    <p class="eyebrow">Projects</p>
+    <h2>AI-assisted prototypes & engineering experiments</h2>
+    <p class="intro">
+      一些用 AI 辅助快速完成的产品原型，以及用于练习 Agent、工具调用和软硬件结合能力的工程实验。
+    </p>
+  </div>
+
+  <div class="project-group">
+    <div class="group-title">
+      <h3>Vibe Coding / 想法验证</h3>
+      <p>偏产品想法、快速 Demo、信息工具和创意表达。</p>
+    </div>
+
+    <div class="project-grid">
+      <a class="project-card" href="https://jp-master.vercel.app/" target="_blank" rel="noreferrer">
+        <div class="card-top">
+          <span class="tag">Language Tool</span>
+          <span class="status done">已完成</span>
+        </div>
+        <h4>日语语法分析</h4>
+        <p>面向日语学习的语法拆解工具，帮助理解句子结构、助词、动词变形和表达逻辑。</p>
+      </a>
+
+      <a class="project-card" href="https://ready-when.vercel.app/" target="_blank" rel="noreferrer">
+        <div class="card-top">
+          <span class="tag">Social Care</span>
+          <span class="status done">已完成</span>
+        </div>
+        <h4>接的住</h4>
+        <p>围绕亲人老去、离别准备和心理承接设计的社会服务型 Demo，关注真实生活中的困难时刻。</p>
+      </a>
+
+      <a class="project-card" href="https://lottery-lovat.vercel.app/" target="_blank" rel="noreferrer">
+        <div class="card-top">
+          <span class="tag">Sports / Data</span>
+          <span class="status done">已完成</span>
+        </div>
+        <h4>体彩世界杯</h4>
+        <p>世界杯相关的体彩信息展示与分析 Demo，尝试把赛事信息、概率和用户决策结合起来。</p>
+      </a>
+
+      <a class="project-card" href="https://world-probability-radar.vercel.app/" target="_blank" rel="noreferrer">
+        <div class="card-top">
+          <span class="tag">Prediction Market</span>
+          <span class="status done">已完成</span>
+        </div>
+        <h4>World Probability Radar</h4>
+        <p>基于预测市场的全球事件雷达，用概率变化观察热点事件、市场预期和世界叙事。</p>
+      </a>
+
+      <article class="project-card upcoming">
+        <div class="card-top">
+          <span class="tag">Expression Training</span>
+          <span class="status todo">计划中</span>
+        </div>
+        <h4>不失语</h4>
+        <p>面向争论、表达和女权议题的 AI 练习平台，帮助用户在高压对话中更有逻辑地回应。</p>
+      </article>
+    </div>
+  </div>
+
+  <div class="project-group">
+    <div class="group-title">
+      <h3>Agent Practice / 能力练习</h3>
+      <p>偏工程能力建设，重点是 Agent 行为循环、工具调用、本地环境和硬件交互。</p>
+    </div>
+
+    <div class="project-grid">
+      <article class="project-card upcoming">
+        <div class="card-top">
+          <span class="tag">Agent / Hardware</span>
+          <span class="status todo">计划中</span>
+        </div>
+        <h4>桌面宠物 Agent</h4>
+        <p>
+          一个结合本地 Agent、桌面宠物状态和硬件交互的长期练习项目。第一阶段先实现无硬件 Mock，
+          后续接入屏幕、按钮、传感器或本地服务。
+        </p>
+      </article>
+
+      <article class="project-card upcoming">
+        <div class="card-top">
+          <span class="tag">Tool Use</span>
+          <span class="status idea">想法</span>
+        </div>
+        <h4>Personal Agent Toolkit</h4>
+        <p>
+          用于练习 Agent 调用本地工具、读取任务、生成提醒和维护个人上下文的小型实验集合。
+        </p>
+      </article>
+    </div>
   </div>
 </section>
+
+<style>
+  .projects-section {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 72px 24px;
+    color: #172033;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  .projects-header {
+    margin-bottom: 48px;
+  }
+
+  .eyebrow {
+    margin: 0 0 8px;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #667085;
+  }
+
+  .projects-header h2 {
+    margin: 0;
+    font-size: 36px;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+  }
+
+  .intro {
+    max-width: 720px;
+    margin: 16px 0 0;
+    color: #667085;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  .project-group {
+    margin-top: 44px;
+  }
+
+  .group-title {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    align-items: flex-end;
+    margin-bottom: 18px;
+    border-bottom: 1px solid #eaecf0;
+    padding-bottom: 14px;
+  }
+
+  .group-title h3 {
+    margin: 0;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+  }
+
+  .group-title p {
+    max-width: 520px;
+    margin: 0;
+    color: #667085;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .project-card {
+    display: block;
+    padding: 22px;
+    border: 1px solid #eaecf0;
+    border-radius: 18px;
+    background: #ffffff;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  }
+
+  .project-card:hover {
+    transform: translateY(-3px);
+    border-color: #cfd5e1;
+    box-shadow: 0 14px 36px rgba(16, 24, 40, 0.08);
+  }
+
+  .project-card.upcoming {
+    background: #fafafa;
+  }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .tag,
+  .status {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 12px;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .tag {
+    background: #f2f4f7;
+    color: #475467;
+  }
+
+  .status.done {
+    background: #ecfdf3;
+    color: #027a48;
+  }
+
+  .status.todo {
+    background: #fff7ed;
+    color: #c2410c;
+  }
+
+  .status.idea {
+    background: #eef4ff;
+    color: #3538cd;
+  }
+
+  .project-card h4 {
+    margin: 0 0 10px;
+    font-size: 19px;
+    letter-spacing: -0.02em;
+  }
+
+  .project-card p {
+    margin: 0;
+    color: #667085;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 760px) {
+    .projects-section {
+      padding: 48px 18px;
+    }
+
+    .projects-header h2 {
+      font-size: 28px;
+    }
+
+    .group-title {
+      display: block;
+    }
+
+    .group-title p {
+      margin-top: 8px;
+    }
+
+    .project-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
