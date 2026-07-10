@@ -313,6 +313,11 @@
       color: var(--yellow);
     }
 
+    .badge.product {
+      border-color: var(--pink);
+      color: var(--pink);
+    }
+
     .side-panel {
       display: grid;
       gap: 18px;
@@ -404,6 +409,11 @@
       line-height: 1.6;
     }
 
+    .todo strong {
+      color: var(--text);
+      font-weight: 700;
+    }
+
     .checkbox {
       width: 16px;
       height: 16px;
@@ -413,15 +423,20 @@
       background: rgba(103,232,249,0.2);
     }
 
+    .checkbox.product {
+      border-color: var(--pink);
+      background: rgba(240,171,252,0.18);
+    }
+
     .archive {
       margin-top: 24px;
-      opacity: 0.55;
+      opacity: 0.82;
       transition: opacity 0.18s ease;
     }
 
     .archive:hover,
     .archive[open] {
-      opacity: 0.92;
+      opacity: 0.96;
     }
 
     .archive summary {
@@ -435,12 +450,23 @@
 
     .archive-title {
       padding: 13px 16px;
-      border: 3px dashed #55556d;
-      background: rgba(255,255,255,0.025);
-      color: var(--muted);
+      border: 3px dashed #77779a;
+      background: rgba(255,255,255,0.035);
+      color: #d8d8e8;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       font-size: 13px;
+    }
+
+    .archive-title span {
+      color: var(--pink);
+    }
+
+    .archive-note {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
     }
 
     .side-quests {
@@ -453,8 +479,8 @@
     .side-quest {
       min-height: 120px;
       padding: 12px;
-      border: 3px solid #44445d;
-      background: rgba(255,255,255,0.025);
+      border: 3px solid #55556d;
+      background: rgba(255,255,255,0.035);
       color: var(--muted);
       transition: transform 0.15s ease, border-color 0.15s ease, color 0.15s ease;
     }
@@ -468,7 +494,7 @@
     .side-quest strong {
       display: block;
       margin-bottom: 8px;
-      color: #d8d8e8;
+      color: #f0e7ff;
       font-size: 14px;
       line-height: 1.35;
     }
@@ -552,8 +578,8 @@
         <h1>Agent Quest Log<span class="blink">_</span></h1>
         <p class="hero-copy">
           这里不是单纯的 demo 列表，而是我的 <strong>AI 工程练习存档</strong>：
-          主线任务是 Agent 工作流、私有 Skills、长期训练系统；Vibe Coding 作品作为支线任务保留，
-          用来证明我能快速把想法做成可展示原型。
+          主线任务是 Agent 工作流、私有 Skills、长期训练系统；这些 skill 未来也可以抽象成
+          <strong>可产品化的训练平台</strong>。Vibe Coding 作品作为支线任务保留，用来证明我能快速把想法做成可展示原型。
         </p>
 
         <div class="stats-strip">
@@ -570,8 +596,8 @@
             <strong>AI Tools</strong>
           </div>
           <div class="stat">
-            <span>Side Quests</span>
-            <strong>Demos</strong>
+            <span>Next Market</span>
+            <strong>Training SaaS</strong>
           </div>
         </div>
       </div>
@@ -663,6 +689,23 @@
 
           <article class="quest planned">
             <div class="quest-head">
+              <h3>Skill Training Platform</h3>
+              <span class="badge product">PRODUCT IDEA</span>
+            </div>
+            <p>
+              把 private skills 的训练机制产品化：不是售卖 skill 文件本身，而是套一层平台壳，
+              让用户选择训练目标，系统维护题库、进度、弱点、复盘和阶段报告，未来可探索付费使用。
+            </p>
+            <div class="badges">
+              <span class="badge">training platform</span>
+              <span class="badge">question bank</span>
+              <span class="badge">progress tracking</span>
+              <span class="badge">paid usage</span>
+            </div>
+          </article>
+
+          <article class="quest planned">
+            <div class="quest-head">
               <h3>桌面宠物 Agent</h3>
               <span class="badge next">NEXT BOSS</span>
             </div>
@@ -688,8 +731,7 @@
           </div>
           <div class="mini-body character-card">
             <div class="dialogue">
-              “别再把作品堆成列表了。主线写清楚：你在练的是 Agent 能力，
-              demo 只是地图上的支线宝箱。”
+              “主线不只是写 skill，而是把训练方法沉淀成系统。下一关：把 private skills 变成可使用、可复盘、可付费的训练平台。”
             </div>
           </div>
         </section>
@@ -719,10 +761,10 @@
 
               <div class="meter-row">
                 <div class="meter-label">
-                  <span>Engineering Training</span>
-                  <span>84%</span>
+                  <span>Training Product</span>
+                  <span>46%</span>
                 </div>
-                <div class="meter"><span style="width:84%"></span></div>
+                <div class="meter"><span style="width:46%"></span></div>
               </div>
 
               <div class="meter-row">
@@ -736,9 +778,9 @@
               <div class="meter-row">
                 <div class="meter-label">
                   <span>Vibe Demos</span>
-                  <span>28%</span>
+                  <span>42%</span>
                 </div>
-                <div class="meter"><span style="width:28%"></span></div>
+                <div class="meter"><span style="width:42%"></span></div>
               </div>
             </div>
           </div>
@@ -751,6 +793,10 @@
           </div>
           <div class="mini-body">
             <div class="todo-list">
+              <div class="todo">
+                <span class="checkbox product"></span>
+                <span><strong>把 skills 产品化</strong>：做一个训练平台壳，支持目标选择、题库、进度、弱点追踪、复盘报告和付费使用探索。</span>
+              </div>
               <div class="todo">
                 <span class="checkbox"></span>
                 <span>把桌面宠物 Agent 先做成无硬件 Mock。</span>
@@ -769,10 +815,14 @@
       </aside>
     </section>
 
-    <details class="archive">
+    <details class="archive" open>
       <summary>
-        <div class="archive-title">Side Quests Archive / AI-assisted demos</div>
+        <div class="archive-title">Side Quests Archive / <span>clickable AI-assisted demos</span></div>
       </summary>
+
+      <p class="archive-note">
+        这些是已经做出的 AI-assisted product demos：它们仍是支线，不抢 Agent / Skills 主叙事，但默认展开，方便直接点击查看。
+      </p>
 
       <div class="side-quests">
         <a class="side-quest" href="https://world-probability-radar.vercel.app/" target="_blank" rel="noreferrer">
@@ -808,7 +858,7 @@
     </details>
 
     <footer class="footer">
-      wanglingfei.questlog // primary = agent engineering // side = ai demos
+      wanglingfei.questlog // primary = agent engineering // product idea = skill training platform // side = ai demos
     </footer>
   </main>
 </body>
