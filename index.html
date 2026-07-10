@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wang Lingfei / Agent Quest Log</title>
+  <title>Wang Lingfei / Lab</title>
   <meta
     name="description"
-    content="Wang Lingfei 的 Agent、Skills、工程训练与 AI 原型实验主页。"
+    content="Wang Lingfei 的个人主页：一些 AI、Agent、Skills 和小作品。"
   />
 
   <style>
@@ -17,12 +17,10 @@
       --text: #f3f3e8;
       --muted: #9ca3af;
       --line: #3f3f55;
-      --line-bright: #7dd3fc;
       --green: #7cffb2;
       --cyan: #67e8f9;
       --yellow: #fde047;
       --pink: #f0abfc;
-      --red: #fb7185;
       --shadow: #050508;
     }
 
@@ -35,14 +33,13 @@
       min-height: 100vh;
       color: var(--text);
       background:
-        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px),
-        radial-gradient(circle at top left, rgba(103,232,249,0.16), transparent 28rem),
-        radial-gradient(circle at bottom right, rgba(240,171,252,0.12), transparent 30rem),
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        radial-gradient(circle at top left, rgba(103, 232, 249, 0.16), transparent 28rem),
+        radial-gradient(circle at bottom right, rgba(240, 171, 252, 0.12), transparent 30rem),
         var(--bg);
       background-size: 18px 18px, 18px 18px, auto, auto, auto;
       font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-      image-rendering: pixelated;
     }
 
     a {
@@ -104,7 +101,7 @@
       margin-bottom: 18px;
       border: 2px solid var(--cyan);
       color: var(--cyan);
-      background: rgba(103,232,249,0.08);
+      background: rgba(103, 232, 249, 0.08);
       font-size: 12px;
       text-transform: uppercase;
       letter-spacing: 0.08em;
@@ -147,19 +144,21 @@
     .avatar-box {
       border: 3px solid var(--line);
       background: #0d0d14;
-      padding: 18px;
+      padding: 12px;
       min-height: 260px;
       display: grid;
       place-items: center;
+      overflow: hidden;
       box-shadow: inset 0 0 0 3px #252538;
     }
 
-    .pixel-avatar {
-      color: var(--green);
-      white-space: pre;
-      font-size: 13px;
-      line-height: 1.15;
-      text-shadow: 0 0 8px rgba(124,255,178,0.3);
+    .agent-pet-image {
+      display: block;
+      width: 100%;
+      max-width: 320px;
+      height: auto;
+      aspect-ratio: 1;
+      object-fit: cover;
     }
 
     .stats-strip {
@@ -171,7 +170,7 @@
 
     .stat {
       border: 3px solid var(--line);
-      background: rgba(255,255,255,0.03);
+      background: rgba(255, 255, 255, 0.03);
       padding: 14px;
     }
 
@@ -255,9 +254,16 @@
       border-color: #5b5b78;
     }
 
+    .quest.product {
+      border-color: var(--pink);
+      background:
+        linear-gradient(135deg, rgba(240, 171, 252, 0.08), transparent 55%),
+        #141420;
+    }
+
     .quest.planned {
       border-style: dashed;
-      opacity: 0.88;
+      opacity: 0.9;
     }
 
     .quest-head {
@@ -295,7 +301,7 @@
       padding: 4px 7px;
       color: #d1d5db;
       font-size: 11px;
-      background: rgba(255,255,255,0.03);
+      background: rgba(255, 255, 255, 0.03);
     }
 
     .badge.live {
@@ -313,7 +319,7 @@
       color: var(--yellow);
     }
 
-    .badge.product {
+    .badge.soft {
       border-color: var(--pink);
       color: var(--pink);
     }
@@ -328,33 +334,15 @@
       padding: 16px;
     }
 
-    .character-card {
-      display: grid;
-      gap: 12px;
-    }
-
-    .dialogue {
-      position: relative;
-      border: 3px solid var(--text);
-      background: #0d0d14;
-      padding: 14px;
-      color: var(--text);
+    .product-summary {
+      margin: 0;
+      color: var(--muted);
       font-size: 13px;
-      line-height: 1.7;
-      box-shadow: 5px 5px 0 #050508;
+      line-height: 1.75;
     }
 
-    .dialogue::after {
-      content: "";
-      position: absolute;
-      left: 24px;
-      bottom: -12px;
-      width: 14px;
-      height: 14px;
-      background: #0d0d14;
-      border-right: 3px solid var(--text);
-      border-bottom: 3px solid var(--text);
-      transform: rotate(45deg);
+    .product-summary strong {
+      color: var(--text);
     }
 
     .meter-list {
@@ -420,27 +408,16 @@
       margin-top: 2px;
       border: 2px solid var(--cyan);
       box-shadow: inset 0 0 0 2px #0d0d14;
-      background: rgba(103,232,249,0.2);
-    }
-
-    .checkbox.product {
-      border-color: var(--pink);
-      background: rgba(240,171,252,0.18);
+      background: rgba(103, 232, 249, 0.2);
     }
 
     .archive {
       margin-top: 24px;
-      opacity: 0.82;
-      transition: opacity 0.18s ease;
-    }
-
-    .archive:hover,
-    .archive[open] {
-      opacity: 0.96;
+      opacity: 0.88;
     }
 
     .archive summary {
-      cursor: pointer;
+      cursor: default;
       list-style: none;
     }
 
@@ -450,23 +427,12 @@
 
     .archive-title {
       padding: 13px 16px;
-      border: 3px dashed #77779a;
-      background: rgba(255,255,255,0.035);
-      color: #d8d8e8;
+      border: 3px dashed #55556d;
+      background: rgba(255, 255, 255, 0.035);
+      color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.08em;
       font-size: 13px;
-    }
-
-    .archive-title span {
-      color: var(--pink);
-    }
-
-    .archive-note {
-      margin: 12px 0 0;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.7;
     }
 
     .side-quests {
@@ -479,8 +445,8 @@
     .side-quest {
       min-height: 120px;
       padding: 12px;
-      border: 3px solid #55556d;
-      background: rgba(255,255,255,0.035);
+      border: 3px solid #44445d;
+      background: rgba(255, 255, 255, 0.028);
       color: var(--muted);
       transition: transform 0.15s ease, border-color 0.15s ease, color 0.15s ease;
     }
@@ -494,7 +460,7 @@
     .side-quest strong {
       display: block;
       margin-bottom: 8px;
-      color: #f0e7ff;
+      color: #d8d8e8;
       font-size: 14px;
       line-height: 1.35;
     }
@@ -550,8 +516,8 @@
         min-height: 190px;
       }
 
-      .pixel-avatar {
-        font-size: 10px;
+      .agent-pet-image {
+        max-width: 280px;
       }
 
       .stats-strip,
@@ -575,11 +541,10 @@
     <section class="pixel-frame hero">
       <div>
         <div class="save-label">SAVE FILE 01 · WANG LINGFEI</div>
-        <h1>Agent Quest Log<span class="blink">_</span></h1>
+        <h1>Lingfei Lab<span class="blink">_</span></h1>
         <p class="hero-copy">
-          这里不是单纯的 demo 列表，而是我的 <strong>AI 工程练习存档</strong>：
-          主线任务是 Agent 工作流、私有 Skills、长期训练系统；这些 skill 未来也可以抽象成
-          <strong>可产品化的训练平台</strong>。Vibe Coding 作品作为支线任务保留，用来证明我能快速把想法做成可展示原型。
+          这里展示近期的 <strong>AI 工程项目</strong> 与产品实验，当前主要围绕 Agent、Skills、
+          软件工程训练工具，以及它们如何变成真正可使用的产品。
         </p>
 
         <div class="stats-strip">
@@ -596,40 +561,50 @@
             <strong>AI Tools</strong>
           </div>
           <div class="stat">
-            <span>Next Market</span>
-            <strong>Training SaaS</strong>
+            <span>Side Quests</span>
+            <strong>Demos</strong>
           </div>
         </div>
       </div>
 
       <div class="avatar-box">
-        <pre class="pixel-avatar">
-          ┌───────────────┐
-          │  AGENT  PET   │
-          └──────┬────────┘
-                 │
-             ▄█████▄
-            █  ◉ ◉  █
-            █   ▄   █
-             ▀█___█▀
-              /|_|\
-             /_| |_\
-          STATUS: THINKING
-          MODE: ENGINEERING
-        </pre>
+        <img
+          class="agent-pet-image"
+          src="/images/lab/agent-pet.png"
+          alt="戴侦探帽、手持放大镜的机器人 Agent Pet"
+          width="1254"
+          height="1254"
+        />
       </div>
     </section>
 
     <section class="layout">
       <div class="pixel-frame">
         <div class="section-title">
-          <span>Main Quest / Agent & Skills</span>
-          <span class="dim">priority: high</span>
+          <span>Main Quest / Agent & Products</span>
+          <span class="dim">priority: current</span>
         </div>
 
         <div class="quest-list">
+          <article class="quest primary">
+            <div class="quest-head">
+              <h2>摸鱼侦探</h2>
+              <span class="badge next">NEXT BOSS</span>
+            </div>
+            <p>
+              一个像素风桌面小侦探。先从无硬件版本开始，观察工作状态、识别摸鱼迹象，
+              用更轻一点的方式提醒我回到当前任务。
+            </p>
+            <div class="badges">
+              <span class="badge">desktop pet</span>
+              <span class="badge">state loop</span>
+              <span class="badge">local signals</span>
+              <span class="badge">focus helper</span>
+            </div>
+          </article>
+
           <a
-            class="quest primary"
+            class="quest"
             href="https://learn-ai-agent-iota.vercel.app/agent"
             target="_blank"
             rel="noreferrer"
@@ -639,15 +614,13 @@
               <span class="badge live">LIVE</span>
             </div>
             <p>
-              用于验证 Agent 工作流的实验项目：围绕预设资源完成记忆检索、任务规划、人工审批、
-              工具执行、结果验收与流程可视化。
+              一个 Agent 工作流小实验：记忆、资源、计划、审批、执行和验收，先做成可以看得见的流程。
             </p>
             <div class="badges">
-              <span class="badge">memory retrieval</span>
+              <span class="badge">memory</span>
               <span class="badge">planning</span>
-              <span class="badge">human approval</span>
-              <span class="badge">tool execution</span>
-              <span class="badge">evaluation</span>
+              <span class="badge">approval</span>
+              <span class="badge">tools</span>
             </div>
           </a>
 
@@ -657,14 +630,12 @@
               <span class="badge active">ACTIVE SKILL</span>
             </div>
             <p>
-              长期训练工程判断力的 private skill。重点不是速成，而是持续提升系统设计、任务拆解、
-              代码质量评估、故障分析和技术方案取舍。
+              一个给自己用的工程训练 skill。定期出题、复盘、记录薄弱项，让一些经验不要只停留在感觉里。
             </p>
             <div class="badges">
               <span class="badge">system design</span>
-              <span class="badge">task breakdown</span>
-              <span class="badge">code review</span>
-              <span class="badge">debug</span>
+              <span class="badge">breakdown</span>
+              <span class="badge">review</span>
               <span class="badge">tradeoff</span>
             </div>
           </article>
@@ -675,49 +646,30 @@
               <span class="badge active">ACTIVE SKILL</span>
             </div>
             <p>
-              长期前端面试训练 skill，覆盖 mock interview、短 drill、复盘计划、题库维护、
-              弱点追踪，以及 AI / Agent / 跨栈边界类主题。
+              面向前端面试和表达练习的长期训练 skill，用来保持手感，也用来整理题库和复盘记录。
             </p>
             <div class="badges">
-              <span class="badge">mock interview</span>
+              <span class="badge">mock</span>
               <span class="badge">drill</span>
-              <span class="badge">review plan</span>
               <span class="badge">question bank</span>
-              <span class="badge">weakness tracking</span>
+              <span class="badge">tracking</span>
             </div>
           </article>
 
-          <article class="quest planned">
+          <article class="quest product">
             <div class="quest-head">
-              <h3>Skill Training Platform</h3>
-              <span class="badge product">PRODUCT IDEA</span>
+              <h3>软件工程师能力自测平台</h3>
+              <span class="badge soft">PRODUCT CONCEPT</span>
             </div>
             <p>
-              把 private skills 的训练机制产品化：不是售卖 skill 文件本身，而是套一层平台壳，
-              让用户选择训练目标，系统维护题库、进度、弱点、复盘和阶段报告，未来可探索付费使用。
+              把 Engineering Trainer 和 Frontend Interview Trainer 封装成一套可使用的自测产品：
+              从能力诊断、专项练习到复盘记录，帮助软件工程师定位薄弱项并持续训练。
             </p>
             <div class="badges">
-              <span class="badge">training platform</span>
-              <span class="badge">question bank</span>
-              <span class="badge">progress tracking</span>
-              <span class="badge">paid usage</span>
-            </div>
-          </article>
-
-          <article class="quest planned">
-            <div class="quest-head">
-              <h3>桌面宠物 Agent</h3>
-              <span class="badge next">NEXT BOSS</span>
-            </div>
-            <p>
-              长期练习项目：把本地 Agent、桌面状态感知、提醒机制和硬件交互结合起来。
-              第一阶段先做无硬件 Mock，后续再接屏幕、按钮、传感器或本地服务。
-            </p>
-            <div class="badges">
-              <span class="badge">local agent</span>
-              <span class="badge">desktop pet</span>
-              <span class="badge">state loop</span>
-              <span class="badge">hardware</span>
+              <span class="badge">ability assessment</span>
+              <span class="badge">personalized drills</span>
+              <span class="badge">progress report</span>
+              <span class="badge">skill modules</span>
             </div>
           </article>
         </div>
@@ -726,12 +678,19 @@
       <aside class="side-panel">
         <section class="pixel-frame">
           <div class="section-title">
-            <span>NPC Dialogue</span>
-            <span class="dim">guide</span>
+            <span>Product Focus</span>
+            <span class="dim">assessment</span>
           </div>
-          <div class="mini-body character-card">
-            <div class="dialogue">
-              “主线不只是写 skill，而是把训练方法沉淀成系统。下一关：把 private skills 变成可使用、可复盘、可付费的训练平台。”
+          <div class="mini-body">
+            <p class="product-summary">
+              <strong>从一次能力自测开始。</strong>根据结果进入工程能力或前端面试专项训练，
+              让题目、反馈、薄弱项和阶段进展形成完整闭环。
+            </p>
+            <div class="badges">
+              <span class="badge active">诊断</span>
+              <span class="badge">训练</span>
+              <span class="badge">复盘</span>
+              <span class="badge">进展</span>
             </div>
           </div>
         </section>
@@ -745,6 +704,14 @@
             <div class="meter-list">
               <div class="meter-row">
                 <div class="meter-label">
+                  <span>MoYu Detective</span>
+                  <span>42%</span>
+                </div>
+                <div class="meter"><span style="width:42%"></span></div>
+              </div>
+
+              <div class="meter-row">
+                <div class="meter-label">
                   <span>Agent Workflow</span>
                   <span>82%</span>
                 </div>
@@ -753,7 +720,7 @@
 
               <div class="meter-row">
                 <div class="meter-label">
-                  <span>Private Skills</span>
+                  <span>Skill Modules</span>
                   <span>88%</span>
                 </div>
                 <div class="meter"><span style="width:88%"></span></div>
@@ -761,26 +728,10 @@
 
               <div class="meter-row">
                 <div class="meter-label">
-                  <span>Training Product</span>
-                  <span>46%</span>
+                  <span>Assessment Platform</span>
+                  <span>18%</span>
                 </div>
-                <div class="meter"><span style="width:46%"></span></div>
-              </div>
-
-              <div class="meter-row">
-                <div class="meter-label">
-                  <span>Hardware Agent</span>
-                  <span>35%</span>
-                </div>
-                <div class="meter"><span style="width:35%"></span></div>
-              </div>
-
-              <div class="meter-row">
-                <div class="meter-label">
-                  <span>Vibe Demos</span>
-                  <span>42%</span>
-                </div>
-                <div class="meter"><span style="width:42%"></span></div>
+                <div class="meter"><span style="width:18%"></span></div>
               </div>
             </div>
           </div>
@@ -794,12 +745,8 @@
           <div class="mini-body">
             <div class="todo-list">
               <div class="todo">
-                <span class="checkbox product"></span>
-                <span><strong>把 skills 产品化</strong>：做一个训练平台壳，支持目标选择、题库、进度、弱点追踪、复盘报告和付费使用探索。</span>
-              </div>
-              <div class="todo">
                 <span class="checkbox"></span>
-                <span>把桌面宠物 Agent 先做成无硬件 Mock。</span>
+                <span><strong>摸鱼侦探：</strong>先完成无硬件 Mock，跑通窗口、状态和提醒。</span>
               </div>
               <div class="todo">
                 <span class="checkbox"></span>
@@ -807,7 +754,7 @@
               </div>
               <div class="todo">
                 <span class="checkbox"></span>
-                <span>让 Frontend Interview Trainer 形成稳定题库和复盘节奏。</span>
+                <span>完成能力自测平台原型，接入两项训练 skill。</span>
               </div>
             </div>
           </div>
@@ -817,12 +764,8 @@
 
     <details class="archive" open>
       <summary>
-        <div class="archive-title">Side Quests Archive / <span>clickable AI-assisted demos</span></div>
+        <div class="archive-title">Side Quests / AI-assisted demos</div>
       </summary>
-
-      <p class="archive-note">
-        这些是已经做出的 AI-assisted product demos：它们仍是支线，不抢 Agent / Skills 主叙事，但默认展开，方便直接点击查看。
-      </p>
 
       <div class="side-quests">
         <a class="side-quest" href="https://world-probability-radar.vercel.app/" target="_blank" rel="noreferrer">
@@ -858,7 +801,7 @@
     </details>
 
     <footer class="footer">
-      wanglingfei.questlog // primary = agent engineering // product idea = skill training platform // side = ai demos
+      wanglingfei.lab // main = agent & products // side = demos
     </footer>
   </main>
 </body>
