@@ -345,70 +345,29 @@
       color: var(--text);
     }
 
-    .meter-list {
+    .current-work-list {
       display: grid;
-      gap: 12px;
+      gap: 10px;
     }
 
-    .meter-row {
-      display: grid;
-      gap: 5px;
-    }
-
-    .meter-label {
+    .current-work-item {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      color: var(--muted);
-      font-size: 12px;
-      text-transform: uppercase;
-    }
-
-    .meter {
-      height: 14px;
-      border: 3px solid var(--line);
-      background: #0d0d14;
-      padding: 2px;
-    }
-
-    .meter > span {
-      display: block;
-      height: 100%;
-      background: repeating-linear-gradient(
-        90deg,
-        var(--green) 0,
-        var(--green) 8px,
-        #43b974 8px,
-        #43b974 12px
-      );
-    }
-
-    .todo-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    .todo {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 10px;
-      align-items: start;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    .todo strong {
+      gap: 12px;
+      padding: 10px 12px;
+      border: 2px solid var(--line);
+      background: rgba(255, 255, 255, 0.03);
       color: var(--text);
-      font-weight: 700;
+      font-size: 13px;
+      line-height: 1.5;
     }
 
-    .checkbox {
-      width: 16px;
-      height: 16px;
-      margin-top: 2px;
-      border: 2px solid var(--cyan);
-      box-shadow: inset 0 0 0 2px #0d0d14;
-      background: rgba(103, 232, 249, 0.2);
+    .current-work-item span:last-child {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      white-space: nowrap;
     }
 
     .archive {
@@ -557,7 +516,7 @@
             <strong>Agent</strong>
           </div>
           <div class="stat">
-            <span>Skill Tree</span>
+            <span>Toolbox</span>
             <strong>AI Tools</strong>
           </div>
           <div class="stat">
@@ -589,7 +548,7 @@
           <article class="quest primary">
             <div class="quest-head">
               <h2>摸鱼侦探</h2>
-              <span class="badge next">NEXT BOSS</span>
+              <span class="badge active">IN PROGRESS</span>
             </div>
             <p>
               一个像素风桌面小侦探。先从无硬件版本开始，观察工作状态、识别摸鱼迹象，
@@ -679,82 +638,39 @@
         <section class="pixel-frame">
           <div class="section-title">
             <span>Product Focus</span>
-            <span class="dim">assessment</span>
+            <span class="dim">current</span>
           </div>
           <div class="mini-body">
             <p class="product-summary">
-              <strong>从一次能力自测开始。</strong>根据结果进入工程能力或前端面试专项训练，
-              让题目、反馈、薄弱项和阶段进展形成完整闭环。
+              <strong>当前聚焦两条主线：</strong>一是把「摸鱼侦探」做成真正可用的桌面专注助手；
+              二是持续打磨工程能力与前端面试专项训练。
             </p>
             <div class="badges">
-              <span class="badge active">诊断</span>
-              <span class="badge">训练</span>
-              <span class="badge">复盘</span>
-              <span class="badge">进展</span>
+              <span class="badge active">摸鱼侦探</span>
+              <span class="badge">工程能力</span>
+              <span class="badge">前端面试</span>
             </div>
           </div>
         </section>
 
         <section class="pixel-frame">
           <div class="section-title">
-            <span>Skill Tree</span>
-            <span class="dim">progress</span>
+            <span>Current Work</span>
+            <span class="dim">正在进行</span>
           </div>
           <div class="mini-body">
-            <div class="meter-list">
-              <div class="meter-row">
-                <div class="meter-label">
-                  <span>MoYu Detective</span>
-                  <span>42%</span>
-                </div>
-                <div class="meter"><span style="width:42%"></span></div>
+            <div class="current-work-list">
+              <div class="current-work-item">
+                <span>摸鱼侦探</span>
+                <span>building</span>
               </div>
-
-              <div class="meter-row">
-                <div class="meter-label">
-                  <span>Agent Workflow</span>
-                  <span>82%</span>
-                </div>
-                <div class="meter"><span style="width:82%"></span></div>
+              <div class="current-work-item">
+                <span>工程能力专项训练</span>
+                <span>training</span>
               </div>
-
-              <div class="meter-row">
-                <div class="meter-label">
-                  <span>Skill Modules</span>
-                  <span>88%</span>
-                </div>
-                <div class="meter"><span style="width:88%"></span></div>
-              </div>
-
-              <div class="meter-row">
-                <div class="meter-label">
-                  <span>Assessment Platform</span>
-                  <span>18%</span>
-                </div>
-                <div class="meter"><span style="width:18%"></span></div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="pixel-frame">
-          <div class="section-title">
-            <span>Next Moves</span>
-            <span class="dim">todo</span>
-          </div>
-          <div class="mini-body">
-            <div class="todo-list">
-              <div class="todo">
-                <span class="checkbox"></span>
-                <span><strong>摸鱼侦探：</strong>先完成无硬件 Mock，跑通窗口、状态和提醒。</span>
-              </div>
-              <div class="todo">
-                <span class="checkbox"></span>
-                <span>继续沉淀 Engineering Trainer 的训练记录。</span>
-              </div>
-              <div class="todo">
-                <span class="checkbox"></span>
-                <span>完成能力自测平台原型，接入两项训练 skill。</span>
+              <div class="current-work-item">
+                <span>前端面试专项训练</span>
+                <span>training</span>
               </div>
             </div>
           </div>
@@ -792,11 +708,11 @@
           <div class="open">open</div>
         </a>
 
-        <div class="side-quest">
+        <a class="side-quest" href="https://unmute-lab.vercel.app/" target="_blank" rel="noreferrer">
           <strong>不失语</strong>
-          <span>面向表达训练与高压对话场景的 AI 练习产品，计划中。</span>
-          <div class="open">planned</div>
-        </div>
+          <span>面向表达训练与高压对话场景的 AI 练习产品。</span>
+          <div class="open">open</div>
+        </a>
       </div>
     </details>
 
