@@ -424,6 +424,15 @@
       line-height: 1.35;
     }
 
+    .project-rank {
+      margin: 8px 0 8px;
+      color: var(--yellow);
+      font-size: 11px;
+      line-height: 1.5;
+      letter-spacing: 0.04em;
+      opacity: 0.86;
+    }
+
     .side-quest span {
       display: block;
       font-size: 12px;
@@ -700,10 +709,8 @@
       </aside>
     </section>
 
-    <details class="archive" open>
-      <summary>
-        <div class="archive-title">Side Quests / AI-assisted demos</div>
-      </summary>
+    <section class="archive">
+      <div class="archive-title">Side Quests / AI-assisted demos</div>
 
       <div class="side-quests">
         <a class="side-quest" href="https://world-probability-radar.vercel.app/" target="_blank" rel="noreferrer">
@@ -714,6 +721,7 @@
 
         <a class="side-quest" href="https://ready-when.vercel.app/" target="_blank" rel="noreferrer">
           <strong>接的住</strong>
+          <div class="project-rank">Trae 初赛 · 1.41w+ 提交 → Top 2000，复赛线 Top 350</div>
           <span>围绕亲人老去、离别准备和心理承接的社会服务型 Demo。</span>
           <div class="open">open</div>
         </a>
@@ -732,11 +740,12 @@
 
         <a class="side-quest" href="https://unmute-lab.vercel.app/" target="_blank" rel="noreferrer">
           <strong>不失语</strong>
+          <div class="project-rank">Coding Lady · 90+ → 12 → 4–8 区间</div>
           <span>面向表达训练与高压对话场景的 AI 练习产品。</span>
-          <div class="open">open</div>
+          <div class="open">done</div>
         </a>
       </div>
-    </details>
+    </section>
 
     <footer class="footer">
       wanglingfei.lab // main = agent & products // side = demos
