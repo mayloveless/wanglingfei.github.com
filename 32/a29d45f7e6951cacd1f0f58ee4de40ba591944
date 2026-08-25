@@ -1,0 +1,14 @@
+index.html
+  h_a97c9122ced09f 563,567-568,647,674,740-746
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "32a29d45f7e6951cacd1f0f58ee4de40ba591944",
+  "prompts": {},
+  "humans": {
+    "h_a97c9122ced09f": {
+      "author": "wanglingfei <mayloveless@users.noreply.github.com>"
+    }
+  }
+}
