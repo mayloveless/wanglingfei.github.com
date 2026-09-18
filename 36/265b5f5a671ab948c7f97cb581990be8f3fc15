@@ -1,0 +1,21 @@
+index.html
+  s_b9b54fb4d96db1::t_bc87cb7a4159d9 672,690,744
+  s_b9b54fb4d96db1::t_0b2cb9889b87aa 647,649-650,653,656-658
+  s_b9b54fb4d96db1::t_9a962bdca30517 541-542,559,563,566-568,675
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "36265b5f5a671ab948c7f97cb581990be8f3fc15",
+  "prompts": {},
+  "sessions": {
+    "s_b9b54fb4d96db1": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0b212-cfd2-7733-a234-7dd1c4232982",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "wanglingfei <mayloveless@users.noreply.github.com>"
+    }
+  }
+}
