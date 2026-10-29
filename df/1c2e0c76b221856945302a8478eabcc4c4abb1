@@ -1,0 +1,20 @@
+index.html
+  s_b9b54fb4d96db1::t_d8d8d4504e679e 668
+  s_b9b54fb4d96db1::t_b4f2e51966389d 646-656
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "df1c2e0c76b221856945302a8478eabcc4c4abb1",
+  "prompts": {},
+  "sessions": {
+    "s_b9b54fb4d96db1": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0b212-cfd2-7733-a234-7dd1c4232982",
+        "model": "gpt-6.1-terra"
+      },
+      "human_author": "wanglingfei <mayloveless@users.noreply.github.com>"
+    }
+  }
+}
